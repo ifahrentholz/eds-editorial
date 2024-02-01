@@ -1,2 +1,5 @@
 mountpoints:
   /: https://drive.google.com/drive/u/0/folders/187ohNKNc5vnB4TDjALZfcClnTmB3JC7Z
+
+Folders:
+  /: index.html
