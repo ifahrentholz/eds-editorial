@@ -192,6 +192,7 @@ class Main {
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement("div");
     sidebarContainer.classList.add("sidebar");
+    sidebarContainer.setAttribute("id", "sidebar");
     main.after(sidebarContainer);
   }
 
