@@ -22,6 +22,7 @@ export default defineConfig(({ command, mode }) => {
         cache: false,
         preserveEntrySignatures: "strict",
         input: {
+          styles: resolve(__dirname, "styles/sass/main.scss"),
           main: resolve(__dirname, "scripts/main.ts"),
         },
         output: {

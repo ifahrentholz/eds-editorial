@@ -180,6 +180,7 @@ class Main {
     this.decorateTemplateAndTheme();
     const main = document.querySelector("main");
     if (main) {
+      this.addSidebarContainer(main);
       this.sectionService.init(main);
       this.blockService.decorateBlocks(main);
       this.loadComponents();
@@ -187,6 +188,12 @@ class Main {
       // await this.waitForLCP(LCP_BLOCKS);
     }
   };
+
+  private addSidebarContainer(main: HTMLElement) {
+    const sidebarContainer = document.createElement("div");
+    sidebarContainer.classList.add("sidebar");
+    main.after(sidebarContainer);
+  }
 
   // private loadLazy = async () => {};
 
