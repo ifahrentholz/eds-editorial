@@ -3,3 +3,4 @@ mountpoints:
 
 Folders:
   /: index.html
+  /pages: index.html
