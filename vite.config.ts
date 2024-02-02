@@ -17,21 +17,22 @@ export default defineConfig(({ command, mode }) => {
       commonjsOptions: {
         include: ["node_modules/**"],
       },
-      emptyOutDir: false,
+      emptyOutDir: true,
       rollupOptions: {
         cache: false,
         preserveEntrySignatures: "strict",
         input: {
-          styles: resolve(__dirname, "styles/sass/main.scss"),
-          main: resolve(__dirname, "scripts/main.ts"),
+          styles: resolve(__dirname, "src/styles/sass/main.scss"),
+          main: resolve(__dirname, "src/main.ts"),
+          counter: resolve(__dirname, "src/blocks/counter/counter.ts"),
         },
         output: {
-          dir: "blocks",
+          dir: "dist",
           assetFileNames: () => {
-            return "[name]/__compiled__/[name][extname]";
+            return "[name]/[name][extname]";
           },
-          chunkFileNames: "__compiled__chunks/[name].[hash].js",
-          entryFileNames: "[name]/__compiled__/[name].js",
+          chunkFileNames: "__chunks__/[name].[hash].js",
+          entryFileNames: "[name]/[name].js",
         },
         plugins: [isProd && minifyHTML()],
       },
