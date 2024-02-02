@@ -1,73 +1,29 @@
 import { html, render } from 'lit';
 
-const template = () => {
-  return html` <article>
-      <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-      <h3>Interdum aenean</h3>
-      <p>
-        Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-        nulla amet lorem feugiat tempus aliquam.
-      </p>
+interface PostArgs {
+  postUrl: string;
+  headline?: string;
+  text?: string;
+}
+
+const postTemplate = (args: PostArgs) => {
+  const { postUrl, headline, text } = args;
+  return html`
+    <article>
+      <a href="${postUrl}" class="image"><img src="images/pic01.jpg" alt="" /></a>
+      <h3>${headline}</h3>
+      <p>${text}</p>
       <ul class="actions">
-        <li><a href="#" class="button">More</a></li>
+        <li><a href="${postUrl}" class="button">More</a></li>
       </ul>
     </article>
-    <article>
-      <a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-      <h3>Nulla amet dolore</h3>
-      <p>
-        Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-        nulla amet lorem feugiat tempus aliquam.
-      </p>
-      <ul class="actions">
-        <li><a href="#" class="button">More</a></li>
-      </ul>
-    </article>
-    <article>
-      <a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-      <h3>Tempus ullamcorper</h3>
-      <p>
-        Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-        nulla amet lorem feugiat tempus aliquam.
-      </p>
-      <ul class="actions">
-        <li><a href="#" class="button">More</a></li>
-      </ul>
-    </article>
-    <article>
-      <a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-      <h3>Sed etiam facilis</h3>
-      <p>
-        Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-        nulla amet lorem feugiat tempus aliquam.
-      </p>
-      <ul class="actions">
-        <li><a href="#" class="button">More</a></li>
-      </ul>
-    </article>
-    <article>
-      <a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-      <h3>Feugiat lorem aenean</h3>
-      <p>
-        Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-        nulla amet lorem feugiat tempus aliquam.
-      </p>
-      <ul class="actions">
-        <li><a href="#" class="button">More</a></li>
-      </ul>
-    </article>
-    <article>
-      <a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-      <h3>Amet varius aliquam</h3>
-      <p>
-        Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-        nulla amet lorem feugiat tempus aliquam.
-      </p>
-      <ul class="actions">
-        <li><a href="#" class="button">More</a></li>
-      </ul>
-    </article>`;
+  `;
 };
+
+const template = (posts: PostArgs[]) => {
+  return posts.map((post) => postTemplate(post));
+};
+
 export default async function (block: HTMLElement) {
   block.innerHTML = '';
 
@@ -79,8 +35,26 @@ export default async function (block: HTMLElement) {
     })
     .map((item) => item.path);
 
-  console.log('🚀 ~ data ~ data:', data);
+  const postsPreview = await Promise.all(data.map((path) => fetch(`${window.hlx.codeBasePath}${path}.plain.html`)));
+
+  const postsPreviewHtml = postsPreview.map((res) => {
+    var parser = new DOMParser();
+    return parser.parseFromString(res.text(), 'text/html');
+  });
+
+  console.log('postsPreviewHtml', postsPreviewHtml);
+
+  const posts = postsPreviewHtml.map((doc, index) => {
+    console.log('doc', doc);
+    return {
+      postUrl: `${window.hlx.codeBasePath}${data[index]}.html`,
+      headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
+      text: doc.querySelector('p')?.innerText,
+    };
+  });
+
+  console.log('posts', posts);
 
   block.style.removeProperty('display');
-  render(template(), block);
+  render(template(posts), block);
 }
