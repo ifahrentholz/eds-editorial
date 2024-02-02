@@ -17,7 +17,7 @@ const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) 
           <h1>${headline}</h1>
           <p>${subline}</p>
         </header>
-        ${unsafeHTML(texts?.map((text) => text.innerHTML).join(''))}
+        ${texts?.map((text) => html`<p>${text.innerText}</p>`)}
         <ul class="actions">
           ${buttons?.map(
             (button) =>
@@ -40,6 +40,8 @@ export default function (block: HTMLElement) {
   const texts = firstRow ? [...firstRow.querySelectorAll('p')] : [];
   const buttons = [...secondRow?.querySelectorAll('a')];
   const picture = firstRow?.querySelector('picture') || undefined;
+
+  console.log({ headline, subline, texts, buttons, picture });
 
   block.innerHTML = '';
 
