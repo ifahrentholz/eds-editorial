@@ -1,1 +1,1 @@
-export default function (block: HTMLElement): void;
+export default function (block: HTMLElement): Promise<void>;

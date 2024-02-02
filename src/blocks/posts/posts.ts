@@ -68,8 +68,18 @@ const template = () => {
       </ul>
     </article>`;
 };
-export default function (block: HTMLElement) {
+export default async function (block: HTMLElement) {
   block.innerHTML = '';
+
+  const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
+  const response = await req.json();
+  const data = response.data
+    .filter((item) => {
+      return item.path.includes('/posts');
+    })
+    .map((item) => item.path);
+
+  console.log('🚀 ~ data ~ data:', data);
 
   block.style.removeProperty('display');
   render(template(), block);
