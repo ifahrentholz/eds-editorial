@@ -1,4 +1,4 @@
-import { LitElement } from "lit";
+import { LitElement } from 'lit';
 /**
  * An example element.
  *
@@ -18,6 +18,6 @@ export declare class LitCounter extends LitElement {
 export default function (block: HTMLElement): void;
 declare global {
     interface HTMLElementTagNameMap {
-        "lit-counter": LitCounter;
+        'lit-counter': LitCounter;
     }
 }
