@@ -25,6 +25,7 @@ export default defineConfig(({ command, mode }) => {
           styles: resolve(__dirname, "src/styles/sass/main.scss"),
           main: resolve(__dirname, "src/main.ts"),
           counter: resolve(__dirname, "src/blocks/counter/counter.ts"),
+          banner: resolve(__dirname, "src/blocks/banner/banner.ts"),
         },
         output: {
           dir: "dist",

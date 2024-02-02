@@ -180,20 +180,27 @@ class Main {
     this.decorateTemplateAndTheme();
     const main = document.querySelector("main");
     if (main) {
+      main.setAttribute('id', 'main');
       this.addSidebarContainer(main);
       this.sectionService.init(main);
+      this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
-      this.loadComponents();
+      await this.loadComponents();
       document.body.classList.add("appear");
       // await this.waitForLCP(LCP_BLOCKS);
     }
   };
-
+  
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement("div");
     sidebarContainer.classList.add("sidebar");
     sidebarContainer.setAttribute("id", "sidebar");
     main.after(sidebarContainer);
+  }
+
+  private addInnerContainer(main: HTMLElement) {
+    const children = main.innerHTML;
+    main.innerHTML = `<div class="inner">${children}</div>`;
   }
 
   // private loadLazy = async () => {};
@@ -225,7 +232,7 @@ class Main {
       if (components.length) {
         components.forEach(async (component) => {
           const componentModule = await import(
-            `${window.hlx.codeBasePath}/blocks/${component.name}/__compiled__/${component.name}.js`
+            `${window.hlx.codeBasePath}/dist/${component.name}/${component.name}.js`
           );
           if (componentModule.default) {
             await componentModule.default(component.element);
