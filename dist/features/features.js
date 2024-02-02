@@ -1,0 +1,2 @@
+import{j as i,x as o}from"../__chunks__/lit-element.XkUWx5ik.js";import{o as a}from"../__chunks__/unsafe-html.tmuruS4o.js";const l=e=>o`${e.map(t=>o`<article><span class="icon fa-gem">${t.icon}</span><div class="content">${a(t.textBlock)}</div></article>`)}`;function d(e){const t=e.querySelectorAll(":scope > div");let n=[];[...t].forEach(r=>{const s=r.children[0].innerHTML,c=r.children[1].innerHTML;n.push({icon:s,textBlock:c})}),e.innerHTML="",e.style.removeProperty("display"),i(l(n),e)}export{d as default};
+//# sourceMappingURL=features.js.map

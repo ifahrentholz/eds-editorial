@@ -1,9 +1,9 @@
-import { defineConfig } from "vite";
-import minifyHTML from "rollup-plugin-minify-html-literals";
+import { defineConfig } from 'vite';
+import minifyHTML from 'rollup-plugin-minify-html-literals';
 
-const { resolve } = require("path");
+const { resolve } = require('path');
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig(({ command, mode }) => {
   return {
@@ -15,25 +15,27 @@ export default defineConfig(({ command, mode }) => {
       minify: true,
       cssMinify: true,
       commonjsOptions: {
-        include: ["node_modules/**"],
+        include: ['node_modules/**'],
       },
       emptyOutDir: true,
       rollupOptions: {
         cache: false,
-        preserveEntrySignatures: "strict",
+        preserveEntrySignatures: 'strict',
         input: {
-          styles: resolve(__dirname, "src/styles/sass/main.scss"),
-          main: resolve(__dirname, "src/main.ts"),
-          counter: resolve(__dirname, "src/blocks/counter/counter.ts"),
-          banner: resolve(__dirname, "src/blocks/banner/banner.ts"),
+          styles: resolve(__dirname, 'src/styles/sass/main.scss'),
+          main: resolve(__dirname, 'src/main.ts'),
+          counter: resolve(__dirname, 'src/blocks/counter/counter.ts'),
+          banner: resolve(__dirname, 'src/blocks/banner/banner.ts'),
+          features: resolve(__dirname, 'src/blocks/features/features.ts'),
+          posts: resolve(__dirname, 'src/blocks/posts/posts.ts'),
         },
         output: {
-          dir: "dist",
+          dir: 'dist',
           assetFileNames: () => {
-            return "[name]/[name][extname]";
+            return '[name]/[name][extname]';
           },
-          chunkFileNames: "__chunks__/[name].[hash].js",
-          entryFileNames: "[name]/[name].js",
+          chunkFileNames: '__chunks__/[name].[hash].js',
+          entryFileNames: '[name]/[name].js',
         },
         plugins: [isProd && minifyHTML()],
       },
