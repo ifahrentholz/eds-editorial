@@ -171,6 +171,12 @@ class Main {
     // TODO: how to support different languages here
     document.documentElement.lang = 'en';
     this.decorateTemplateAndTheme();
+    if (document) {
+      const body = document.querySelector('body');
+      if (body) {
+        body.style.display = 'none';
+      }
+    }
     const main = document.querySelector('main');
     if (main) {
       main.setAttribute('id', 'main');
@@ -179,7 +185,11 @@ class Main {
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
       await this.loadComponents();
-      document.body.classList.add('appear');
+      // TODO: Performace adjustment
+      setTimeout(() => {
+        document.body.removeAttribute('style');
+      }, 200);
+
       // await this.waitForLCP(LCP_BLOCKS);
     }
   };

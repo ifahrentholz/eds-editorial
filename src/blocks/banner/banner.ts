@@ -10,6 +10,9 @@ interface TemplateArgs {
 }
 
 const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) => {
+  // if (picture) {
+  //   picture.querySelector('img')?.removeAttribute('loading');
+  // }
   return html`
     <section id="banner">
       <div class="content">
@@ -40,8 +43,6 @@ export default function (block: HTMLElement) {
   const texts = firstRow ? [...firstRow.querySelectorAll('p')] : [];
   const buttons = [...secondRow?.querySelectorAll('a')];
   const picture = firstRow?.querySelector('picture') || undefined;
-
-  console.log({ headline, subline, texts, buttons, picture });
 
   block.innerHTML = '';
 

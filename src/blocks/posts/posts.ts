@@ -10,9 +10,9 @@ const postTemplate = (args: PostArgs) => {
   const { postUrl, headline, text } = args;
   return html`
     <article>
-      <a href="${postUrl}" class="image"><img src="images/pic01.jpg" alt="" /></a>
+      <!-- <a href="${postUrl}" class="image"><img src="images/pic01.jpg" alt="" /></a> -->
       <h3>${headline}</h3>
-      <p>${text}</p>
+      <p>${text?.slice(0, 200)}</p>
       <ul class="actions">
         <li><a href="${postUrl}" class="button">More</a></li>
       </ul>
@@ -35,25 +35,25 @@ export default async function (block: HTMLElement) {
     })
     .map((item) => item.path);
 
-  const postsPreview = await Promise.all(data.map((path) => fetch(`${window.hlx.codeBasePath}${path}.plain.html`)));
+  const postsPreview = await Promise.all(
+    data.map(async (path) => {
+      const result = await fetch(`${window.hlx.codeBasePath}${path}.plain.html`);
+      return result.text();
+    })
+  );
 
   const postsPreviewHtml = postsPreview.map((res) => {
     var parser = new DOMParser();
-    return parser.parseFromString(res.text(), 'text/html');
+    return parser.parseFromString(res, 'text/html');
   });
-
-  console.log('postsPreviewHtml', postsPreviewHtml);
 
   const posts = postsPreviewHtml.map((doc, index) => {
-    console.log('doc', doc);
     return {
-      postUrl: `${window.hlx.codeBasePath}${data[index]}.html`,
+      postUrl: `${window.hlx.codeBasePath}${data[index]}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
-      text: doc.querySelector('p')?.innerText,
+      text: doc.querySelector('p')?.innerText?.trim(),
     };
   });
-
-  console.log('posts', posts);
 
   block.style.removeProperty('display');
   render(template(posts), block);
