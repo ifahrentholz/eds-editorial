@@ -1,6 +1,6 @@
 export default function (block: HTMLElement) {
-  const org_content = block.innerHTML;
-  console.log(block);
-  block.innerHTML = `<div>hi</div>`;
+  const headline = block.querySelector('h1');
+  const subline = block.querySelector('h3');
+  const text = block.querySelector('')
   block.style.removeProperty("display");
 }
