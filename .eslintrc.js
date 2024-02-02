@@ -1,21 +1,26 @@
 module.exports = {
-  root: true,
-  extends: 'airbnb-base',
   env: {
     browser: true,
+    es2021: true,
   },
-  parser: '@babel/eslint-parser',
+  extends: ['plugin:prettier/recommended'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    allowImportExportEverywhere: true,
+    ecmaVersion: 'latest',
     sourceType: 'module',
-    requireConfigFile: false,
   },
+  plugins: ['@typescript-eslint', 'html', 'prettier'],
   rules: {
-    // allow reassigning param
-    'no-param-reassign': [2, { props: false }],
-    'linebreak-style': ['error', 'unix'],
-    'import/extensions': ['error', {
-      js: 'always',
-    }],
+    'prettier/prettier': 'error',
+    'arrow-body-style': 'off',
+    'prefer-arrow-callback': 'off',
+    'max-len': [
+      'error',
+      {
+        code: 120,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+      },
+    ],
   },
 };
