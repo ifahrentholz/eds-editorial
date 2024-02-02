@@ -180,14 +180,21 @@ class Main {
     this.decorateTemplateAndTheme();
     const main = document.querySelector("main");
     if (main) {
+      main.setAttribute('id', 'main');
       this.addSidebarContainer(main);
       this.sectionService.init(main);
       this.blockService.decorateBlocks(main);
       this.loadComponents();
       document.body.classList.add("appear");
+      this.addInnerContainer(main);
       // await this.waitForLCP(LCP_BLOCKS);
     }
   };
+
+  private addInnerContainer(main: HTMLElement) {
+    const children = main.innerHTML;
+    main.innerHTML = `<div class="inner">${children}</div>`;
+  }
 
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement("div");
