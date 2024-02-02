@@ -1,9 +1,9 @@
 // const LCP_BLOCKS: string[] = []; // add your LCP blocks to the list
 
-import { addClasses } from "../src/utils/addClasses";
-import { getMetadata } from "../src/utils/getMetadata";
-import { toCamelCase } from "../src/utils/toCamelCase";
-import { toClassName } from "../src/utils/toClassName";
+import { addClasses } from '../src/utils/addClasses';
+import { getMetadata } from '../src/utils/getMetadata';
+import { toCamelCase } from '../src/utils/toCamelCase';
+import { toClassName } from '../src/utils/toClassName';
 
 type ComponentMapping = {
   name: string;
@@ -18,29 +18,29 @@ class BlockService {
    */
   readBlockConfig(block: Element): Record<string, any> {
     const config: Record<any, any> = {};
-    block.querySelectorAll(":scope > div").forEach((row) => {
+    block.querySelectorAll(':scope > div').forEach((row) => {
       if (row.children) {
         const cols = [...row.children];
         if (cols[1]) {
           const col = cols[1];
-          const name = toClassName(cols[0].textContent ?? "");
-          let value: any = "";
-          if (col.querySelector("a")) {
-            const as = [...col.querySelectorAll("a")];
+          const name = toClassName(cols[0].textContent ?? '');
+          let value: any = '';
+          if (col.querySelector('a')) {
+            const as = [...col.querySelectorAll('a')];
             if (as.length === 1) {
               value = as[0].href;
             } else {
               value = as.map((a) => a.href);
             }
-          } else if (col.querySelector("img")) {
-            const imgs = [...col.querySelectorAll("img")];
+          } else if (col.querySelector('img')) {
+            const imgs = [...col.querySelectorAll('img')];
             if (imgs.length === 1) {
               value = imgs[0].src;
             } else {
               value = imgs.map((img) => img.src);
             }
-          } else if (col.querySelector("p")) {
-            const ps = [...col.querySelectorAll("p")];
+          } else if (col.querySelector('p')) {
+            const ps = [...col.querySelectorAll('p')];
             if (ps.length === 1) {
               value = ps[0].textContent;
             } else {
@@ -59,9 +59,7 @@ class BlockService {
    * @param {Element} main The container element
    */
   decorateBlocks(main: HTMLElement) {
-    main
-      .querySelectorAll<HTMLDivElement>("div.section > div > div")
-      .forEach(this.decorateBlock);
+    main.querySelectorAll<HTMLDivElement>('div.section > div > div').forEach(this.decorateBlock);
   }
 
   /**
@@ -71,11 +69,11 @@ class BlockService {
   private decorateBlock(block: HTMLElement) {
     const shortBlockName = block.classList[0];
     if (shortBlockName) {
-      block.classList.add("block");
+      block.classList.add('block');
       block.dataset.blockName = shortBlockName;
       const blockWrapper = block.parentElement;
       blockWrapper?.classList.add(`${shortBlockName}-wrapper`);
-      const section = block.closest(".section");
+      const section = block.closest('.section');
       if (section) section.classList.add(`${shortBlockName}-container`);
     }
   }
@@ -93,7 +91,7 @@ class SectionService {
    * @param {Element} main The container element
    */
   private transformSection(main: HTMLElement) {
-    main.querySelectorAll<HTMLDivElement>(":scope > div").forEach((section) => {
+    main.querySelectorAll<HTMLDivElement>(':scope > div').forEach((section) => {
       this.adjustMarkup(section);
       this.processSectionMetaData(section);
     });
@@ -101,13 +99,13 @@ class SectionService {
 
   private processSectionMetaData(section: HTMLElement) {
     // Process section metadata
-    const sectionMeta = section.querySelector("div.section-metadata");
+    const sectionMeta = section.querySelector('div.section-metadata');
     if (sectionMeta) {
       const meta = this.blockService.readBlockConfig(sectionMeta);
       Object.keys(meta).forEach((key) => {
-        if (key === "style") {
+        if (key === 'style') {
           const styles = meta.style
-            .split(",")
+            .split(',')
             .filter((style: string) => style)
             .map((style: string) => toClassName(style.trim()));
           styles.forEach((style: string) => section.classList.add(style));
@@ -123,18 +121,18 @@ class SectionService {
     const wrappers: HTMLDivElement[] = [];
     let defaultContent = false;
     [...section.children].forEach((e) => {
-      if (e.tagName === "DIV" || !defaultContent) {
-        const wrapper = document.createElement("div");
+      if (e.tagName === 'DIV' || !defaultContent) {
+        const wrapper = document.createElement('div');
         wrappers.push(wrapper);
-        defaultContent = e.tagName !== "DIV";
-        if (defaultContent) wrapper.classList.add("default-content-wrapper");
+        defaultContent = e.tagName !== 'DIV';
+        if (defaultContent) wrapper.classList.add('default-content-wrapper');
       }
       wrappers[wrappers.length - 1].append(e);
     });
     wrappers.forEach((wrapper) => section.append(wrapper));
-    section.classList.add("section");
-    section.dataset.sectionStatus = "initialized";
-    section.style.display = "none";
+    section.classList.add('section');
+    section.dataset.sectionStatus = 'initialized';
+    section.style.display = 'none';
   }
 }
 
@@ -154,19 +152,14 @@ class Main {
    */
   private setup() {
     window.hlx = window.hlx || {};
-    window.hlx.RUM_MASK_URL = "full";
-    window.hlx.codeBasePath = "";
-    window.hlx.lighthouse =
-      new URLSearchParams(window.location.search).get("lighthouse") === "on";
+    window.hlx.RUM_MASK_URL = 'full';
+    window.hlx.codeBasePath = '';
+    window.hlx.lighthouse = new URLSearchParams(window.location.search).get('lighthouse') === 'on';
 
-    const scriptEl = document.querySelector(
-      'script[src$="/scripts/scripts.js"]'
-    ) as HTMLScriptElement;
+    const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
     if (scriptEl) {
       try {
-        [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split(
-          "/scripts/scripts.js"
-        );
+        [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -176,9 +169,9 @@ class Main {
 
   private loadEager = async () => {
     // TODO: how to support different languages here
-    document.documentElement.lang = "en";
+    document.documentElement.lang = 'en';
     this.decorateTemplateAndTheme();
-    const main = document.querySelector("main");
+    const main = document.querySelector('main');
     if (main) {
       main.setAttribute('id', 'main');
       this.addSidebarContainer(main);
@@ -186,15 +179,15 @@ class Main {
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
       await this.loadComponents();
-      document.body.classList.add("appear");
+      document.body.classList.add('appear');
       // await this.waitForLCP(LCP_BLOCKS);
     }
   };
-  
+
   private addSidebarContainer(main: HTMLElement) {
-    const sidebarContainer = document.createElement("div");
-    sidebarContainer.classList.add("sidebar");
-    sidebarContainer.setAttribute("id", "sidebar");
+    const sidebarContainer = document.createElement('div');
+    sidebarContainer.classList.add('sidebar');
+    sidebarContainer.setAttribute('id', 'sidebar');
     main.after(sidebarContainer);
   }
 
@@ -206,26 +199,25 @@ class Main {
   // private loadLazy = async () => {};
 
   private decorateTemplateAndTheme() {
-    const template = getMetadata("template");
+    const template = getMetadata('template');
     if (template) addClasses(document.body, template);
-    const theme = getMetadata("theme");
+    const theme = getMetadata('theme');
     if (theme) addClasses(document.body, theme);
   }
 
   private loadComponents = async () => {
-    const sections = document.querySelectorAll<HTMLElement>(".section");
+    const sections = document.querySelectorAll<HTMLElement>('.section');
     sections.forEach((section) => {
       const components: ComponentMapping[] = [];
-      const blocks =
-        section.querySelectorAll<HTMLDivElement>("[data-block-name]");
+      const blocks = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
       if (!blocks.length) {
-        section.style.removeProperty("display");
+        section.style.removeProperty('display');
         return;
       }
       blocks.forEach((block: HTMLDivElement) => {
-        block.style.display = "none";
+        block.style.display = 'none';
         components.push({
-          name: block.dataset["blockName"] as string,
+          name: block.dataset['blockName'] as string,
           element: block,
         });
       });
@@ -239,7 +231,7 @@ class Main {
           }
         });
       }
-      section.style.removeProperty("display");
+      section.style.removeProperty('display');
     });
   };
 }

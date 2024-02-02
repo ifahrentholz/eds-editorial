@@ -1,5 +1,5 @@
-import { html, render } from "lit";
-import { unsafeHTML } from "lit-html/directives/unsafe-html";
+import { html, render } from 'lit';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
 interface TemplateArgs {
   headline: string;
@@ -21,7 +21,7 @@ const template = ({ headline, subline, text, buttons }: TemplateArgs) => html`
           (button) =>
             html`<li>
               <a href="${button}" class="button big">Learn More</a>
-            </li>`,
+            </li>`
         )}
       </ul>
     </div>
@@ -32,12 +32,12 @@ const template = ({ headline, subline, text, buttons }: TemplateArgs) => html`
 `;
 
 export default function (block: HTMLElement) {
-  const firstRow = block.querySelector("div");
+  const firstRow = block.querySelector('div');
   const secondRow = block.children[1];
-  const headline = firstRow?.querySelector("h1");
-  const subline = firstRow?.querySelector("h3");
-  const text = firstRow?.querySelectorAll("p");
-  const buttons = secondRow?.querySelectorAll("a");
+  const headline = firstRow?.querySelector('h1');
+  const subline = firstRow?.querySelector('h3');
+  const text = firstRow?.querySelectorAll('p');
+  const buttons = secondRow?.querySelectorAll('a');
 
   console.log({
     firstRow,
@@ -48,6 +48,6 @@ export default function (block: HTMLElement) {
     buttons,
   });
 
-  block.style.removeProperty("display");
+  block.style.removeProperty('display');
   render(template, block);
 }

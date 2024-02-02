@@ -1,5 +1,5 @@
-import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { LitElement, css, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 /**
  * An example element.
@@ -7,7 +7,7 @@ import { customElement, property } from "lit/decorators.js";
  * @slot - This element has a slot
  * @csspart button - The button
  */
-@customElement("lit-counter")
+@customElement('lit-counter')
 export class LitCounter extends LitElement {
   /**
    * The number of times the button has been clicked.
@@ -16,16 +16,14 @@ export class LitCounter extends LitElement {
   count = 0;
 
   firstUpdated(): void {
-    console.log("first updated");
+    console.log('first updated');
   }
 
   render() {
     return html`
       <div class="card">
         <h3>Lit Counter</h3>
-        <button @click=${this._onClick} part="button">
-          count is ${this.count}
-        </button>
+        <button @click=${this._onClick} part="button">count is ${this.count}</button>
       </div>
     `;
   }
@@ -67,11 +65,11 @@ export class LitCounter extends LitElement {
 export default function (block: HTMLElement) {
   const org_content = block.innerHTML;
   block.innerHTML = `<lit-counter>${org_content}</lit-counter>`;
-  block.style.removeProperty("display");
+  block.style.removeProperty('display');
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "lit-counter": LitCounter;
+    'lit-counter': LitCounter;
   }
 }
