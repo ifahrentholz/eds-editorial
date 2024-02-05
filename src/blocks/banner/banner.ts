@@ -14,7 +14,7 @@ const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) 
   //   picture.querySelector('img')?.removeAttribute('loading');
   // }
   return html`
-    <section id="banner">
+    <div id="banner">
       <div class="content">
         <header>
           <h1>${headline}</h1>
@@ -31,7 +31,7 @@ const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) 
         </ul>
       </div>
       <span class="image object"> ${picture ?? unsafeHTML(picture)} </span>
-    </section>
+    </div>
   `;
 };
 
