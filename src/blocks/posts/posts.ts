@@ -1,16 +1,18 @@
 import { html, render } from 'lit';
+import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 
 interface PostArgs {
   postUrl: string;
   headline?: string;
   text?: string;
+  picture: HTMLPictureElement;
 }
 
 const postTemplate = (args: PostArgs) => {
-  const { postUrl, headline, text } = args;
+  const { postUrl, headline, text, picture } = args;
   return html`
     <article>
-      <!-- <a href="${postUrl}" class="image"><img src="images/pic01.jpg" alt="" /></a> -->
+      <a href="${postUrl}" class="image">${picture}</a>
       <h3>${headline}</h3>
       <p>${text?.slice(0, 200)}</p>
       <ul class="actions">
@@ -29,15 +31,16 @@ export default async function (block: HTMLElement) {
 
   const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
   const response = await req.json();
+  console.log('response: ', response);
   const data = response.data
     .filter((item) => {
       return item.path.includes('/posts');
     })
-    .map((item) => item.path);
+    .map((item) => item);
 
   const postsPreview = await Promise.all(
-    data.map(async (path) => {
-      const result = await fetch(`${window.hlx.codeBasePath}${path}.plain.html`);
+    data.map(async (post) => {
+      const result = await fetch(`${window.hlx.codeBasePath}${post.path}.plain.html`);
       return result.text();
     })
   );
@@ -49,11 +52,13 @@ export default async function (block: HTMLElement) {
 
   const posts = postsPreviewHtml.map((doc, index) => {
     return {
-      postUrl: `${window.hlx.codeBasePath}${data[index]}`,
+      postUrl: `${window.hlx.codeBasePath}${data[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: doc.querySelector('p')?.innerText?.trim(),
+      picture: createOptimizedPicture({ src: data[index].image, alt: data[index].imagealt }),
     };
   });
+  console.log('posts: ', posts);
 
   block.style.removeProperty('display');
   render(template(posts), block);
