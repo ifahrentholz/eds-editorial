@@ -1,29 +1,36 @@
-import { customElement } from 'lit/decorators.js';
+import { LitElement, css, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
+import { until } from 'lit/directives/until.js';
+
+const modules = import.meta.glob('/src/icons/*.svg', { as: 'raw' });
 
 @customElement('icon-component')
-export class Icon extends HTMLElement {
-  get name() {
-    const srcValue = this.getAttribute('name');
-    if (!srcValue) {
-      throw new Error('Icon must have a name attribute');
+export class Icon extends LitElement {
+  @property({ type: String })
+  name: string = '';
+
+  async getSvg(name: string) {
+    const key = modules[`/src/icons/${name}.svg`];
+    const iconMarkupFunc = key !== undefined ? key : modules[`/src/icons/cross.svg`];
+    const iconMarkup = await iconMarkupFunc().catch((e: Error) => console.error(`SVG icon: ${e.message}`));
+    return unsafeSVG(iconMarkup as string);
+  }
+
+  render() {
+    const svg = this.getSvg(this.name);
+    return html`${until(svg)}`;
+  }
+
+  static styles = css`
+    :host {
+      display: flex;
+      align-items: center;
     }
-    return srcValue;
-  }
 
-  connectedCallback() {
-    console.log('RENDER ICON');
-    this.render();
-  }
-
-  async render() {
-    const svg = await this.fetchIcon();
-    console.log('render icon here', svg);
-    return `<style>:host{display:inline-block;width:50px;height:50px;}svg{display:inline-block;width:100%;height:100%;fill:currentColor;}</style>${svg}`;
-  }
-
-  async fetchIcon() {
-    const response = await fetch(`${window.hlx.codeBasePath}/dist/icons/${this.name}.svg`);
-    const textResponse = await response.text();
-    return textResponse;
-  }
+    svg {
+      width: 100%;
+      height: auto;
+    }
+  `;
 }

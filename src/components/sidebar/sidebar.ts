@@ -4,12 +4,12 @@ import './sidebarNav.ts';
 
 @customElement('sidebar-component')
 export class SidebarComponent extends LitElement {
+  @query('.toggle')
+  toggle: HTMLAnchorElement;
+
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
-
-  @query('.toggle')
-  toggle: HTMLAnchorElement;
 
   firstUpdated(): void {
     this.toggle.addEventListener('click', this.handleToggleClick);
@@ -27,7 +27,7 @@ export class SidebarComponent extends LitElement {
       <div class="inner">
         <sidebar-nav></sidebar-nav>
       </div>
-      <a href="#sidebar" class="toggle">Toggle</a>
+      <a href="#sidebar" class="toggle hamburger-icon"><icon-component name="hamburger"></icon-component></a>
     `;
   }
 }
