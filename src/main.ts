@@ -4,7 +4,6 @@ import { addClasses } from '../src/utils/addClasses';
 import { getMetadata } from '../src/utils/getMetadata';
 import { toCamelCase } from '../src/utils/toCamelCase';
 import { toClassName } from '../src/utils/toClassName';
-import { Icon } from './components/icon';
 
 type ComponentMapping = {
   name: string;
@@ -156,7 +155,6 @@ class Main {
     window.hlx.RUM_MASK_URL = 'full';
     window.hlx.codeBasePath = '';
     window.hlx.lighthouse = new URLSearchParams(window.location.search).get('lighthouse') === 'on';
-    this.registerCustomElements();
 
     const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
     if (scriptEl) {
@@ -168,10 +166,6 @@ class Main {
       }
     }
   }
-
-  private registerCustomElements = () => {
-    customElements.define('icon-component', Icon);
-  };
 
   private loadEager = async () => {
     // TODO: how to support different languages here

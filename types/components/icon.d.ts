@@ -1,8 +1,6 @@
 export declare class Icon extends HTMLElement {
-    shadowRoot: any;
-    constructor();
     get name(): string;
     connectedCallback(): void;
-    render(): Promise<void>;
+    render(): Promise<string>;
     fetchIcon(): Promise<string>;
 }
