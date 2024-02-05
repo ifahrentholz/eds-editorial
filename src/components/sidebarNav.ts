@@ -7,6 +7,15 @@ interface MenuItem {
     items?: MenuItem[]
 }
 
+interface SiteMap {
+    data: SiteMapItem[];
+}
+
+interface SiteMapItem {
+    path: string;
+    navtitle: string;
+}
+
 @customElement('sidebar-nav')
 export class SidebarNav extends LitElement {
     private siteMap: any;
@@ -81,23 +90,43 @@ export class SidebarNav extends LitElement {
 
     private async fetchSitemap() {
         const response = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
-        this.siteMap = await response.json();
+        return await response.json();
     }
 
     private mapSitemapToMenuItems(sitemap: { data: [] }) {
-        const menuItems: MenuItem = [
-            {navTitle: 'Homepage', path: '/'},
-            {navTitle: 'posts', items: [{navTitle: 'post 1', path: '/posts/post1'}]}
-        ]
+        let groups = {};
 
-        this.menuItems = sitemap.data.map(item => {
+        sitemap.data.forEach((item: SiteMapItem) => {
             const pathFragments = item.path.split('/');
+            const menuItem = {navTitle: item.navtitle, path: item.path};
 
-            if (pathFragments.length > 1) {
-                return {navTitle: item.navTitle ? item.navTitle : pathFragments[1], items: [{navTitle: item.navTitle, path: item.path}]}
+            if (pathFragments.length > 2) {
+                if (typeof groups[pathFragments[1]] === 'undefined') {
+                    groups[pathFragments[1]] = [menuItem];
+                    return;
+                }
+
+                groups[pathFragments[1]].push(menuItem);
+            }
+        });
+
+        const menuItems: MenuItem[] = [];
+        sitemap.data.forEach((item: SiteMapItem) => {
+            const pathFragments = item.path.split('/');
+            const menuItem = {navTitle: item.navtitle, path: item.path};
+
+
+            if (typeof groups[pathFragments[1]] !== 'undefined') {
+                menuItems.push({
+                    navTitle: item.navtitle ? item.navtitle : pathFragments[1],
+                    items: groups[pathFragments[1]]
+                });
+                return;
             }
 
-            return {navTitle: item.navTitle, path: item.path};
+            menuItems.push(menuItem);
         })
+
+        console.log(menuItems);
     }
 }
