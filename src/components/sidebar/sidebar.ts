@@ -21,7 +21,7 @@ export class SidebarComponent extends LitElement {
 
   @debounce(100)
   private setInitialVisibility() {
-    document.body.clientWidth <= 1280 ? this.classList.add('inactive') : this.classList.remove('inactive');
+    window.innerWidth <= 1280 ? this.classList.add('inactive') : this.classList.remove('inactive');
   }
 
   firstUpdated(): void {
