@@ -1,4 +1,4 @@
-import './components/sidebarNav.ts';
+import './components/sidebar/sidebar.ts';
 declare global {
     interface Window {
         hlx: {

@@ -4,7 +4,7 @@ import { addClasses } from '../src/utils/addClasses';
 import { getMetadata } from '../src/utils/getMetadata';
 import { toCamelCase } from '../src/utils/toCamelCase';
 import { toClassName } from '../src/utils/toClassName';
-import './components/sidebarNav.ts'
+import './components/sidebar/sidebar.ts';
 
 type ComponentMapping = {
   name: string;
@@ -198,15 +198,8 @@ class Main {
   };
 
   private addSidebarContainer(main: HTMLElement) {
-    const sidebarContainer = document.createElement('div');
-    const innerContainer = document.createElement('div');
-    const sidebarNav = document.createElement('sidebar-nav');
-
-    innerContainer.classList.add('inner');
-    innerContainer.appendChild(sidebarNav);
-
+    const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
-    sidebarContainer.appendChild(innerContainer)
     main.after(sidebarContainer);
   }
 
