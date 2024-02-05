@@ -10,21 +10,27 @@ type SiteMapEntry = {
     'nav-test': string;
     imageAlt: string;
 };
-type MenuItem = {
+interface SubMenuItem {
     path: string;
     navtitle: string;
-};
+}
+interface MenuItem {
+    path: string;
+    navtitle: string;
+    children?: SubMenuItem[];
+}
 type Sitemap = SiteMapEntry[];
 export declare class SidebarNav extends LitElement {
+    items: MenuItem[];
     protected createRenderRoot(): HTMLElement | DocumentFragment;
-    connectedCallback(): Promise<void>;
-    render(): import("lit-html").TemplateResult<1>;
+    firstUpdated(): Promise<void>;
+    render(): import("lit-html").TemplateResult<1> | undefined;
+    private renderSubMenu;
+    private renderMenuItem;
     private renderMenuItems;
     private fetchSitemap;
     private getSubmenuName;
-    groupByFirstLevelPath: (data: Sitemap) => (MenuItem | {
-        navtitle: string;
-        children: MenuItem[];
-    })[];
+    private getNavTitle;
+    groupByFirstLevelPath: (data: Sitemap) => MenuItem[];
 }
 export {};

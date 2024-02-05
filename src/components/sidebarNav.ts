@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 
 type SiteMapEntry = {
   path: string;
@@ -13,27 +13,35 @@ type SiteMapEntry = {
   imageAlt: string;
 };
 
-type MenuItem = {
+interface SubMenuItem {
   path: string;
   navtitle: string;
-};
+}
+
+interface MenuItem {
+  path: string;
+  navtitle: string;
+  children?: SubMenuItem[];
+}
 
 type Sitemap = SiteMapEntry[];
 
 @customElement('sidebar-nav')
 export class SidebarNav extends LitElement {
+  @state()
+  items: MenuItem[];
+
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
 
-  async connectedCallback() {
-    super.connectedCallback();
+  async firstUpdated() {
     const sitemap = await this.fetchSitemap();
-    const items = this.groupByFirstLevelPath(sitemap);
-    console.log('navItems', items);
+    this.items = this.groupByFirstLevelPath(sitemap);
   }
 
   render() {
+    if (!this.items) return;
     return html` <nav id="menu">
       <header class="major">
         <h2>Menu</h2>
@@ -42,34 +50,24 @@ export class SidebarNav extends LitElement {
     </nav>`;
   }
 
+  private renderSubMenu(item) {
+    return html` <span @click="${({ target }) => target.classList.toggle('active')}" class="opener"
+        >${item.navtitle}</span
+      >
+      <ul>
+        ${item.children.map((child) => html`<li><a href="${child.path}">${child.navtitle}</a></li>`)}
+      </ul>`;
+  }
+
+  private renderMenuItem(item) {
+    return html` <li>
+      ${item.children !== undefined ? this.renderSubMenu(item) : html`<a href="${item.path}">${item.navtitle}</a>`}
+    </li>`;
+  }
+
   private renderMenuItems() {
     return html` <ul>
-      <li><a href="index.html">Homepage</a></li>
-      <li><a href="generic.html">Generic</a></li>
-      <li><a href="elements.html">Elements</a></li>
-      <li>
-        <span class="opener">Submenu</span>
-        <ul>
-          <li><a href="#">Lorem Dolor</a></li>
-          <li><a href="#">Ipsum Adipiscing</a></li>
-          <li><a href="#">Tempus Magna</a></li>
-          <li><a href="#">Feugiat Veroeros</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Etiam Dolore</a></li>
-      <li><a href="#">Adipiscing</a></li>
-      <li>
-        <span class="opener">Another Submenu</span>
-        <ul>
-          <li><a href="#">Lorem Dolor</a></li>
-          <li><a href="#">Ipsum Adipiscing</a></li>
-          <li><a href="#">Tempus Magna</a></li>
-          <li><a href="#">Feugiat Veroeros</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Maximus Erat</a></li>
-      <li><a href="#">Sapien Mauris</a></li>
-      <li><a href="#">Amet Lacinia</a></li>
+      ${this.items.map((item) => this.renderMenuItem(item))}
     </ul>`;
   }
 
@@ -83,6 +81,11 @@ export class SidebarNav extends LitElement {
     return entry.path.split('/')[1];
   };
 
+  private getNavTitle(item: SiteMapEntry) {
+    if (item.path === '/') return 'Homepage';
+    return item.navtitle || item.title;
+  }
+
   groupByFirstLevelPath = (data: Sitemap) => {
     const groups = {};
     data.forEach((item) => {
@@ -92,7 +95,7 @@ export class SidebarNav extends LitElement {
       }
       groups[firstLevelPath].push({
         path: item.path,
-        navtitle: item.navtitle,
+        navtitle: this.getNavTitle(item),
       });
     });
 
@@ -104,7 +107,8 @@ export class SidebarNav extends LitElement {
       }
 
       return {
-        navtitle: group[0].path.split('/')[1], // posts
+        navtitle: group[0].path.split('/')[1],
+        path: group[0].path,
         children: group,
       };
     });
