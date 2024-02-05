@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, query, state } from 'lit/decorators.js';
 
 type SiteMapEntry = {
   path: string;
@@ -50,10 +50,16 @@ export class SidebarNav extends LitElement {
     </nav>`;
   }
 
+  private toggleSubmenu({ currentTarget }: Event) {
+    if (!(currentTarget instanceof HTMLElement) || !currentTarget.classList.contains('opener')) return;
+    currentTarget.classList.toggle('active');
+  }
+
   private renderSubMenu(item) {
-    return html` <span @click="${({ target }) => target.classList.toggle('active')}" class="opener"
-        >${item.navtitle}</span
-      >
+    return html`<span @click="${this.toggleSubmenu}" class="opener submenu">
+        <span class="submenu__text">${item.navtitle} </span>
+        <icon-component class="submenu__icon" name="chevron-down"></icon-component>
+      </span>
       <ul>
         ${item.children.map((child) => html`<li><a href="${child.path}">${child.navtitle}</a></li>`)}
       </ul>`;
