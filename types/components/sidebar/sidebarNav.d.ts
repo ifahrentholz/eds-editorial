@@ -1,4 +1,5 @@
 import { LitElement } from 'lit';
+import '../icon';
 type SiteMapEntry = {
     path: string;
     title: string;

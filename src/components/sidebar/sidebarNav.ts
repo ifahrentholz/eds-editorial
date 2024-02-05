@@ -1,5 +1,7 @@
 import { html, LitElement } from 'lit';
-import { customElement, query, state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
+
+import '../icon';
 
 type SiteMapEntry = {
   path: string;
