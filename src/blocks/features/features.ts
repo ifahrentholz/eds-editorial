@@ -13,7 +13,7 @@ const template = (features: TemplateArgs) => {
     ${features.map(
       (feature) => html`
         <article>
-          <span class="icon fa-gem">${feature.icon}</span>
+          <span class="icon fa-gem"><icon-component name="${feature.icon}"></icon-component></span>
           <div class="content">${unsafeHTML(feature.textBlock)}</div>
         </article>
       `

@@ -31,7 +31,7 @@ export default async function (block: HTMLElement) {
 
   const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
   const response = await req.json();
-  console.log('response: ', response);
+
   const data = response.data
     .filter((item) => {
       return item.path.includes('/posts');
@@ -58,7 +58,6 @@ export default async function (block: HTMLElement) {
       picture: createOptimizedPicture({ src: data[index].image, alt: data[index].imagealt }),
     };
   });
-  console.log('posts: ', posts);
 
   block.style.removeProperty('display');
   render(template(posts), block);
