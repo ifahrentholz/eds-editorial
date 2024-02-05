@@ -1,8 +1,7 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
-// @ts-ignore
-import { Icon } from '../../components/icon';
+import '../../components/icon';
 
 interface Feature {
   icon: string;
@@ -25,7 +24,6 @@ const template = (features: TemplateArgs) => {
 };
 
 export default function (block: HTMLElement) {
-  new Icon();
   const rows = block.querySelectorAll(':scope > div');
   let features: Feature[] = [];
   [...rows].forEach((row) => {
