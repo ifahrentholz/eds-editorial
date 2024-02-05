@@ -4,6 +4,7 @@ import { addClasses } from '../src/utils/addClasses';
 import { getMetadata } from '../src/utils/getMetadata';
 import { toCamelCase } from '../src/utils/toCamelCase';
 import { toClassName } from '../src/utils/toClassName';
+import './components/sidebarNav.ts'
 
 type ComponentMapping = {
   name: string;
@@ -11,6 +12,8 @@ type ComponentMapping = {
 };
 
 class BlockService {
+  //TODO: Provider for fetch data
+
   /**
    * Extracts the config from a block.
    * @param {Element} block The block element
@@ -196,8 +199,14 @@ class Main {
 
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement('div');
-    sidebarContainer.classList.add('sidebar');
+    const innerContainer = document.createElement('div');
+    const sidebarNav = document.createElement('sidebar-nav');
+
+    innerContainer.classList.add('inner');
+    innerContainer.appendChild(sidebarNav);
+
     sidebarContainer.setAttribute('id', 'sidebar');
+    sidebarContainer.appendChild(innerContainer)
     main.after(sidebarContainer);
   }
 
