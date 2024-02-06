@@ -145,7 +145,10 @@ class SectionService {
   decorateImages() {
     const picture = document.querySelectorAll('.default-content-wrapper picture');
     picture.forEach((item) => {
-      item.parentElement?.classList.add('image', 'main');
+      const parentElement = item.parentElement;
+      if (parentElement) {
+        parentElement.classList.add('image', 'main');
+      }
     });
   }
 }
@@ -230,33 +233,47 @@ class Main {
 
   private loadComponents = async () => {
     const sections = document.querySelectorAll<HTMLElement>('.section');
-    sections.forEach((section) => {
-      const components: ComponentMapping[] = [];
-      const blocks = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
-      if (!blocks.length) {
-        section.style.removeProperty('display');
+
+    sections.forEach(async (section) => {
+      const components: ComponentMapping[] = this.collectComponents(section);
+      if (!components.length) {
+        this.showSection(section);
         return;
       }
-      blocks.forEach((block: HTMLDivElement) => {
-        block.style.display = 'none';
-        components.push({
-          name: block.dataset['blockName'] as string,
-          element: block,
-        });
-      });
-      if (components.length) {
-        components.forEach(async (component) => {
-          const componentModule = await import(
-            `${window.hlx.codeBasePath}/dist/${component.name}/${component.name}.js`
-          );
-          if (componentModule.default) {
-            await componentModule.default(component.element);
-          }
-        });
-      }
-      section.style.removeProperty('display');
+
+      await this.loadComponentModules(components);
+      this.showSection(section);
     });
   };
+
+  private collectComponents(section: HTMLElement): ComponentMapping[] {
+    const components: ComponentMapping[] = [];
+    const blocks = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
+
+    blocks.forEach((block: HTMLDivElement) => {
+      block.style.display = 'none';
+      components.push({
+        name: block.dataset['blockName'] as string,
+        element: block,
+      });
+    });
+
+    return components;
+  }
+
+  private async loadComponentModules(components: ComponentMapping[]) {
+    for (const component of components) {
+      const componentModule = await import(`${window.hlx.codeBasePath}/dist/${component.name}/${component.name}.js`);
+
+      if (componentModule.default) {
+        await componentModule.default(component.element);
+      }
+    }
+  }
+
+  private showSection(section: HTMLElement) {
+    section.style.removeProperty('display');
+  }
 }
 
 (async function () {
