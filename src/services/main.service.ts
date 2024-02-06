@@ -69,6 +69,7 @@ export class MainService {
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
+    sidebarContainer.classList.add('inactive');
     main.after(sidebarContainer);
   }
 
