@@ -5,6 +5,7 @@ import { getMetadata } from '../src/utils/getMetadata';
 import { toCamelCase } from '../src/utils/toCamelCase';
 import { toClassName } from '../src/utils/toClassName';
 import './components/sidebar/sidebar.ts';
+import './components/header.ts';
 
 type ComponentMapping = {
   name: string;
@@ -205,7 +206,7 @@ class Main {
 
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
-    main.innerHTML = `<div class="inner">${children}</div>`;
+    main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
   }
 
   // private loadLazy = async () => {};
