@@ -1,5 +1,6 @@
 import { LitElement } from 'lit';
 import './sidebarNav.ts';
+import './sidebarContact.ts';
 import './sidebarFooter.ts';
 export declare class SidebarComponent extends LitElement {
     toggle: HTMLAnchorElement;

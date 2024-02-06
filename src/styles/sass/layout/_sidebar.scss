@@ -79,6 +79,18 @@
     }
   }
 
+  .contact icon-component {
+    color: #f56a6a;
+    display: inline-block;
+    font-size: 1.5em;
+    height: 1.125em;
+    left: 0;
+    line-height: 1.125em;
+    position: absolute;
+    text-align: center;
+    width: 29px;
+  }
+
   .toggle {
     @include icon(false, solid);
     @include vendor('transition', 'left 0.5s ease');
@@ -172,6 +184,10 @@
       }
     }
 
+    .contact icon-component {
+      width: 27px;
+    }
+
     .toggle {
       text-indent: 6em;
       width: 6em;
@@ -187,6 +203,10 @@
   }
 
   @include breakpoint('<=small') {
+    .contact icon-component {
+      width: 24px;
+    }
+
     .toggle {
       text-indent: 7.25em;
       width: 7.25em;
