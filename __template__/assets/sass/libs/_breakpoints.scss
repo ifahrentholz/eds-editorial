@@ -94,6 +94,113 @@ $breakpoints: ();
           $media: "screen and (min-width: " + ($y + 1) + ")";
         }
 
-        // Less than (< 0 / invalid)
+          // Less than (< 0 / invalid)
         @else if ($op == "lt") {
-          $
+          $media: "screen and (max-width: -1px)";
+        }
+
+          // Not (> y)
+        @else if ($op == "not") {
+          $media: "screen and (min-width: " + ($y + 1) + ")";
+        }
+
+          // Equal (<= y)
+        @else {
+          $media: "screen and (max-width: " + $y + ")";
+        }
+      }
+
+        // Min only.
+      @else if ($y == null) {
+        // Greater than or equal (>= x)
+        @if ($op == "gte") {
+          $media: "screen and (min-width: " + $x + ")";
+        }
+
+          // Less than or equal (<= inf / anything)
+        @else if ($op == "lte") {
+          $media: "screen";
+        }
+
+          // Greater than (> inf / invalid)
+        @else if ($op == "gt") {
+          $media: "screen and (max-width: -1px)";
+        }
+
+          // Less than (< x)
+        @else if ($op == "lt") {
+          $media: "screen and (max-width: " + ($x - 1) + ")";
+        }
+
+          // Not (< x)
+        @else if ($op == "not") {
+          $media: "screen and (max-width: " + ($x - 1) + ")";
+        }
+
+          // Equal (>= x)
+        @else {
+          $media: "screen and (min-width: " + $x + ")";
+        }
+      }
+
+        // Min and max.
+      @else {
+        // Greater than or equal (>= x)
+        @if ($op == "gte") {
+          $media: "screen and (min-width: " + $x + ")";
+        }
+
+          // Less than or equal (<= y)
+        @else if ($op == "lte") {
+          $media: "screen and (max-width: " + $y + ")";
+        }
+
+          // Greater than (> y)
+        @else if ($op == "gt") {
+          $media: "screen and (min-width: " + ($y + 1) + ")";
+        }
+
+          // Less than (< x)
+        @else if ($op == "lt") {
+          $media: "screen and (max-width: " + ($x - 1) + ")";
+        }
+
+          // Not (< x and > y)
+        @else if ($op == "not") {
+          $media: "screen and (max-width: " +
+            ($x - 1) +
+            "), screen and (min-width: " +
+            ($y + 1) +
+            ")";
+        }
+
+          // Equal (>= x and <= y)
+        @else {
+          $media: "screen and (min-width: " +
+            $x +
+            ") and (max-width: " +
+            $y +
+            ")";
+        }
+      }
+    }
+
+      // String.
+    @else {
+      // Missing a media type? Prefix with "screen".
+      @if (str-slice($a, 0, 1) == "(") {
+        $media: "screen and " + $a;
+      }
+
+        // Otherwise, use as-is.
+      @else {
+        $media: $a;
+      }
+    }
+  }
+
+  // Output.
+  @media #{$media} {
+    @content;
+  }
+}
