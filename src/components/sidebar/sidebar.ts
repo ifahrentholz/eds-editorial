@@ -3,6 +3,7 @@ import { customElement, query } from 'lit/decorators.js';
 import { debounce } from '@kluntje/js-utils/lib/function-helpers/decorators';
 
 import './sidebarNav.ts';
+import './sidebarFooter.ts';
 
 @customElement('sidebar-component')
 export class SidebarComponent extends LitElement {
@@ -37,6 +38,7 @@ export class SidebarComponent extends LitElement {
     return html`
       <div class="inner">
         <sidebar-nav></sidebar-nav>
+        <sidebar-footer id="footer"></sidebar-footer>
       </div>
       <a href="#sidebar" class="toggle hamburger-icon"><icon-component name="hamburger"></icon-component></a>
     `;
