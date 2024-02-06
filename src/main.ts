@@ -129,14 +129,24 @@ class SectionService {
         const wrapper = document.createElement('div');
         wrappers.push(wrapper);
         defaultContent = e.tagName !== 'DIV';
-        if (defaultContent) wrapper.classList.add('default-content-wrapper');
+
+        if (defaultContent) {
+          wrapper.classList.add('default-content-wrapper');
+        }
       }
       wrappers[wrappers.length - 1].append(e);
     });
     wrappers.forEach((wrapper) => section.append(wrapper));
+    this.decorateImages();
     section.classList.add('section');
     section.dataset.sectionStatus = 'initialized';
     section.style.display = 'none';
+  }
+  decorateImages() {
+    const picture = document.querySelectorAll('.default-content-wrapper picture');
+    picture.forEach((item) => {
+      item.parentElement?.classList.add('image', 'main');
+    });
   }
 }
 
