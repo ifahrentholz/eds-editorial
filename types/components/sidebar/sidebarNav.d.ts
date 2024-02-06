@@ -1,6 +1,6 @@
 import { LitElement } from 'lit';
 import '../icon';
-type SiteMapEntry = {
+export type SiteMapEntry = {
     path: string;
     title: string;
     description: string;
@@ -20,7 +20,7 @@ interface MenuItem {
     navtitle: string;
     children?: SubMenuItem[];
 }
-type Sitemap = SiteMapEntry[];
+export type Sitemap = SiteMapEntry[];
 export declare class SidebarNav extends LitElement {
     items: MenuItem[];
     protected createRenderRoot(): HTMLElement | DocumentFragment;

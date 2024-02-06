@@ -1,0 +1,77 @@
+import { html, LitElement } from 'lit';
+import { fetchData } from '../../utils/fetchData.ts';
+import { Sitemap, SiteMapEntry } from './sidebarNav.ts';
+import { customElement, state } from 'lit/decorators.js';
+import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
+
+interface SheetsResponse {
+  type: string;
+  data: [];
+  offset: number;
+  total: number;
+}
+
+@customElement('sidebar-posts')
+export class SidebarPosts extends LitElement {
+  @state()
+  private lastTreePosts: SiteMapEntry[];
+
+  async connectedCallback() {
+    super.connectedCallback();
+    const sitemap = await this.fetchSitemap();
+    const posts = this.getPosts(sitemap);
+    this.lastTreePosts = this.getLastThreePosts(posts);
+  }
+
+  render() {
+    if (!this.lastTreePosts) return;
+    return html`
+      <header class="major">
+        <h2>Newest Posts</h2>
+      </header>
+      <div class="mini-posts">${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}</div>
+    `;
+
+    //TODO: Add overview if more button is needed
+    /* 
+     <ul class="actions">
+        <li><a href="#" class="button">More</a></li>
+      </ul>
+    */
+  }
+
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
+  }
+
+  private getLastThreePosts(sitemap: Sitemap) {
+    sitemap.sort((sitemapEntry: SiteMapEntry, nextSitemapEntry: SiteMapEntry) => {
+      if (sitemapEntry.lastModified > nextSitemapEntry.lastModified) {
+        return -1;
+      } else if (sitemapEntry.lastModified < nextSitemapEntry.lastModified) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    return sitemap.slice(0, 3);
+  }
+
+  private async fetchSitemap() {
+    return <Sitemap>(await fetchData<SheetsResponse>({ endpoint: '/query-index.json', getJson: true })).data;
+  }
+
+  private renderPost(siteMapEntry: SiteMapEntry) {
+    return html` <article>
+      <a href="${siteMapEntry.path}" class="image">
+        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imageAlt })}
+      </a>
+      <p>${siteMapEntry.description}</p>
+    </article>`;
+  }
+
+  private getPosts(sitemap: SiteMapEntry[]) {
+    return sitemap.filter((item) => item.path.includes('/posts'));
+  }
+}

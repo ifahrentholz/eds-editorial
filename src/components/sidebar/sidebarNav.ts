@@ -3,7 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
 
-type SiteMapEntry = {
+export type SiteMapEntry = {
   path: string;
   title: string;
   description: string;
@@ -26,7 +26,7 @@ interface MenuItem {
   children?: SubMenuItem[];
 }
 
-type Sitemap = SiteMapEntry[];
+export type Sitemap = SiteMapEntry[];
 
 @customElement('sidebar-nav')
 export class SidebarNav extends LitElement {

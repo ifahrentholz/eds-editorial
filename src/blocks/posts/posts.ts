@@ -32,11 +32,9 @@ export default async function (block: HTMLElement) {
   const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
   const response = await req.json();
 
-  const data = response.data
-    .filter((item) => {
-      return item.path.includes('/posts');
-    })
-    .map((item) => item);
+  const data = response.data.filter((item) => {
+    return item.path.includes('/posts');
+  });
 
   const postsPreview = await Promise.all(
     data.map(async (post) => {
