@@ -13,7 +13,6 @@ export class Icon extends LitElement {
   async getSvg(name: string) {
     const key = modules[`/src/icons/${name}.svg`];
     const iconMarkupFunc = key !== undefined ? key : modules[`/src/icons/cross.svg`];
-    console.log('🚀 ~ Icon ~ getSvg ~ key:', key);
     const iconMarkup = await iconMarkupFunc().catch((e: Error) => console.error(`SVG icon: ${e.message}`));
     return unsafeSVG(iconMarkup as string);
   }

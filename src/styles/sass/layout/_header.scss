@@ -7,13 +7,15 @@
 /* Header */
 
 #header {
-  @include vendor("display", "flex");
+  @include vendor('display', 'flex');
+
   border-bottom: solid 5px _palette(accent);
-  padding: 6em 0 1em 0;
+  padding: 6em 0 1em;
   position: relative;
 
   > * {
-    @include vendor("flex", "1");
+    @include vendor('flex', '1');
+
     margin-bottom: 0;
   }
 
@@ -28,11 +30,17 @@
     text-align: right;
   }
 
-  @include breakpoint("<=xlarge") {
+  .header-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentcolor;
+  }
+
+  @include breakpoint('<=xlarge') {
     padding-top: 5em;
   }
 
-  @include breakpoint("<=small") {
+  @include breakpoint('<=small') {
     padding-top: 6.5em;
 
     .logo {
