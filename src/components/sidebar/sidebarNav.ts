@@ -2,6 +2,8 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
+import { fetchData } from '../../utils/fetchData';
+import { SheetsResponse } from './sidebarPosts';
 
 export type SiteMapEntry = {
   path: string;
@@ -80,9 +82,8 @@ export class SidebarNav extends LitElement {
   }
 
   private async fetchSitemap(): Promise<Sitemap> {
-    const response = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
-    const json = await response.json();
-    return json.data;
+    const responseJson = await fetchData<SheetsResponse<Sitemap>>({ endpoint: 'query-index.json', getJson: true });
+    return responseJson.data;
   }
 
   private getSubmenuName = (entry: SiteMapEntry) => {
