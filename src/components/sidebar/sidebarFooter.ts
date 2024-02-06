@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { fetchData } from '../../utils/fetchData';
 
@@ -11,7 +11,8 @@ export class SidebarFooter extends LitElement {
     return this;
   }
 
-  protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+  connectedCallback(): void {
+    super.connectedCallback();
     this.fetchFooterData();
   }
 
@@ -20,6 +21,7 @@ export class SidebarFooter extends LitElement {
     const responseMarkup = document.createElement('div');
     responseMarkup.innerHTML = response;
     this.footerMarkup = responseMarkup.querySelector('p');
+    this.footerMarkup?.classList.add('copyright');
   }
 
   render() {
