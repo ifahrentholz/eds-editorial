@@ -1,13 +1,6 @@
 import { html, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
-import { fetchData } from '../../utils/fetchData';
 
-interface SheetsResponse<T> {
-  type: string;
-  data: T[];
-  offset: number;
-  total: number;
-}
 interface PostArgs {
   postUrl: string;
   headline?: string;
@@ -36,17 +29,18 @@ const template = (posts: PostArgs[]) => {
 export default async function (block: HTMLElement) {
   block.innerHTML = '';
 
-  const response = await fetchData<SheetsResponse<Record<string, string>>>({
-    endpoint: 'query-index.json',
-    getJson: true,
-  });
+  const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
+  const response = await req.json();
 
   const data = response.data.filter((item) => {
     return item.path.includes('/posts');
   });
 
   const postsPreview = await Promise.all(
-    data.map(async (post) => await fetchData<string>({ endpoint: `${post.path}.plain.html` }))
+    data.map(async (post) => {
+      const result = await fetch(`${window.hlx.codeBasePath}${post.path}.plain.html`);
+      return result.text();
+    })
   );
 
   const postsPreviewHtml = postsPreview.map((res) => {

@@ -1,10 +1,4 @@
 import { LitElement } from 'lit';
-export interface SheetsResponse<T> {
-    type: string;
-    data: T;
-    offset: number;
-    total: number;
-}
 export declare class SidebarPosts extends LitElement {
     private lastTreePosts;
     connectedCallback(): Promise<void>;

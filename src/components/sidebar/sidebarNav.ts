@@ -2,20 +2,7 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
-import { fetchData } from '../../utils/fetchData';
-import { SheetsResponse } from './sidebarPosts';
-
-export type SiteMapEntry = {
-  path: string;
-  title: string;
-  description: string;
-  lastModified: string; // Assuming this is a string representing a timestamp
-  image: string;
-  imagealt: string;
-  navtitle: string;
-  'nav-test': string;
-  imageAlt: string;
-};
+import { Sitemap, SiteMapEntry } from '../../shared.types';
 
 interface SubMenuItem {
   path: string;
@@ -27,8 +14,6 @@ interface MenuItem {
   navtitle: string;
   children?: SubMenuItem[];
 }
-
-export type Sitemap = SiteMapEntry[];
 
 @customElement('sidebar-nav')
 export class SidebarNav extends LitElement {
@@ -82,8 +67,9 @@ export class SidebarNav extends LitElement {
   }
 
   private async fetchSitemap(): Promise<Sitemap> {
-    const responseJson = await fetchData<SheetsResponse<Sitemap>>({ endpoint: 'query-index.json', getJson: true });
-    return responseJson.data;
+    const response = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
+    const json = await response.json();
+    return json.data;
   }
 
   private getSubmenuName = (entry: SiteMapEntry) => {
