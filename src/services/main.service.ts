@@ -17,6 +17,7 @@ export class MainService {
   init = async () => {
     this.setup();
     await this.loadEager();
+    await this.loadLazy();
   };
 
   /**
@@ -56,7 +57,6 @@ export class MainService {
       this.sectionService.init(main);
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
-      await this.loadComponents();
       // TODO: Performace adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
@@ -64,6 +64,10 @@ export class MainService {
 
       // await this.waitForLCP(LCP_BLOCKS);
     }
+  };
+
+  private loadLazy = async () => {
+    await this.loadComponents();
   };
 
   private addSidebarContainer(main: HTMLElement) {
