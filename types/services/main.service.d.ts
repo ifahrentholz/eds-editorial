@@ -4,17 +4,21 @@ export declare class MainService {
     private sectionService;
     private blockService;
     constructor(sectionService: SectionService, blockService: BlockService);
-    init: () => Promise<void>;
-    /**
-     * Setup block utils.
-     */
-    private setup;
-    private loadEager;
+    initialize(): Promise<void>;
+    private setupEnvironment;
+    private setupHlxGlobals;
+    private extractCodeBasePath;
+    private loadContent;
+    private decorateTemplateAndTheme;
+    private hideBody;
+    private configureMainElement;
     private addSidebarContainer;
     private addInnerContainer;
-    private decorateTemplateAndTheme;
+    private initializeServices;
     private loadBlocks;
+    private loadSectionBlocks;
     private collectBlocks;
     private loadBlockModules;
     private showSection;
+    private revealBody;
 }
