@@ -9,8 +9,7 @@ interface TemplateArgs {
   buttons?: HTMLAnchorElement[];
 }
 
-const template = (args: TemplateArgs) => {
-  const { headline, subline, texts, buttons, picture } = args;
+const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) => {
   return html`
     <div id="banner">
       <div class="content">
