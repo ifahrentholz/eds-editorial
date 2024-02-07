@@ -1,7 +1,7 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { fetchText } from "../../utils/fetch.ts";
+import { fetchText } from '../../utils/fetch.ts';
 
 interface SidebarContactTemplateArgs {
   headline: HTMLHeadingElement;
@@ -23,13 +23,13 @@ export class SidebarContact extends LitElement {
     return this;
   }
 
-  connectedCallback(): void {
+  async connectedCallback() {
     super.connectedCallback();
-    this.fetchContactData();
+    await this.fetchContactData();
   }
 
   async fetchContactData() {
-    const response = await fetchText('contact.plain.html' );
+    const response = await fetchText('contact.plain.html');
     const responseMarkup = document.createElement('div');
     responseMarkup.innerHTML = response;
     // TODO: refactor contactTemplateArgs
@@ -47,7 +47,9 @@ export class SidebarContact extends LitElement {
 
   render() {
     if (!this.contactTemplateArgs) return;
+
     const { headline, text, contacts } = this.contactTemplateArgs;
+
     return html`
       <section>
         <header class="major">${headline}</header>
