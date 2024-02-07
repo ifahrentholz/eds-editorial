@@ -1,25 +1,22 @@
 import { html, LitElement } from 'lit';
-import { fetchData } from '../../utils/fetchData.ts';
-import { Sitemap, SiteMapEntry } from './sidebarNav.ts';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
+import { SheetService, Sitemap, SiteMapEntry } from "../../services/sheet.service.ts";
 
-interface SheetsResponse {
-  type: string;
-  data: [];
-  offset: number;
-  total: number;
-}
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {
   @state()
-  private lastTreePosts: SiteMapEntry[];
+  private lastTreePosts: Sitemap;
+  private sheetService: SheetService;
 
+  constructor() {
+    super();
+    this.sheetService = new SheetService();
+  }
   async connectedCallback() {
     super.connectedCallback();
-    const sitemap = await this.fetchSitemap();
-    const posts = this.getPosts(sitemap);
+    const posts = await this.getPosts();
     this.lastTreePosts = this.getLastThreePosts(posts);
   }
 
@@ -44,8 +41,8 @@ export class SidebarPosts extends LitElement {
     return this;
   }
 
-  private getLastThreePosts(sitemap: Sitemap) {
-    sitemap.sort((sitemapEntry: SiteMapEntry, nextSitemapEntry: SiteMapEntry) => {
+  private getLastThreePosts(posts: Sitemap) {
+    posts.sort((sitemapEntry: SiteMapEntry, nextSitemapEntry: SiteMapEntry) => {
       if (sitemapEntry.lastModified > nextSitemapEntry.lastModified) {
         return -1;
       } else if (sitemapEntry.lastModified < nextSitemapEntry.lastModified) {
@@ -55,11 +52,7 @@ export class SidebarPosts extends LitElement {
       return 0;
     });
 
-    return sitemap.slice(0, 3);
-  }
-
-  private async fetchSitemap() {
-    return <Sitemap>(await fetchData<SheetsResponse>({ endpoint: '/query-index.json', getJson: true })).data;
+    return posts.slice(0, 3);
   }
 
   private renderPost(siteMapEntry: SiteMapEntry) {
@@ -71,7 +64,8 @@ export class SidebarPosts extends LitElement {
     </article>`;
   }
 
-  private getPosts(sitemap: SiteMapEntry[]) {
+  private async getPosts() {
+    const sitemap = await this.sheetService.getSiteMap();
     return sitemap.filter((item) => item.path.includes('/posts'));
   }
 }

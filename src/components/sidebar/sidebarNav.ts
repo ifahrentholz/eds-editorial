@@ -2,18 +2,7 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
-
-export type SiteMapEntry = {
-  path: string;
-  title: string;
-  description: string;
-  lastModified: string; // Assuming this is a string representing a timestamp
-  image: string;
-  imagealt: string;
-  navtitle: string;
-  'nav-test': string;
-  imageAlt: string;
-};
+import { SheetService, SiteMapEntry } from '../../services/sheet.service.ts';
 
 interface SubMenuItem {
   path: string;
@@ -26,20 +15,23 @@ interface MenuItem {
   children?: SubMenuItem[];
 }
 
-export type Sitemap = SiteMapEntry[];
-
 @customElement('sidebar-nav')
 export class SidebarNav extends LitElement {
   @state()
   items: MenuItem[];
+  private sheetService: SheetService;
+
+  constructor() {
+    super();
+    this.sheetService = new SheetService();
+  }
 
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
 
   async firstUpdated() {
-    const sitemap = await this.fetchSitemap();
-    this.items = this.groupByFirstLevelPath(sitemap);
+    this.items = await this.groupByFirstLevelPath();
   }
 
   render() {
@@ -63,7 +55,7 @@ export class SidebarNav extends LitElement {
         <icon-component class="submenu__icon" name="chevron-down"></icon-component>
       </span>
       <ul>
-        ${item.children.map((child) => html`<li><a href="${child.path}">${child.navtitle}</a></li>`)}
+        ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
       </ul>`;
   }
 
@@ -79,12 +71,6 @@ export class SidebarNav extends LitElement {
     </ul>`;
   }
 
-  private async fetchSitemap(): Promise<Sitemap> {
-    const response = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
-    const json = await response.json();
-    return json.data;
-  }
-
   private getSubmenuName = (entry: SiteMapEntry) => {
     return entry.path.split('/')[1];
   };
@@ -94,9 +80,11 @@ export class SidebarNav extends LitElement {
     return item.navtitle || item.title;
   }
 
-  groupByFirstLevelPath = (data: Sitemap) => {
+  groupByFirstLevelPath = async () => {
     const groups = {};
-    data.forEach((item) => {
+    const sitemap = await this.sheetService.getSiteMap();
+
+    sitemap.forEach((item) => {
       const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
       if (!groups[firstLevelPath]) {
         groups[firstLevelPath] = [];
