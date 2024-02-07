@@ -17,10 +17,6 @@ export class SidebarContact extends LitElement {
   @state()
   private contacts: Contact[];
 
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
-  }
-
   async connectedCallback() {
     super.connectedCallback();
     const contactData = await this.fetchContactData();
@@ -36,7 +32,7 @@ export class SidebarContact extends LitElement {
   }
 
   render() {
-    if (!this.contacts) return ;
+    if (!this.contacts) return;
 
     return html`
       <section>
@@ -52,6 +48,10 @@ export class SidebarContact extends LitElement {
         </ul>
       </section>
     `;
+  }
+
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
   }
 
   private getContacts(responseMarkup: HTMLDivElement) {

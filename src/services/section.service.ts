@@ -9,6 +9,16 @@ export class SectionService {
     this.transformSection(container);
   }
 
+  decorateImages() {
+    const picture = document.querySelectorAll('.default-content-wrapper picture');
+    picture.forEach((item) => {
+      const parentElement = item.parentElement;
+      if (parentElement) {
+        parentElement.classList.add('image', 'main');
+      }
+    });
+  }
+
   /**
    * Decorates all sections in a container element.
    * @param {Element} main The container element
@@ -60,14 +70,5 @@ export class SectionService {
     section.classList.add('section');
     section.dataset.sectionStatus = 'initialized';
     section.style.display = 'none';
-  }
-  decorateImages() {
-    const picture = document.querySelectorAll('.default-content-wrapper picture');
-    picture.forEach((item) => {
-      const parentElement = item.parentElement;
-      if (parentElement) {
-        parentElement.classList.add('image', 'main');
-      }
-    });
   }
 }

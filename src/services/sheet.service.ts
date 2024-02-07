@@ -22,8 +22,8 @@ export type SiteMapEntry = {
 };
 
 export class SheetService {
-  async getSiteMap():Promise<Sitemap> {
-    return <Sitemap>(await this.getQueryIndex()).data
+  async getSiteMap(): Promise<Sitemap> {
+    return <Sitemap>(await this.getQueryIndex()).data;
   }
 
   async getQueryIndex(): Promise<SheetsResponse> {

@@ -1,5 +1,5 @@
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { css, html, LitElement } from "lit";
+import { customElement, property } from "lit/decorators.js";
 
 /**
  * An example element.
@@ -9,29 +9,6 @@ import { customElement, property } from 'lit/decorators.js';
  */
 @customElement('lit-counter')
 export class LitCounter extends LitElement {
-  /**
-   * The number of times the button has been clicked.
-   */
-  @property({ type: Number })
-  count = 0;
-
-  firstUpdated(): void {
-    console.log('first updated');
-  }
-
-  render() {
-    return html`
-      <div class="card">
-        <h3>Lit Counter</h3>
-        <button @click=${this._onClick} part="button">count is ${this.count}</button>
-      </div>
-    `;
-  }
-
-  private _onClick() {
-    this.count++;
-  }
-
   static styles = css`
     :host {
       max-width: 1280px;
@@ -60,6 +37,28 @@ export class LitCounter extends LitElement {
       color: #f9f9f9;
     }
   `;
+  /**
+   * The number of times the button has been clicked.
+   */
+  @property({ type: Number })
+  count = 0;
+
+  firstUpdated(): void {
+    console.log('first updated');
+  }
+
+  render() {
+    return html`
+      <div class="card">
+        <h3>Lit Counter</h3>
+        <button @click=${this._onClick} part="button">count is ${this.count}</button>
+      </div>
+    `;
+  }
+
+  private _onClick() {
+    this.count++;
+  }
 }
 
 export default function (block: HTMLElement) {

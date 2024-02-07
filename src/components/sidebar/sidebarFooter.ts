@@ -1,15 +1,11 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { fetchText } from "../../utils/fetch.ts";
+import { fetchText } from '../../utils/fetch.ts';
 
 @customElement('sidebar-footer')
 export class SidebarFooter extends LitElement {
   @state()
   footerMarkup: HTMLParagraphElement | null;
-
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
-  }
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -17,7 +13,7 @@ export class SidebarFooter extends LitElement {
   }
 
   async fetchFooterData() {
-    const response = await fetchText( 'footer.plain.html' );
+    const response = await fetchText('footer.plain.html');
     const responseMarkup = document.createElement('div');
     responseMarkup.innerHTML = response;
     this.footerMarkup = responseMarkup.querySelector('p');
@@ -27,5 +23,9 @@ export class SidebarFooter extends LitElement {
   render() {
     if (!this.footerMarkup) return;
     return html`${this.footerMarkup}`;
+  }
+
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
   }
 }

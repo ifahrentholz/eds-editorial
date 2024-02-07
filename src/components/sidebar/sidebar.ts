@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 import { debounce } from '@kluntje/js-utils/lib/function-helpers/decorators';
 
@@ -12,19 +12,10 @@ export class SidebarComponent extends LitElement {
   @query('.toggle')
   toggle: HTMLAnchorElement;
 
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
-  }
-
   connectedCallback(): void {
     super.connectedCallback();
     this.setInitialVisibility();
     window.addEventListener('resize', this.setInitialVisibility.bind(this));
-  }
-
-  @debounce(100)
-  private setInitialVisibility() {
-    window.innerWidth <= 1280 ? this.classList.add('inactive') : this.classList.remove('inactive');
   }
 
   firstUpdated(): void {
@@ -48,5 +39,14 @@ export class SidebarComponent extends LitElement {
         ><icon-component name="hamburger"></icon-component
       ></a>
     `;
+  }
+
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
+  }
+
+  @debounce(100)
+  private setInitialVisibility() {
+    window.innerWidth <= 1280 ? this.classList.add('inactive') : this.classList.remove('inactive');
   }
 }

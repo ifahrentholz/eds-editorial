@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { until } from 'lit/directives/until.js';
@@ -7,6 +7,17 @@ const modules = import.meta.glob('/src/icons/*.svg', { as: 'raw' });
 
 @customElement('icon-component')
 export class Icon extends LitElement {
+  static styles = css`
+    :host {
+      display: flex;
+      align-items: center;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+  `;
   @property({ type: String })
   name: string = '';
 
@@ -21,16 +32,4 @@ export class Icon extends LitElement {
     const svg = this.getSvg(this.name);
     return html`${until(svg)}`;
   }
-
-  static styles = css`
-    :host {
-      display: flex;
-      align-items: center;
-    }
-
-    svg {
-      width: 100%;
-      height: auto;
-    }
-  `;
 }

@@ -6,7 +6,7 @@ export const fetchData = async (endpoint: string, init?: RequestInit): Promise<R
   const cache = fetchCache.get(url);
 
   if (cache !== null) {
-    return  cache;
+    return cache;
   }
 
   const response = await fetch(url, init);

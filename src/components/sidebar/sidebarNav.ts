@@ -26,10 +26,6 @@ export class SidebarNav extends LitElement {
     this.sheetService = new SheetService();
   }
 
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
-  }
-
   async firstUpdated() {
     this.items = await this.groupByFirstLevelPath();
   }
@@ -42,6 +38,40 @@ export class SidebarNav extends LitElement {
       </header>
       ${this.renderMenuItems()}
     </nav>`;
+  }
+
+  groupByFirstLevelPath = async () => {
+    const groups = {};
+    const sitemap = await this.sheetService.getSiteMap();
+
+    sitemap.forEach((item) => {
+      const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
+      if (!groups[firstLevelPath]) {
+        groups[firstLevelPath] = [];
+      }
+      groups[firstLevelPath].push({
+        path: item.path,
+        navtitle: this.getNavTitle(item),
+      });
+    });
+
+    const groupedData = Object.values(groups);
+
+    return groupedData.map((group: MenuItem[]) => {
+      if (group.length === 1) {
+        return group[0];
+      }
+
+      return {
+        navtitle: group[0].path.split('/')[1],
+        path: group[0].path,
+        children: group,
+      };
+    });
+  };
+
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
   }
 
   private toggleSubmenu({ currentTarget }: Event) {
@@ -79,34 +109,4 @@ export class SidebarNav extends LitElement {
     if (item.path === '/') return 'Homepage';
     return item.navtitle || item.title;
   }
-
-  groupByFirstLevelPath = async () => {
-    const groups = {};
-    const sitemap = await this.sheetService.getSiteMap();
-
-    sitemap.forEach((item) => {
-      const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
-      if (!groups[firstLevelPath]) {
-        groups[firstLevelPath] = [];
-      }
-      groups[firstLevelPath].push({
-        path: item.path,
-        navtitle: this.getNavTitle(item),
-      });
-    });
-
-    const groupedData = Object.values(groups);
-
-    return groupedData.map((group: MenuItem[]) => {
-      if (group.length === 1) {
-        return group[0];
-      }
-
-      return {
-        navtitle: group[0].path.split('/')[1],
-        path: group[0].path,
-        children: group,
-      };
-    });
-  };
 }

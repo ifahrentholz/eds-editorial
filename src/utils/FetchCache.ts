@@ -28,14 +28,14 @@ export class FetchCache {
     }
   };
 
-  public get = (url: string): Response | null  => {
+  public get = (url: string): Response | null => {
     const cacheRecord = this.cache.find((cacheEntry) => cacheEntry.url === url);
 
     if (cacheRecord) {
       return cacheRecord.result;
     }
 
-    return null
+    return null;
   };
 
   public recordExists = (url: string): boolean => {

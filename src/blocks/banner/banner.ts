@@ -21,7 +21,7 @@ const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) 
         <ul class="actions">
           ${buttons?.map(
             (button) =>
-              html`<li>
+              html` <li>
                 <a href="${button.href}" class="button big">${button.innerText}</a>
               </li>`
           )}

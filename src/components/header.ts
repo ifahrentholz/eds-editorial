@@ -1,6 +1,6 @@
-import { LitElement, PropertyValueMap, html } from 'lit';
+import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { fetchJson } from "../utils/fetch.ts";
+import { fetchJson } from '../utils/fetch.ts';
 
 export interface HeaderResponseData {
   leftCol: LeftCol;
@@ -36,14 +36,6 @@ export class HeaderComponent extends LitElement {
   @state()
   headerData: HeaderTemplateData;
 
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
-  }
-
-  protected async firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
-    await this.fetchHeaderData();
-  }
-
   async fetchHeaderData() {
     try {
       const response = await fetchJson<HeaderResponseData>('header.json');
@@ -71,5 +63,13 @@ export class HeaderComponent extends LitElement {
         })}
       </ul>
     `;
+  }
+
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
+  }
+
+  protected async firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+    await this.fetchHeaderData();
   }
 }
