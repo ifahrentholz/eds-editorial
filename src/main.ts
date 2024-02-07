@@ -10,7 +10,7 @@ import { MainService } from './services/main.service.ts';
   const blockService = new BlockService();
   const sectionService = new SectionService(blockService);
   const main = new MainService(sectionService, blockService);
-  await main.initialize();
+  await main.init();
 })();
 
 declare global {

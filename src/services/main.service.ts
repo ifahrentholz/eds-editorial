@@ -3,10 +3,10 @@ import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 
-interface BlockMapping {
+type BlockMapping = {
   name: string;
   element: HTMLDivElement;
-}
+};
 
 export class MainService {
   constructor(
@@ -14,66 +14,57 @@ export class MainService {
     private blockService: BlockService
   ) {}
 
-  public async initialize() {
-    this.setupEnvironment();
-    await this.loadContent();
-  }
+  init = async () => {
+    this.setup();
+    await this.loadEager();
+  };
 
-  private setupEnvironment() {
-    this.setupHlxGlobals();
-    this.extractCodeBasePath();
-  }
-
-  private setupHlxGlobals() {
+  /**
+   * Setup block utils.
+   */
+  private setup() {
     window.hlx = window.hlx || {};
     window.hlx.RUM_MASK_URL = 'full';
     window.hlx.codeBasePath = '';
     window.hlx.lighthouse = new URLSearchParams(window.location.search).get('lighthouse') === 'on';
-  }
 
-  private extractCodeBasePath() {
     const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
     if (scriptEl) {
       try {
         [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
       } catch (error) {
-        console.error('Error extracting code base path:', error);
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     }
   }
 
-  private async loadContent() {
+  private loadEager = async () => {
+    // TODO: how to support different languages here
     document.documentElement.lang = 'en';
     this.decorateTemplateAndTheme();
-    this.hideBody();
+    if (document) {
+      const body = document.querySelector('body');
+      if (body) {
+        body.style.display = 'none';
+      }
+    }
     const main = document.querySelector('main');
     if (main) {
-      this.configureMainElement(main);
-      this.initializeServices(main);
-      await this.loadBlocks(main);
-      this.revealBody();
+      main.setAttribute('id', 'main');
+      this.addSidebarContainer(main);
+      this.sectionService.init(main);
+      this.addInnerContainer(main); // TODO refactor initializing
+      this.blockService.decorateBlocks(main);
+      await this.loadBlocks();
+      // TODO: Performace adjustment
+      setTimeout(() => {
+        document.body.removeAttribute('style');
+      }, 200);
+
+      // await this.waitForLCP(LCP_BLOCKS);
     }
-  }
-
-  private decorateTemplateAndTheme() {
-    const template = getMetadata('template');
-    if (template) addClasses(document.body, template);
-    const theme = getMetadata('theme');
-    if (theme) addClasses(document.body, theme);
-  }
-
-  private hideBody() {
-    const body = document.querySelector('body');
-    if (body) {
-      body.style.display = 'none';
-    }
-  }
-
-  private configureMainElement(main: HTMLElement) {
-    main.setAttribute('id', 'main');
-    this.addSidebarContainer(main);
-    this.addInnerContainer(main);
-  }
+  };
 
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement('sidebar-component');
@@ -89,59 +80,56 @@ export class MainService {
     main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
   }
 
-  private initializeServices(main: HTMLElement) {
-    this.sectionService.init(main);
-    this.blockService.decorateBlocks(main);
+  // private loadLazy = async () => {};
+
+  private decorateTemplateAndTheme() {
+    const template = getMetadata('template');
+    if (template) addClasses(document.body, template);
+    const theme = getMetadata('theme');
+    if (theme) addClasses(document.body, theme);
   }
 
-  private async loadBlocks(main: HTMLElement) {
-    const sections = main.querySelectorAll<HTMLElement>('.section');
-    for (const section of sections) {
-      await this.loadSectionBlocks(section);
-    }
-  }
+  private loadBlocks = async () => {
+    const sections = document.querySelectorAll<HTMLElement>('.section');
 
-  private async loadSectionBlocks(section: HTMLElement) {
-    const blocks: BlockMapping[] = this.collectBlocks(section);
-    if (blocks.length === 0) {
+    sections.forEach(async (section) => {
+      const blocks: BlockMapping[] = this.collectBlocks(section);
+      if (!blocks.length) {
+        this.showSection(section);
+        return;
+      }
+
+      await this.loadBlockModules(blocks);
       this.showSection(section);
-      return;
-    }
-    await this.loadBlockModules(blocks);
-    this.showSection(section);
-  }
+    });
+  };
 
   private collectBlocks(section: HTMLElement): BlockMapping[] {
-    const blocks: BlockMapping[] = [];
-    const blockElements = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
-    blockElements.forEach((block) => {
+    const blockMap: BlockMapping[] = [];
+    const blocksElements = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
+
+    blocksElements.forEach((block: HTMLDivElement) => {
       block.style.display = 'none';
-      blocks.push({
+      blockMap.push({
         name: block.dataset['blockName'] as string,
         element: block,
       });
     });
-    return blocks;
+
+    return blockMap;
   }
 
   private async loadBlockModules(blocks: BlockMapping[]) {
     for (const block of blocks) {
-      try {
-        const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
-        if (blockModule.default) {
-          await blockModule.default(block.element);
-        }
-      } catch (error) {
-        console.error(`Error loading block module ${block.name}:`, error);
+      const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+
+      if (blockModule.default) {
+        await blockModule.default(block.element);
       }
     }
   }
 
   private showSection(section: HTMLElement) {
     section.style.removeProperty('display');
-  }
-
-  private revealBody() {
-    document.body.removeAttribute('style');
   }
 }
