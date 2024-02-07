@@ -11,8 +11,8 @@ interface Contact {
 export declare class SidebarContact extends LitElement {
     contactTemplateArgs: SidebarContactTemplateArgs;
     protected createRenderRoot(): HTMLElement | DocumentFragment;
-    connectedCallback(): void;
+    connectedCallback(): Promise<void>;
     fetchContactData(): Promise<void>;
-    render(): import("lit-html").TemplateResult<1>;
+    render(): import("lit-html").TemplateResult<1> | undefined;
 }
 export {};
