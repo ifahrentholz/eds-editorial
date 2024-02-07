@@ -1,5 +1,7 @@
 import { html, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
+import { fetchText } from '../../utils/fetch.ts';
+import { SiteMapEntry } from '../../services/sheet.service.ts';
 
 interface PostArgs {
   postUrl: string;
@@ -37,14 +39,11 @@ export default async function (block: HTMLElement) {
   });
 
   const postsPreview = await Promise.all(
-    data.map(async (post) => {
-      const result = await fetch(`${window.hlx.codeBasePath}${post.path}.plain.html`);
-      return result.text();
-    })
+    data.map(async (post: SiteMapEntry) => await fetchText(`${post.path}.plain.html`))
   );
 
   const postsPreviewHtml = postsPreview.map((res) => {
-    var parser = new DOMParser();
+    const parser = new DOMParser();
     return parser.parseFromString(res, 'text/html');
   });
 
