@@ -10,9 +10,6 @@ interface TemplateArgs {
 }
 
 const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) => {
-  // if (picture) {
-  //   picture.querySelector('img')?.removeAttribute('loading');
-  // }
   return html`
     <div id="banner">
       <div class="content">
