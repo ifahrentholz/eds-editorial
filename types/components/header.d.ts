@@ -24,9 +24,9 @@ interface HeaderTemplateData {
 }
 export declare class HeaderComponent extends LitElement {
     headerData: HeaderTemplateData;
-    protected createRenderRoot(): HTMLElement | DocumentFragment;
-    protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): Promise<void>;
     fetchHeaderData(): Promise<void>;
     render(): import("lit-html").TemplateResult<1> | undefined;
+    protected createRenderRoot(): HTMLElement | DocumentFragment;
+    protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): Promise<void>;
 }
 export {};

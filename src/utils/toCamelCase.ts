@@ -1,4 +1,4 @@
-import { toClassName } from "./toClassName";
+import { toClassName } from './toClassName';
 
 /**
  * Sanitizes a string for use as a js property name.

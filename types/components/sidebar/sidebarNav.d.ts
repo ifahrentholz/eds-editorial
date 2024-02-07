@@ -13,15 +13,15 @@ export declare class SidebarNav extends LitElement {
     items: MenuItem[];
     private sheetService;
     constructor();
-    protected createRenderRoot(): HTMLElement | DocumentFragment;
     firstUpdated(): Promise<void>;
     render(): import("lit-html").TemplateResult<1> | undefined;
+    groupByFirstLevelPath: () => Promise<MenuItem[]>;
+    protected createRenderRoot(): HTMLElement | DocumentFragment;
     private toggleSubmenu;
     private renderSubMenu;
     private renderMenuItem;
     private renderMenuItems;
     private getSubmenuName;
     private getNavTitle;
-    groupByFirstLevelPath: () => Promise<MenuItem[]>;
 }
 export {};

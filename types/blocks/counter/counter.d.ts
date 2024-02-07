@@ -6,6 +6,7 @@ import { LitElement } from 'lit';
  * @csspart button - The button
  */
 export declare class LitCounter extends LitElement {
+    static styles: import("lit").CSSResult;
     /**
      * The number of times the button has been clicked.
      */
@@ -13,7 +14,6 @@ export declare class LitCounter extends LitElement {
     firstUpdated(): void;
     render(): import("lit-html").TemplateResult<1>;
     private _onClick;
-    static styles: import("lit").CSSResult;
 }
 export default function (block: HTMLElement): void;
 declare global {
