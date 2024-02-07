@@ -59,7 +59,7 @@ export class SidebarNav extends LitElement {
       </ul>`;
   }
 
-  private renderMenuItem(item) {
+  private renderMenuItem(item: MenuItem) {
     return html` <li>
       ${item.children !== undefined ? this.renderSubMenu(item) : html`<a href="${item.path}">${item.navtitle}</a>`}
     </li>`;
@@ -67,7 +67,7 @@ export class SidebarNav extends LitElement {
 
   private renderMenuItems() {
     return html` <ul>
-      ${this.items.map((item) => this.renderMenuItem(item))}
+      ${this.items.map((item: MenuItem) => this.renderMenuItem(item))}
     </ul>`;
   }
 
