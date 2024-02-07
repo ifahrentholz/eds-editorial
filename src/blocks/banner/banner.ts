@@ -41,6 +41,8 @@ export default function (block: HTMLElement) {
   const texts = firstRow ? [...firstRow.querySelectorAll('p')] : [];
   const buttons = [...secondRow?.querySelectorAll('a')];
   const picture = firstRow?.querySelector('picture') || undefined;
+  const img = picture?.querySelector('img');
+  img?.setAttribute('loading', 'eager');
 
   block.innerHTML = '';
 
