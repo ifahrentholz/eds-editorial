@@ -9,10 +9,8 @@ interface TemplateArgs {
   buttons?: HTMLAnchorElement[];
 }
 
-const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) => {
-  // if (picture) {
-  //   picture.querySelector('img')?.removeAttribute('loading');
-  // }
+const template = (args: TemplateArgs) => {
+  const { headline, subline, texts, buttons, picture } = args;
   return html`
     <div id="banner">
       <div class="content">

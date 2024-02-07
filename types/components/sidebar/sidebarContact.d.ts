@@ -1,7 +1,7 @@
 import { LitElement } from 'lit';
 interface SidebarContactTemplateArgs {
-    headline: HTMLHeadingElement;
-    text: HTMLParagraphElement;
+    headline?: HTMLHeadingElement;
+    text?: HTMLParagraphElement;
     contacts: Contact[];
 }
 interface Contact {
