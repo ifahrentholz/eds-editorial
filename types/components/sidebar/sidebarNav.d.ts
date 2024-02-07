@@ -8,8 +8,6 @@ export type SiteMapEntry = {
     image: string;
     imagealt: string;
     navtitle: string;
-    'nav-test': string;
-    imageAlt: string;
 };
 interface SubMenuItem {
     path: string;

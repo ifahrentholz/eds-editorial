@@ -14,22 +14,22 @@ interface SheetsResponse {
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {
   @state()
-  private lastTreePosts: SiteMapEntry[];
+  private lastThreePosts: SiteMapEntry[];
 
   async connectedCallback() {
     super.connectedCallback();
     const sitemap = await this.fetchSitemap();
     const posts = this.getPosts(sitemap);
-    this.lastTreePosts = this.getLastThreePosts(posts);
+    this.lastThreePosts = this.getLastThreePosts(posts);
   }
 
   render() {
-    if (!this.lastTreePosts) return;
+    if (!this.lastThreePosts) return;
     return html`
       <header class="major">
         <h2>Newest Posts</h2>
       </header>
-      <div class="mini-posts">${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}</div>
+      <div class="mini-posts">${this.lastThreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}</div>
     `;
 
     //TODO: Add overview if more button is needed
@@ -65,7 +65,7 @@ export class SidebarPosts extends LitElement {
   private renderPost(siteMapEntry: SiteMapEntry) {
     return html` <article>
       <a href="${siteMapEntry.path}" class="image">
-        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imageAlt })}
+        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imagealt })}
       </a>
       <p>${siteMapEntry.description}</p>
     </article>`;
