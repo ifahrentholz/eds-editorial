@@ -44,7 +44,9 @@ export class SidebarComponent extends LitElement {
         <sidebar-contact></sidebar-contact>
         <sidebar-footer id="footer"></sidebar-footer>
       </div>
-      <a href="#sidebar" class="toggle hamburger-icon"><icon-component name="hamburger"></icon-component></a>
+      <a href="#sidebar" class="toggle hamburger-icon" aria-label="Sidebar toggle"
+        ><icon-component name="hamburger"></icon-component
+      ></a>
     `;
   }
 }
