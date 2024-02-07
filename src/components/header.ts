@@ -62,7 +62,7 @@ export class HeaderComponent extends LitElement {
         ${rightCol.map((item) => {
           return html`
             <li>
-              <a href="${item.socialLink}" class="icon brands">
+              <a href="${item.socialLink}" class="icon brands" aria-label="${item.socialLabel}">
                 <icon-component class="header-icon" name="${item.socialIcon}"></icon-component>
                 <span class="label">${item.socialLabel}</span></a
               >

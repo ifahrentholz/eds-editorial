@@ -46,6 +46,7 @@ export class SidebarContact extends LitElement {
   }
 
   render() {
+    if (!this.contactTemplateArgs) return;
     const { headline, text, contacts } = this.contactTemplateArgs;
     return html`
       <section>
