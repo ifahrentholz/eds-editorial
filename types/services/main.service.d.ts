@@ -13,8 +13,8 @@ export declare class MainService {
     private addSidebarContainer;
     private addInnerContainer;
     private decorateTemplateAndTheme;
-    private loadComponents;
-    private collectComponents;
-    private loadComponentModules;
+    private loadBlocks;
+    private collectBlocks;
+    private loadBlockModules;
     private showSection;
 }

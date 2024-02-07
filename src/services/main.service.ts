@@ -3,7 +3,7 @@ import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 
-type ComponentMapping = {
+type BlockMapping = {
   name: string;
   element: HTMLDivElement;
 };
@@ -56,7 +56,7 @@ export class MainService {
       this.sectionService.init(main);
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
-      await this.loadComponents();
+      await this.loadBlocks();
       // TODO: Performace adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
@@ -89,42 +89,42 @@ export class MainService {
     if (theme) addClasses(document.body, theme);
   }
 
-  private loadComponents = async () => {
+  private loadBlocks = async () => {
     const sections = document.querySelectorAll<HTMLElement>('.section');
 
     sections.forEach(async (section) => {
-      const components: ComponentMapping[] = this.collectComponents(section);
-      if (!components.length) {
+      const blocks: BlockMapping[] = this.collectBlocks(section);
+      if (!blocks.length) {
         this.showSection(section);
         return;
       }
 
-      await this.loadComponentModules(components);
+      await this.loadBlockModules(blocks);
       this.showSection(section);
     });
   };
 
-  private collectComponents(section: HTMLElement): ComponentMapping[] {
-    const components: ComponentMapping[] = [];
-    const blocks = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
+  private collectBlocks(section: HTMLElement): BlockMapping[] {
+    const blockMap: BlockMapping[] = [];
+    const blocksElements = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
 
-    blocks.forEach((block: HTMLDivElement) => {
+    blocksElements.forEach((block: HTMLDivElement) => {
       block.style.display = 'none';
-      components.push({
+      blockMap.push({
         name: block.dataset['blockName'] as string,
         element: block,
       });
     });
 
-    return components;
+    return blockMap;
   }
 
-  private async loadComponentModules(components: ComponentMapping[]) {
-    for (const component of components) {
-      const componentModule = await import(`${window.hlx.codeBasePath}/dist/${component.name}/${component.name}.js`);
+  private async loadBlockModules(blocks: BlockMapping[]) {
+    for (const block of blocks) {
+      const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
 
-      if (componentModule.default) {
-        await componentModule.default(component.element);
+      if (blockModule.default) {
+        await blockModule.default(block.element);
       }
     }
   }
