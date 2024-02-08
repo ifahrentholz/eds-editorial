@@ -3,19 +3,21 @@ import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { fetchText } from '../../utils/fetch.ts';
 
+interface SidebarContactTemplateArgs {
+  headline: HTMLElement | null;
+  text: HTMLElement | null;
+  contacts: Contact[];
+}
+
 interface Contact {
-  contactIcon: string;
-  contactMarkup: string;
+  contactIcon: HTMLElement | null;
+  contactMarkup: HTMLElement | null;
 }
 
 @customElement('sidebar-contact')
 export class SidebarContact extends LitElement {
   @state()
-  private text: HTMLParagraphElement;
-  @state()
-  private headline: HTMLHeadingElement;
-  @state()
-  private contacts: Contact[];
+  contactTemplateArgs: SidebarContactTemplateArgs;
 
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
@@ -23,62 +25,60 @@ export class SidebarContact extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
-    const contactData = await this.fetchContactData();
-    const contactMarkup = this.getContactMarkup(contactData);
-
-    this.text = this.getContactText(contactMarkup);
-    this.headline = this.getHeadline(contactMarkup);
-    this.contacts = this.getContacts(contactMarkup);
+    await this.fetchContactData();
   }
 
   async fetchContactData() {
-    return await fetchText('contact.plain.html');
+    const parser = new DOMParser();
+    const contactHtmlString = await fetchText('contact.plain.html');
+    const contactHtml = parser.parseFromString(contactHtmlString, 'text/html');
+
+    const headline = contactHtml.querySelector('h2');
+    const text = contactHtml.querySelector('p');
+    const contactsElement = contactHtml.querySelectorAll('.contact > div:not(:first-child)');
+    const contactsArray = Array.from(contactsElement);
+
+    const contacts = this.getContactsArgs(contactsArray);
+    const responseMarkup = document.createElement('div');
+
+    responseMarkup.innerHTML = contactHtmlString;
+
+    this.contactTemplateArgs = {
+      headline,
+      text,
+      contacts,
+    };
   }
 
   render() {
-    if (!this.contacts) return ;
+    if (!this.contactTemplateArgs) return;
+
+    const { headline, text, contacts } = this.contactTemplateArgs;
 
     return html`
       <section>
-        <header class="major">${this.headline}</header>
-        ${this.text}
+        <header class="major">${headline}</header>
+        ${text}
         <ul class="contact">
-          ${this.contacts.map((contact) => {
-      return html` <li class="icon solid">
-              <icon-component name="${contact.contactIcon}"></icon-component>
-              ${unsafeHTML(contact.contactMarkup)}
-            </li>`;
-    })}
+          ${contacts.map((contact) => this.renderContact(contact))}
         </ul>
       </section>
     `;
   }
 
-  private getContacts(responseMarkup: HTMLDivElement) {
-    const contactElements = Array.from(responseMarkup.querySelectorAll('.contact > div:not(:first-child)'));
-
-    return contactElements.map((contactElement) => this.getContact(contactElement));
+  private renderContact(contact: Contact) {
+    return html` <li class="icon solid">
+      <icon-component name="${contact.contactIcon?.innerHTML}"></icon-component>
+      ${unsafeHTML(contact.contactMarkup?.innerHTML)}
+    </li>`;
   }
 
-  private getContactText(contactMarkup) {
-    return contactMarkup.querySelector('p') as HTMLParagraphElement;
-  }
-
-  private getContactMarkup(contactData) {
-    const contactMarkup = document.createElement('div');
-    contactMarkup.innerHTML = contactData;
-
-    return contactMarkup;
-  }
-
-  private getHeadline(contactMarkup: HTMLDivElement) {
-    return contactMarkup.querySelector('h2') as HTMLHeadingElement;
-  }
-
-  private getContact(contactElement: Element) {
-    return {
-      contactIcon: contactElement.querySelector('div')?.innerText as string,
-      contactMarkup: contactElement.querySelector('div:last-child')?.innerHTML as string,
-    };
+  private getContactsArgs(contactsArray: Element[]): Contact[] {
+    return contactsArray.map((contactElement) => {
+      return {
+        contactIcon: contactElement.querySelector('div'),
+        contactMarkup: contactElement.querySelector('div:last-child'),
+      };
+    });
   }
 }
