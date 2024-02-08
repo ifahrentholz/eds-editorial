@@ -1,7 +1,9 @@
 import { html, LitElement } from 'lit';
+import { fetchData } from '../../utils/fetchData.ts';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
-import { SheetService, Sitemap, SiteMapEntry } from '../../services/sheet.service.ts';
+import { SheetService  } from '../../services/sheet.service.ts';
+import { Sitemap, SiteMapEntry, SitemapResponse } from '../../shared.types.ts';
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {
@@ -58,7 +60,7 @@ export class SidebarPosts extends LitElement {
   private renderPost(siteMapEntry: SiteMapEntry) {
     return html` <article>
       <a href="${siteMapEntry.path}" class="image">
-        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imageAlt })}
+        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imagealt })}
       </a>
       <p>${siteMapEntry.description}</p>
     </article>`;

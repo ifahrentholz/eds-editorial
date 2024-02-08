@@ -2,7 +2,8 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
-import { SheetService, SiteMapEntry } from '../../services/sheet.service.ts';
+import { SheetService } from '../../services/sheet.service.ts';
+import { SiteMapEntry } from '../../shared.types';
 
 interface SubMenuItem {
   path: string;
