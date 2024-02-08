@@ -1,7 +1,7 @@
 import { html, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import { fetchText } from '../../utils/fetch.ts';
-import { SiteMapEntry } from '../../services/sheet.service.ts';
+import { SheetService } from '../../services/sheet.service.ts';
 
 interface PostArgs {
   postUrl: string;
@@ -31,28 +31,27 @@ const template = (posts: PostArgs[]) => {
 export default async function (block: HTMLElement) {
   block.innerHTML = '';
 
-  const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
-  const response = await req.json();
+  const sheetService = new SheetService();
+  const parser = new DOMParser();
 
-  const data = response.data.filter((item) => {
-    return item.path.includes('/posts');
-  });
+  const siteMap = await sheetService.getSiteMap();
+  const siteMapPostEntries = siteMap.filter((item) => item.path.includes('/posts'));
 
   const postsPreview = await Promise.all(
-    data.map(async (post: SiteMapEntry) => await fetchText(`${post.path}.plain.html`))
+    siteMapPostEntries.map(async (post) => await fetchText(`${post.path}.plain.html`))
   );
 
-  const postsPreviewHtml = postsPreview.map((res) => {
-    const parser = new DOMParser();
-    return parser.parseFromString(res, 'text/html');
-  });
+  const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
 
   const posts = postsPreviewHtml.map((doc, index) => {
     return {
-      postUrl: `${window.hlx.codeBasePath}${data[index].path}`,
+      postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: doc.querySelector('p')?.innerText?.trim(),
-      picture: createOptimizedPicture({ src: data[index].image, alt: data[index].imagealt }),
+      picture: createOptimizedPicture({
+        src: siteMapPostEntries[index].image,
+        alt: siteMapPostEntries[index].imagealt,
+      }),
     };
   });
 
