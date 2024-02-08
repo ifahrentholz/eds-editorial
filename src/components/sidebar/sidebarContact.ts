@@ -25,29 +25,14 @@ export class SidebarContact extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
-    await this.fetchContactData();
+    const contactHtml = await this.fetchContactsHtml();
+    this.getContactTemplateArgs(contactHtml);
   }
 
-  async fetchContactData() {
+  async fetchContactsHtml() {
     const parser = new DOMParser();
     const contactHtmlString = await fetchText('contact.plain.html');
-    const contactHtml = parser.parseFromString(contactHtmlString, 'text/html');
-
-    const headline = contactHtml.querySelector('h2');
-    const text = contactHtml.querySelector('p');
-    const contactsElement = contactHtml.querySelectorAll('.contact > div:not(:first-child)');
-    const contactsArray = Array.from(contactsElement);
-
-    const contacts = this.getContactsArgs(contactsArray);
-    const responseMarkup = document.createElement('div');
-
-    responseMarkup.innerHTML = contactHtmlString;
-
-    this.contactTemplateArgs = {
-      headline,
-      text,
-      contacts,
-    };
+    return parser.parseFromString(contactHtmlString, 'text/html');
   }
 
   render() {
@@ -73,12 +58,27 @@ export class SidebarContact extends LitElement {
     </li>`;
   }
 
-  private getContactsArgs(contactsArray: Element[]): Contact[] {
+  private getContactsArgs(contactHtml: Document): Contact[] {
+    const contactsElement = contactHtml.querySelectorAll('.contact > div:not(:first-child)');
+    const contactsArray = Array.from(contactsElement);
+
     return contactsArray.map((contactElement) => {
       return {
         contactIcon: contactElement.querySelector('div'),
         contactMarkup: contactElement.querySelector('div:last-child'),
       };
     });
+  }
+
+  private getContactTemplateArgs(contactHtml: Document) {
+    const headline = contactHtml.querySelector('h2');
+    const text = contactHtml.querySelector('p');
+    const contacts = this.getContactsArgs(contactHtml);
+
+    this.contactTemplateArgs = {
+      headline,
+      text,
+      contacts,
+    };
   }
 }
