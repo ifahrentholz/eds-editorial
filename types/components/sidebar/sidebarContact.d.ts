@@ -1,18 +1,15 @@
 import { LitElement } from 'lit';
-interface SidebarContactTemplateArgs {
-    headline: HTMLHeadingElement;
-    text: HTMLParagraphElement;
-    contacts: Contact[];
-}
-interface Contact {
-    contactIcon: string;
-    contactMarkup: string;
-}
 export declare class SidebarContact extends LitElement {
-    contactTemplateArgs: SidebarContactTemplateArgs;
+    private text;
+    private headline;
+    private contacts;
     protected createRenderRoot(): HTMLElement | DocumentFragment;
-    connectedCallback(): void;
-    fetchContactData(): Promise<void>;
+    connectedCallback(): Promise<void>;
+    fetchContactData(): Promise<string>;
     render(): import("lit-html").TemplateResult<1> | undefined;
+    private getContacts;
+    private getContactText;
+    private getContactMarkup;
+    private getHeadline;
+    private getContact;
 }
-export {};
