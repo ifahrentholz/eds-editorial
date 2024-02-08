@@ -23,9 +23,9 @@ export class SidebarContact extends LitElement {
     return this;
   }
 
-  connectedCallback(): void {
+  async connectedCallback() {
     super.connectedCallback();
-    this.fetchContactData();
+    await this.fetchContactData();
   }
 
   async fetchContactData() {
@@ -46,18 +46,21 @@ export class SidebarContact extends LitElement {
   }
 
   render() {
+    if (!this.contactTemplateArgs) return;
+
     const { headline, text, contacts } = this.contactTemplateArgs;
+
     return html`
       <section>
         <header class="major">${headline}</header>
         ${text}
         <ul class="contact">
           ${contacts.map((item) => {
-            return html` <li class="icon solid">
+      return html` <li class="icon solid">
               <icon-component name="${item.contactIcon}"></icon-component>
               ${unsafeHTML(item.contactMarkup)}
             </li>`;
-          })}
+    })}
         </ul>
       </section>
     `;
