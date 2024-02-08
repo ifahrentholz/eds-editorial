@@ -2,12 +2,10 @@ export type SiteMapEntry = {
   path: string;
   title: string;
   description: string;
-  lastModified: string; // Assuming this is a string representing a timestamp
+  lastModified: string;
   image: string;
   imagealt: string;
   navtitle: string;
-  'nav-test': string;
-  imageAlt: string;
 };
 
 export type Sitemap = SiteMapEntry[];
