@@ -54,12 +54,12 @@ export class SidebarNav extends LitElement {
         <span class="submenu__text">${item.navtitle} </span>
         <icon-component class="submenu__icon" name="chevron-down"></icon-component>
       </span>
-      <ul>
-        ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
-      </ul>`;
+    <ul>
+      ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
+    </ul>`;
   }
 
-  private renderMenuItem(item) {
+  private renderMenuItem(item: MenuItem) {
     return html` <li>
       ${item.children !== undefined ? this.renderSubMenu(item) : html`<a href="${item.path}">${item.navtitle}</a>`}
     </li>`;
@@ -67,7 +67,7 @@ export class SidebarNav extends LitElement {
 
   private renderMenuItems() {
     return html` <ul>
-      ${this.items.map((item) => this.renderMenuItem(item))}
+      ${this.items.map((item: MenuItem) => this.renderMenuItem(item))}
     </ul>`;
   }
 
