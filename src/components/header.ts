@@ -1,6 +1,8 @@
 import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { fetchJson } from '../utils/fetch.ts';
+import { replaceBySpecifier } from "../utils/replaceBySpecifier.ts";
+import { unsafeHTML } from "lit-html/directives/unsafe-html.js";
 
 export interface HeaderResponseData {
   leftCol: LeftCol;
@@ -56,12 +58,16 @@ export class HeaderComponent extends LitElement {
   render() {
     if (!this.headerData) return;
     const { leftCol, rightCol } = this.headerData;
+    const logoText = replaceBySpecifier({ input: leftCol.logoText, htmlTag: 'strong', specifier: ':::' });
+    const logoTextHTML = unsafeHTML(logoText);
     return html`
+      <a href="${leftCol.logoLink}" class="logo"> ${logoTextHTML} </a>
       <a href="${leftCol.logoLink}" class="logo">${leftCol.logoText}</a>
       <ul class="icons">
         ${rightCol.map((item) => {
           return html`
             <li>
+              <a href="${item.socialLink}" class="icon brands" aria-label="${item.socialLabel}">
               <a href="${item.socialLink}" class="icon brands">
                 <icon-component class="header-icon" name="${item.socialIcon}"></icon-component>
                 <span class="label">${item.socialLabel}</span></a
