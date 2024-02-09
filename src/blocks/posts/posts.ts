@@ -16,7 +16,7 @@ const postTemplate = (args: PostArgs) => {
       <h3>${headline}</h3>
       <p>${text?.slice(0, 200)}</p>
       <ul class="actions">
-        <li><a href="${postUrl}" class="button">More</a></li>
+        <li><a href="${postUrl}" class="button">Goto Post</a></li>
       </ul>
     </article>
   `;
