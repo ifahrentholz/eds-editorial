@@ -506,7 +506,7 @@ async function fetchPlaceholders(prefix = 'default') {
  * @param {Element} main The container element
  */
 function updateSectionsStatus(main) {
-  const sections = [...main.querySelectorAll(':scope > div.section')];
+  const sections = [...main.querySelectorAll(':scope .section')];
   for (let i = 0; i < sections.length; i += 1) {
     const section = sections[i];
     const status = section.dataset.sectionStatus;
@@ -566,11 +566,11 @@ async function loadBlock(block) {
     block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
     try {
-      const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
+      //const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/${blockName}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {
         (async () => {
           try {
-            const mod = await import(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.js`);
+            const mod = await import(`${window.hlx.codeBasePath}/dist/${blockName}/${blockName}.js`);
             if (mod.default) {
               await mod.default(block);
             }
@@ -581,7 +581,8 @@ async function loadBlock(block) {
           resolve();
         })();
       });
-      await Promise.all([cssLoaded, decorationComplete]);
+      //await Promise.all([cssLoaded, decorationComplete]);
+      await decorationComplete;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(`failed to load block ${blockName}`, error);

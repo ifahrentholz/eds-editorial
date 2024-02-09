@@ -13,6 +13,9 @@ import {
   loadCSS,
 } from './aem.js';
 
+import '../../dist/header/header.js';
+import '../../dist/sidebar/sidebar.js';
+
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
 /**
@@ -62,11 +65,28 @@ function buildAutoBlocks(main) {
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
+  main.setAttribute('id', 'main');
+  addSidebarContainer(main);
   decorateButtons(main);
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  addInnerContainer(main);
   decorateBlocks(main);
+}
+
+function addSidebarContainer(main) {
+  const sidebarContainer = document.createElement('sidebar-component');
+  sidebarContainer.setAttribute('id', 'sidebar');
+  window.innerWidth <= 1280
+    ? sidebarContainer.classList.add('inactive')
+    : sidebarContainer.classList.remove('inactive');
+  main.after(sidebarContainer);
+}
+
+function addInnerContainer(main) {
+  const children = main.innerHTML;
+  main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
 }
 
 /**
@@ -86,7 +106,7 @@ async function loadEager(doc) {
   try {
     /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
     if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
-      loadFonts();
+      //loadFonts();
     }
   } catch (e) {
     // do nothing
@@ -105,11 +125,11 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  // loadHeader(doc.querySelector('header'));
+  // loadFooter(doc.querySelector('footer'));
 
-  loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  loadFonts();
+  // loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+  // loadFonts();
 
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
