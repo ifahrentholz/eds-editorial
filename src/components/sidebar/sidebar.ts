@@ -18,7 +18,7 @@ export class SidebarComponent extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.setInitialVisibility();
+    // this.setInitialVisibility();
     window.addEventListener('resize', this.setInitialVisibility.bind(this));
   }
 

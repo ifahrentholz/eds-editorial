@@ -109,7 +109,6 @@ export class MainService {
     const blocksElements = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
 
     blocksElements.forEach((block: HTMLDivElement) => {
-      block.style.display = 'none';
       blockMap.push({
         name: block.dataset['blockName'] as string,
         element: block,
