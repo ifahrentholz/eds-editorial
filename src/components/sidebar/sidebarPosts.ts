@@ -1,18 +1,18 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
-import { SheetService  } from '../../services/sheet.service.ts';
+import { SitemapService  } from '../../services/sitemap.service.ts';
 import { Sitemap, SiteMapEntry } from '../../shared.types.ts';
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {
   @state()
   private lastTreePosts: Sitemap;
-  private sheetService: SheetService;
+  private sheetService: SitemapService;
 
   constructor() {
     super();
-    this.sheetService = new SheetService();
+    this.sheetService = new SitemapService();
   }
 
   async connectedCallback() {

@@ -1,46 +1,26 @@
-interface CacheEntry {
-  url: string;
-  result: Response;
-}
-
-type Cache = CacheEntry[];
-
 export class FetchCache {
-  private static instance: FetchCache;
-  private cache: Cache = [];
-
-  constructor() {
-    if (!!FetchCache.instance) {
-      return FetchCache.instance;
-    }
-
-    FetchCache.instance = this;
-
-    return this;
-  }
+  private cache = new Map();
 
   public set = (url: string, result: any): void => {
     if (!this.recordExists(url)) {
-      this.cache.push({
+      this.cache.set(
         url,
         result,
-      });
+      );
     }
   };
 
   public get = (url: string): Response | null  => {
-    const cacheRecord = this.cache.find((cacheEntry) => cacheEntry.url === url);
-
-    if (cacheRecord) {
-      return cacheRecord.result;
+    if (this.recordExists(url)) {
+      return this.cache.get(url);
     }
 
-    return null
+    return null;
   };
 
   public recordExists = (url: string): boolean => {
-    return !!this.get(url);
+    return this.cache.has(url);
   };
 }
 
-export const fetchCache = new FetchCache();
+export default new FetchCache();

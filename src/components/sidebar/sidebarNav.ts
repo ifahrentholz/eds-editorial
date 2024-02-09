@@ -1,9 +1,8 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
-import '../icon';
-import { SheetService } from '../../services/sheet.service.ts';
-import { SiteMapEntry } from '../../shared.types';
+import '../icon';import { SiteMapEntry } from '../../shared.types';
+import SitemapService  from '../../services/sitemap.service.ts';
 
 interface SubMenuItem {
   path: string;
@@ -20,12 +19,6 @@ interface MenuItem {
 export class SidebarNav extends LitElement {
   @state()
   items: MenuItem[];
-  private sheetService: SheetService;
-
-  constructor() {
-    super();
-    this.sheetService = new SheetService();
-  }
 
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
@@ -83,7 +76,7 @@ export class SidebarNav extends LitElement {
 
   groupByFirstLevelPath = async () => {
     const groups = {};
-    const sitemap = await this.sheetService.getSiteMap();
+    const sitemap = await SitemapService.getSiteMap();
 
     sitemap.forEach((item) => {
       const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path

@@ -1,7 +1,7 @@
 import { html, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import { fetchText } from '../../utils/fetch.ts';
-import { SheetService } from '../../services/sheet.service.ts';
+import SitemapService  from "../../services/sitemap.service.ts";
 
 interface PostArgs {
   postUrl: string;
@@ -31,10 +31,8 @@ const template = (posts: PostArgs[]) => {
 export default async function (block: HTMLElement) {
   block.innerHTML = '';
 
-  const sheetService = new SheetService();
   const parser = new DOMParser();
-
-  const siteMap = await sheetService.getSiteMap();
+  const siteMap = await SitemapService.getSiteMap();
   const siteMapPostEntries = siteMap.filter((item) => item.path.includes('/posts'));
 
   const postsPreview = await Promise.all(

@@ -1,11 +1,7 @@
 import { fetchJson } from '../utils/fetch.ts';
-import { SheetsResponse, SiteMapEntry } from "../shared.types.ts";
+import { SheetsResponse, Sitemap } from '../shared.types.ts';
 
-
-
-export type Sitemap = SiteMapEntry[];
-
-export class SheetService {
+export class SitemapService {
   async getSiteMap(): Promise<Sitemap> {
     return <Sitemap>(await this.getQueryIndex()).data;
   }
@@ -14,3 +10,5 @@ export class SheetService {
     return await fetchJson('/query-index.json');
   }
 }
+
+export default new SitemapService();
