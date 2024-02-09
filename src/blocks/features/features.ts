@@ -15,7 +15,10 @@ const template = (features: TemplateArgs) => {
     ${features.map(
       (feature) => html`
         <article>
-          <span class="icon"><icon-component class="icon-wc" name="${feature.icon}"></icon-component></span>
+          <span class="icon">
+            <icon-component class="icon-wc" name="${feature.icon}"></icon-component>
+            <span class="icon-border"></span>
+          </span>
           <div class="content">${unsafeHTML(feature.textBlock)}</div>
         </article>
       `

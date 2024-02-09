@@ -1,11 +1,3 @@
-///
-/// Editorial by HTML5 UP
-/// html5up.net | @ajlkn
-/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-///
-
-/* Features */
-
 .features {
   $gutter: _size(gutter);
 
@@ -56,14 +48,7 @@
       width: 10em;
       color: _palette(accent);
 
-      &::before {
-        color: _palette(accent);
-        font-size: 2.75rem;
-        position: relative;
-        top: 0.05em;
-      }
-
-      &::after {
+      .icon-border {
         @include vendor('transform', 'rotate(45deg)');
 
         border-radius: 0.25rem;
@@ -121,11 +106,7 @@
         line-height: 8em;
         width: 8em;
 
-        &::before {
-          font-size: 2.25rem;
-        }
-
-        &::after {
+        .icon-border {
           height: 6em;
           margin: -3em 0 0 -3em;
           width: 6em;
@@ -145,24 +126,10 @@
         margin: 0 0 (_size(element-margin) * 0.75) 0;
         width: 6em;
 
-        &::before {
-          font-size: 1.5rem;
-        }
-
-        &::after {
+        .icon-border {
           height: 4em;
           margin: -2em 0 0 -2em;
           width: 4em;
-        }
-      }
-    }
-  }
-
-  @include breakpoint('<=xsmall') {
-    article {
-      .icon {
-        &::before {
-          font-size: 1.25rem;
         }
       }
     }
