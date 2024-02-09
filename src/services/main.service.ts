@@ -8,6 +8,18 @@ type BlockMapping = {
   element: HTMLDivElement;
 };
 
+interface Block extends HTMLElement {
+  dataset: {
+    blockName: string;
+  };
+}
+
+interface LcpCandidate extends HTMLElement {
+  complete: boolean;
+}
+
+const LCP_BLOCKS = ['banner'];
+
 export class MainService {
   constructor(
     private sectionService: SectionService,
@@ -61,8 +73,7 @@ export class MainService {
       setTimeout(() => {
         document.body.removeAttribute('style');
       }, 200);
-
-      // await this.waitForLCP(LCP_BLOCKS);
+      await this.waitForLCP();
     }
   };
 
@@ -92,16 +103,7 @@ export class MainService {
   private loadBlocks = async () => {
     const sections = document.querySelectorAll<HTMLElement>('.section');
 
-    sections.forEach(async (section) => {
-      const blocks: BlockMapping[] = this.collectBlocks(section);
-      if (!blocks.length) {
-        this.showSection(section);
-        return;
-      }
-
-      await this.loadBlockModules(blocks);
-      this.showSection(section);
-    });
+    sections.forEach((section) => this.loadBlock(section));
   };
 
   private collectBlocks(section: HTMLElement): BlockMapping[] {
@@ -131,5 +133,37 @@ export class MainService {
 
   private showSection(section: HTMLElement) {
     section.style.removeProperty('display');
+  }
+
+  private async waitForLCP() {
+    const block = document.querySelector<Block>('.block');
+    const hasLCPBlock = block && LCP_BLOCKS.includes(block?.dataset.blockName);
+    if (hasLCPBlock) await this.loadBlock(block);
+
+    // @ts-ignore
+    document.body.style.display = null;
+    const lcpCandidate = document.querySelector<LcpCandidate>('main img');
+
+    await new Promise<void>((resolve) => {
+      if (lcpCandidate && !lcpCandidate.complete) {
+        lcpCandidate.setAttribute('loading', 'eager');
+        lcpCandidate.setAttribute('fetchpriority', 'high');
+        lcpCandidate.addEventListener('load', () =>  resolve());
+        lcpCandidate.addEventListener('error',() =>  resolve());
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  private async loadBlock(section: HTMLElement) {
+      const blocks: BlockMapping[] = this.collectBlocks(section);
+      if (!blocks.length) {
+        this.showSection(section);
+        return;
+      }
+
+      await this.loadBlockModules(blocks);
+      this.showSection(section);
   }
 }
