@@ -12,6 +12,8 @@ export declare class MainService {
     private loadEager;
     private addSidebarContainer;
     private addInnerContainer;
+    private addTableContainer;
+    private addFormContainer;
     private decorateTemplateAndTheme;
     private loadComponents;
     private collectComponents;

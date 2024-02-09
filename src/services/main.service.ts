@@ -56,7 +56,10 @@ export class MainService {
       this.sectionService.init(main);
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
+      this.addTableContainer(main);
+      this.addFormContainer(main);
       await this.loadComponents();
+
       // TODO: Performace adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
@@ -78,6 +81,17 @@ export class MainService {
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
     main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
+  }
+
+  private addTableContainer(main: HTMLElement) {
+    const tableContainer = document.createElement('table-component');
+    tableContainer.setAttribute('id', 'table');
+    main.append(tableContainer);
+  }
+  private addFormContainer(main: HTMLElement) {
+    const formContainer = document.createElement('form-component');
+    formContainer.setAttribute('id', 'form');
+    main.append(formContainer);
   }
 
   // private loadLazy = async () => {};
