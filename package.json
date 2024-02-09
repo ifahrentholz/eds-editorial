@@ -1,5 +1,6 @@
 {
   "name": "@eds/website",
+  "type": "module",
   "private": true,
   "version": "0.0.1",
   "description": "EDS Editorial Website",
@@ -30,6 +31,8 @@
   "devDependencies": {
     "@babel/core": "7.23.7",
     "@babel/eslint-parser": "7.23.3",
+    "@lit-labs/compiler": "1.0.2",
+    "@rollup/plugin-typescript": "11.1.6",
     "@types/node": "^20.11.7",
     "@typescript-eslint/eslint-plugin": "6.20.0",
     "@typescript-eslint/parser": "6.20.0",

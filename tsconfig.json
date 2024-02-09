@@ -6,7 +6,7 @@
     "types": ["vite/client"],
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "./types",
+    "outDir": "dist",
     "strict": false,
     "strictNullChecks": true,
     "noUnusedLocals": true,

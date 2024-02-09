@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
-import minifyHTML from 'rollup-plugin-minify-html-literals';
+import typescript from '@rollup/plugin-typescript';
+import { compileLitTemplates } from '@lit-labs/compiler';
 
-const { resolve } = require('path');
+import { resolve } from 'path';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -37,7 +38,13 @@ export default defineConfig(({ command, mode }) => {
           chunkFileNames: '__chunks__/[name].[hash].js',
           entryFileNames: '[name]/[name].js',
         },
-        plugins: [isProd && minifyHTML()],
+        plugins: [
+          typescript({
+            transformers: {
+              before: [compileLitTemplates()],
+            },
+          }),
+        ],
       },
     },
   };

@@ -1,2 +1,29 @@
-import{i as a,s as l,x as d}from"../__chunks__/lit-element.XkUWx5ik.js";import{n as p,t as f}from"../__chunks__/property.0daVBkvz.js";var m=Object.defineProperty,h=Object.getOwnPropertyDescriptor,u=(r,o,i,e)=>{for(var t=e>1?void 0:e?h(o,i):o,s=r.length-1,c;s>=0;s--)(c=r[s])&&(t=(e?c(o,i,t):c(t))||t);return e&&t&&m(o,i,t),t};let n=class extends l{constructor(){super(...arguments),this.count=0}firstUpdated(){console.log("first updated")}render(){return d`<div class="card"><h3>Lit Counter</h3><button @click="${this._onClick}" part="button">count is ${this.count}</button></div>`}_onClick(){this.count++}};n.styles=a`:host{max-width:1280px;margin:0 auto;padding:2rem;text-align:center;display:flex;flex-direction:column}button{border-radius:8px;border:1px solid transparent;padding:.6em 1.2em;font-size:1em;font-weight:500;font-family:inherit;background-color:#bada55;color:#333;cursor:pointer;transition:border-color .25s;width:100%}button:hover{background-color:#1a1a1a;color:#f9f9f9}`;u([p({type:Number})],n.prototype,"count",2);n=u([f("lit-counter")],n);function v(r){const o=r.innerHTML;r.innerHTML=`<lit-counter>${o}</lit-counter>`,r.style.removeProperty("display")}export{n as LitCounter,v as default};
+import{_ as n}from"../__chunks__/tslib.es6.cver2Yc4.js";import{a as e,s as i,i as s}from"../__chunks__/private-ssr-support.uesIj2BQ.js";import{n as a,t as c}from"../__chunks__/property.1qlbxKtf.js";const{EventPart:u}=s,d=t=>t,l={h:d`\n      <div class="card">\n        <h3>Lit Counter</h3>\n        <button part="button">count is <?></button>\n      </div>\n    `,parts:[{type:1,index:2,name:"click",strings:["",""],ctor:u},{type:2,index:3}]};let o=class extends i{constructor(){super(...arguments),this.count=0}firstUpdated(){console.log("first updated")}render(){return{_$litType$:l,values:[this._onClick,this.count]}}_onClick(){this.count++}};o.styles=e`
+    :host {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    button {
+      border-radius: 8px;
+      border: 1px solid transparent;
+      padding: 0.6em 1.2em;
+      font-size: 1em;
+      font-weight: 500;
+      font-family: inherit;
+      background-color: #bada55;
+      color: #333;
+      cursor: pointer;
+      transition: border-color 0.25s;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #1a1a1a;
+      color: #f9f9f9;
+    }
+  `;n([a({type:Number})],o.prototype,"count",void 0);o=n([c("lit-counter")],o);function b(t){const r=t.innerHTML;t.innerHTML=`<lit-counter>${r}</lit-counter>`,t.style.removeProperty("display")}export{o as LitCounter,b as default};
 //# sourceMappingURL=counter.js.map
