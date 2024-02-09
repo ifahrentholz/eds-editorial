@@ -34,13 +34,19 @@ const template = (args: TemplateArgs) => {
 };
 
 export default function (block: HTMLElement) {
+  console.log('banner block', block);
   const firstRow = block.querySelector('div');
   const secondRow = block.children[1];
   const headline = firstRow?.querySelector('h1')?.innerText;
   const subline = firstRow?.querySelector('h3')?.innerText;
   const texts = firstRow ? [...firstRow.querySelectorAll('p')] : [];
-  const buttons = [...secondRow?.querySelectorAll('a')];
+  console.log('secondRow', secondRow);
+  const buttons = secondRow !== undefined ? [...secondRow.querySelectorAll('a')] : [];
+  console.log('buttons', buttons);
   const picture = firstRow?.querySelector('picture') || undefined;
+  const img = firstRow?.querySelector('img');
+  img?.setAttribute('loading', 'eager');
+  img?.setAttribute('fetchpriority', 'high');
 
   block.innerHTML = '';
 

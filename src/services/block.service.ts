@@ -2,7 +2,6 @@ import { toClassName } from '../utils/toClassName';
 
 export class BlockService {
   //TODO: Provider for fetch data
-
   /**
    * Extracts the config from a block.
    * @param {Element} block The block element
@@ -67,6 +66,83 @@ export class BlockService {
       blockWrapper?.classList.add(`${shortBlockName}-wrapper`);
       const section = block.closest('.section');
       if (section) section.classList.add(`${shortBlockName}-container`);
+    }
+  }
+
+  async loadCSS(href) {
+    return new Promise((resolve, reject) => {
+      if (!document.querySelector(`head > link[href="${href}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = resolve;
+        link.onerror = reject;
+        document.head.append(link);
+      } else {
+        resolve(true);
+      }
+    });
+  }
+
+  updateSectionsStatus(main) {
+    const sections = [...main.querySelectorAll(':scope .section')];
+    for (let i = 0; i < sections.length; i += 1) {
+      const section = sections[i];
+      const status = section.dataset.sectionStatus;
+      if (status !== 'loaded') {
+        const loadingBlock = section.querySelector(
+          '.block[data-block-status="initialized"], .block[data-block-status="loading"]'
+        );
+        if (loadingBlock) {
+          section.dataset.sectionStatus = 'loading';
+          break;
+        } else {
+          section.dataset.sectionStatus = 'loaded';
+          section.style.display = null;
+        }
+      }
+    }
+  }
+
+  async loadBlock(block) {
+    const status = block.dataset.blockStatus;
+    if (status !== 'loading' && status !== 'loaded') {
+      block.dataset.blockStatus = 'loading';
+      const { blockName } = block.dataset;
+      try {
+        //const cssLoaded = this.loadCSS(`${window.hlx.codeBasePath}/dist/${blockName}/${blockName}.css`);
+        const decorationComplete = new Promise((resolve) => {
+          (async () => {
+            try {
+              const mod = await import(`${window.hlx.codeBasePath}/dist/${blockName}/${blockName}.js`);
+              if (mod.default) {
+                await mod.default(block);
+              }
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.log(`failed to load module for ${blockName}`, error);
+            }
+            resolve(true);
+          })();
+        });
+        //await Promise.all([cssLoaded, decorationComplete]);
+        await decorationComplete;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(`failed to load block ${blockName}`, error);
+      }
+      block.dataset.blockStatus = 'loaded';
+    }
+    return block;
+  }
+
+  async loadBlocks(main) {
+    this.updateSectionsStatus(main);
+    const blocks = [...main.querySelectorAll('div.block')];
+    for (let i = 0; i < blocks.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await this.loadBlock(blocks[i]);
+      this.updateSectionsStatus(main);
     }
   }
 }

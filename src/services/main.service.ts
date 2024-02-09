@@ -8,6 +8,8 @@ type BlockMapping = {
   element: HTMLDivElement;
 };
 
+const LCP_BLOCKS: string[] = [];
+
 export class MainService {
   constructor(
     private sectionService: SectionService,
@@ -17,6 +19,7 @@ export class MainService {
   init = async () => {
     this.setup();
     await this.loadEager();
+    // await this.loadLazy();
   };
 
   /**
@@ -37,6 +40,27 @@ export class MainService {
         console.log(error);
       }
     }
+  }
+
+  async waitForLCP(lcpBlocks) {
+    const block = document.querySelector('.block') as HTMLDivElement | null;
+    const hasLCPBlock = block && lcpBlocks.includes(block.dataset.blockName);
+    if (hasLCPBlock) await this.blockService.loadBlock(block);
+
+    document.body.style.removeProperty('display');
+    const lcpCandidate = document.querySelector('main img') as HTMLImageElement | null;
+    console.log('lcpCandidate', lcpCandidate);
+
+    await new Promise((resolve) => {
+      if (lcpCandidate && !lcpCandidate.complete) {
+        lcpCandidate.setAttribute('loading', 'eager');
+        lcpCandidate.setAttribute('fetchpriority', 'high');
+        lcpCandidate.addEventListener('load', resolve);
+        lcpCandidate.addEventListener('error', resolve);
+      } else {
+        resolve(true);
+      }
+    });
   }
 
   private loadEager = async () => {
@@ -60,11 +84,30 @@ export class MainService {
       // TODO: Performace adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
-      }, 200);
+      }, 0);
 
-      // await this.waitForLCP(LCP_BLOCKS);
+      await this.waitForLCP(LCP_BLOCKS);
     }
   };
+
+  async loadLazy() {
+    const main = document.querySelector('main');
+    await this.blockService.loadBlocks(main); // load js and css for all the blocks in the main
+
+    const { hash } = window.location;
+    const element = hash ? document.getElementById(hash.substring(1)) : false;
+    if (hash && element) element.scrollIntoView();
+
+    // loadHeader(doc.querySelector('header'));
+    // loadFooter(doc.querySelector('footer'));
+
+    //loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+    // loadFonts();
+
+    // sampleRUM('lazy');
+    // sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
+    // sampleRUM.observe(main.querySelectorAll('picture > img'));
+  }
 
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement('sidebar-component');

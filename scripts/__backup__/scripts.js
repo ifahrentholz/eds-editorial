@@ -23,7 +23,7 @@ function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
   // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
+  if (h1 && picture && h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING) {
     const section = document.createElement('div');
     section.append(buildBlock('hero', { elems: [picture, h1] }));
     main.prepend(section);
@@ -74,11 +74,11 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
-  document.documentElement.lang = 'en';
-  decorateTemplateAndTheme();
+  document.documentElement.lang = 'en'; // TODO: set language dynamically
+  decorateTemplateAndTheme(); // set template and theme classes to the body from meta tags in head
   const main = doc.querySelector('main');
   if (main) {
-    decorateMain(main);
+    decorateMain(main); // build auto blocks and call all the decorate functions for decorating the main (blocks and compoenents)
     document.body.classList.add('appear');
     await waitForLCP(LCP_BLOCKS);
   }
@@ -99,7 +99,7 @@ async function loadEager(doc) {
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
-  await loadBlocks(main);
+  await loadBlocks(main); // load js and css for all the blocks in the main
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;

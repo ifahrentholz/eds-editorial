@@ -15,4 +15,8 @@ export declare class BlockService {
      * @param {Element} block The block element
      */
     private decorateBlock;
+    loadCSS(href: any): Promise<unknown>;
+    updateSectionsStatus(main: any): void;
+    loadBlock(block: any): Promise<any>;
+    loadBlocks(main: any): Promise<void>;
 }

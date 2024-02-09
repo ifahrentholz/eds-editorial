@@ -9,7 +9,9 @@ export declare class MainService {
      * Setup block utils.
      */
     private setup;
+    waitForLCP(lcpBlocks: any): Promise<void>;
     private loadEager;
+    loadLazy(): Promise<void>;
     private addSidebarContainer;
     private addInnerContainer;
     private decorateTemplateAndTheme;
