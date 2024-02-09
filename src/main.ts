@@ -19,7 +19,7 @@ function preloadLcpImageCandidate() {
 }
 
 (async function () {
-  preloadLcpImageCandidate();
+  // preloadLcpImageCandidate();
   const blockService = new BlockService();
   const sectionService = new SectionService(blockService);
   const main = new MainService(sectionService, blockService);
