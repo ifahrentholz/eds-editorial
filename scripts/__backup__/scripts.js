@@ -33,6 +33,18 @@ function buildHeroBlock(main) {
   }
 }
 
+function preloadLcpImageCandidate() {
+  const lcpCandidate = document.querySelector('main img');
+  const linkTag = document.createElement('link');
+  linkTag.rel = 'preload';
+  linkTag.as = 'image';
+  linkTag.href = lcpCandidate?.src || '';
+  // linkTag.type = getLinkTypeFromImageExt(lcpCandidate?.src);
+  document.head.appendChild(linkTag);
+
+  // <link rel="preload" fetchpriority="high" as="image" href="/path/to/hero-image.webp" type="image/webp">
+}
+
 /**
  * load fonts.css and set a session storage flag
  */
@@ -94,6 +106,7 @@ function addInnerContainer(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
+  preloadLcpImageCandidate();
   document.documentElement.lang = 'en'; // TODO: set language dynamically
   decorateTemplateAndTheme(); // set template and theme classes to the body from meta tags in head
   const main = doc.querySelector('main');
