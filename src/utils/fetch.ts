@@ -1,24 +1,28 @@
-import  fetchCache  from './FetchCache.ts';
+import fetchCache from './FetchCache.ts';
 
 const fetchData = async (endpoint: string, init?: RequestInit): Promise<Response> => {
   const decoratedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   const url = `${window.hlx.codeBasePath}${decoratedEndpoint}`;
-  const cache = fetchCache.get(url);
 
-  if (cache !== null) {
-    return  cache;
-  }
-
-  const response = await fetch(url, init);
-  fetchCache.set(url, response);
-
-  return response;
+  return await fetch(url, init);
 };
 
 export const fetchText = async (endpoint: string, init?: RequestInit): Promise<string> => {
-  return await (await fetchData(endpoint, init)).text();
+  if (fetchCache.has(endpoint)) return fetchCache.get(endpoint);
+  const response = await fetchData(endpoint, init);
+  const text = response.text();
+
+  fetchCache.set(endpoint, text);
+
+  return text;
 };
 
 export const fetchJson = async <T>(endpoint: string, init?: RequestInit): Promise<T> => {
-  return await (await fetchData(endpoint, init)).json();
+  if (fetchCache.has(endpoint)) return fetchCache.get(endpoint);
+  const response = await fetchData(endpoint, init);
+  const json = response.json();
+
+  fetchCache.set(endpoint, json);
+
+  return json;
 };

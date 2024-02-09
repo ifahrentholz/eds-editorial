@@ -2,23 +2,20 @@ export class FetchCache {
   private cache = new Map();
 
   public set = (url: string, result: any): void => {
-    if (!this.recordExists(url)) {
-      this.cache.set(
-        url,
-        result,
-      );
+    if (!this.has(url)) {
+      this.cache.set(url, result);
     }
   };
 
-  public get = (url: string): Response | null  => {
-    if (this.recordExists(url)) {
+  public get = (url: string): any => {
+    if (this.has(url)) {
       return this.cache.get(url);
     }
 
-    return null;
+    throw new Error(`FetchCache: Cache value with url ${url} does not exists.`);
   };
 
-  public recordExists = (url: string): boolean => {
+  public has = (url: string): boolean => {
     return this.cache.has(url);
   };
 }
