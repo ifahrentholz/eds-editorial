@@ -1,3 +1,8 @@
+/**
+ * @module SidebarComponent
+ * @copyright diva-e (https://diva-e.com)
+ */
+
 import { LitElement, html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 import { debounce } from '@kluntje/js-utils/lib/function-helpers/decorators';
