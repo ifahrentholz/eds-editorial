@@ -1,9 +1,8 @@
 import { html, LitElement } from 'lit';
-import { fetchData } from '../../utils/fetchData.ts';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
 import { SheetService  } from '../../services/sheet.service.ts';
-import { Sitemap, SiteMapEntry, SitemapResponse } from '../../shared.types.ts';
+import { Sitemap, SiteMapEntry } from '../../shared.types.ts';
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {

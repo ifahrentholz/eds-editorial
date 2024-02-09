@@ -8,7 +8,7 @@ export type SiteMapEntry = {
     navtitle: string;
 };
 export type Sitemap = SiteMapEntry[];
-export interface SitemapResponse {
+export interface SheetsResponse {
     type: string;
     data: SiteMapEntry[];
     offset: number;
