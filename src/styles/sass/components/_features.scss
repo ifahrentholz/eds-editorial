@@ -11,12 +11,14 @@
 
   @include vendor('display', 'flex');
   @include vendor('flex-wrap', 'wrap');
+
   margin: 0 0 _size(element-margin) ($gutter * -1);
   width: calc(100% + #{$gutter});
 
   article {
     @include vendor('align-items', 'center');
     @include vendor('display', 'flex');
+
     margin: 0 0 $gutter $gutter;
     position: relative;
     width: calc(50% - #{$gutter});
@@ -37,13 +39,16 @@
     .icon-wc {
       color: _palette(accent);
       width: 44px;
+      height: 44px;
     }
 
     .icon {
       @include vendor('flex-grow', '0');
       @include vendor('flex-shrink', '0');
+
       display: flex;
       justify-content: center;
+      align-items: center;
       height: 10em;
       line-height: 10em;
       margin: 0 _size(element-margin) 0 0;
@@ -51,15 +56,16 @@
       width: 10em;
       color: _palette(accent);
 
-      &:before {
+      &::before {
         color: _palette(accent);
         font-size: 2.75rem;
         position: relative;
         top: 0.05em;
       }
 
-      &:after {
+      &::after {
         @include vendor('transform', 'rotate(45deg)');
+
         border-radius: 0.25rem;
         border: solid 2px _palette(border);
         content: '';
@@ -76,6 +82,7 @@
     .content {
       @include vendor('flex-grow', '1');
       @include vendor('flex-shrink', '1');
+
       width: 100%;
 
       > :last-child {
@@ -114,11 +121,11 @@
         line-height: 8em;
         width: 8em;
 
-        &:before {
+        &::before {
           font-size: 2.25rem;
         }
 
-        &:after {
+        &::after {
           height: 6em;
           margin: -3em 0 0 -3em;
           width: 6em;
@@ -138,11 +145,11 @@
         margin: 0 0 (_size(element-margin) * 0.75) 0;
         width: 6em;
 
-        &:before {
+        &::before {
           font-size: 1.5rem;
         }
 
-        &:after {
+        &::after {
           height: 4em;
           margin: -2em 0 0 -2em;
           width: 4em;
@@ -154,7 +161,7 @@
   @include breakpoint('<=xsmall') {
     article {
       .icon {
-        &:before {
+        &::before {
           font-size: 1.25rem;
         }
       }
