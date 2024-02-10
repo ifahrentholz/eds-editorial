@@ -59,8 +59,7 @@ export class SectionService {
     this.decorateImages();
     section.classList.add('section');
     section.dataset.sectionStatus = 'initialized';
-    section.style.display = 'block';
-    console.log(section)
+    section.style.display = 'none';
   }
   decorateImages() {
     const picture = document.querySelectorAll('.default-content-wrapper picture');

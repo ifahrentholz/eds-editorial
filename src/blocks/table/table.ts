@@ -1,37 +1,69 @@
-/*
- * Table Block
- * Recreate a table
- * https://www.hlx.live/developer/block-collection/table
- */
+import { html, render } from 'lit';
 
-function buildCell(rowIndex) {
-  const cell = rowIndex ? document.createElement('td') : document.createElement('th');
-  if (!rowIndex) cell.setAttribute('scope', 'col');
-  return cell;
+interface TemplateArgs {
+  text?: HTMLParagraphElement;
+  description?: HTMLParagraphElement;
+  price?: HTMLParagraphElement;
+  input?: Input[];
+  sum?: number;
 }
 
-export default async function decorate(block) {
-  const table = document.createElement('table');
-  const thead = document.createElement('thead');
-  const tbody = document.createElement('tbody');
+interface Input {
+  tableName?: string;
+  tableDescription?: string;
+  tablePrice?: string;
+}
 
-  const header = !block.classList.contains('no-header');
-  if (header) {
-    table.append(thead);
-  }
-  table.append(tbody);
+const template = ({ text, description, price, input, sum }: TemplateArgs) => {
+  return html`
+    <table>
+      <thead>
+        <tr>
+          <th>${text}</th>
+          <th>${description}</th>
+          <th>${price}</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${input?.map((item) => {
+          return html`
+            <tr>
+              <td>${item.tableName}</td>
+              <td>${item.tableDescription}</td>
+              <td>${item.tablePrice}</td>
+            </tr>
+          `;
+        })}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"></td>
+          <td>${sum}</td>
+        </tr>
+      </tfoot>
+    </table>
+  `;
+};
 
-  [...block.children].forEach((child, i) => {
-    const row = document.createElement('tr');
-    if (header && i === 0) thead.append(row);
-    else tbody.append(row);
-    [...child.children].forEach((col) => {
-      const cell = buildCell(header ? i : i + 1);
-      cell.innerHTML = col.innerHTML;
-      row.append(cell);
-    });
+export default function (block: HTMLElement) {
+  const firstRow = block.querySelector('div');
+
+  const text = firstRow?.querySelector('.table div div:first-child');
+  const description = firstRow?.querySelector('div:nth-child(2) strong');
+  const price = firstRow?.querySelector('.table div div:last-child strong');
+
+  const input: Input[] = Array.from(document.querySelectorAll('.table > div:not(:first-child)')).map((item) => {
+    return {
+      tableName: item.querySelector('div:first-child')?.innerHTML as string,
+      tableDescription: item.querySelector('div:nth-child(2)')?.innerHTML as string,
+      tablePrice: item.querySelector('div:last-child')?.innerHTML as string,
+    };
   });
-  block.style.removeProperty('display');
+
+  const result = input.reduce((total, item) => total + parseFloat(item.tablePrice), 0);
+  const sum = parseFloat(result.toFixed(2));
+
   block.innerHTML = '';
-  block.append(table);
+  block.style.removeProperty('display');
+  render(template({ text, description, price, input, sum }), block);
 }
