@@ -1,17 +1,17 @@
-import { LitElement, PropertyValueMap, html } from 'lit';
+/*import { LitElement, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { fetchData } from '../utils/fetchData';
 
-export interface FormTemplateArgs {
-  shared: Shared;
+interface FormTemplateArgs {
+  userDetails: UserDetails;
   states: StatesCol;
 }
 
-export interface Shared {
-  data: SharedData[];
+interface UserDetails {
+  data: UserDetailsData[];
 }
 
-export interface SharedData {
+interface UserDetailsData {
   name: string;
   type: string;
   placeholder: string;
@@ -19,17 +19,17 @@ export interface SharedData {
   robots: string;
 }
 
-export interface StatesCol {
+interface StatesCol {
   data: StatesColData[];
 }
 
-export interface StatesColData {
+interface StatesColData {
   option: string;
   value: string;
 }
 
 interface FormTemplateData {
-  detailsCol: SharedData[];
+  detailsCol: UserDetailsData[];
   statesCol: StatesColData[];
 }
 
@@ -41,65 +41,65 @@ export class FormComponent extends LitElement {
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
+
   connectedCallback(): void {
     super.connectedCallback();
     this.fetchFormData();
   }
 
-  protected async firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+  protected async firstUpdated(): Promise<void> {
     await this.fetchFormData();
   }
 
-  async fetchFormData() {
+  async fetchFormData(): Promise<void> {
     try {
       const response = await fetchData<FormTemplateArgs>({ endpoint: 'form.json', getJson: true });
-
       this.formData = { statesCol: response.states.data, detailsCol: response.shared.data };
     } catch (error) {
-      console.error('HeaderComponent: ', error);
+      console.error('FormComponent Error: ', error);
     }
   }
+
   render() {
+    if (!this.formData) return html``; // Return an empty template if formData is not yet available
     const { detailsCol, statesCol } = this.formData;
-    console.log(detailsCol);
+
     return html`
       <h2>Form</h2>
       <form method="post" action="#">
         <div class="row gtr-uniform">
-          <div class="col-6 col-12-xsmall">
-            <input
-              type="${detailsCol[0].type}"
-              name="demo-name"
-              id="demo-name"
-              value=""
-              placeholder="${detailsCol[0].placeholder}"
-            />
-          </div>
-          <div class="col-6 col-12-xsmall">
-            <input
-              type="${detailsCol[1].type}"
-              name="demo-email"
-              id="demo-email"
-              value=""
-              placeholder="${detailsCol[1].placeholder}"
-            />
-          </div>
-
+          ${detailsCol.map(
+            (element) => html`
+              <div class="col-6 col-12-xsmall">
+                <input
+                  type="${element.type}"
+                  name="${element.name}"
+                  id="${element.name}"
+                  value=""
+                  placeholder="${element.placeholder}"
+                />
+              </div>
+            `
+          )}
           <div class="col-12">
             <select name="demo-category" id="demo-category">
               <option value="">- States -</option>
-              ${statesCol.map((state) => {
-                return html` <option>${state.option}</option>`;
-              })}
+              ${statesCol.map((state) => html` <option>${state.option}</option> `)}
             </select>
           </div>
-          ${detailsCol.map((element) => {
-            const item = element.robots === 'checked';
-            return html` <div class="col-4 col-12-small">
-              <input type="radio" id="demo-priority-low" name="demo-priority" ?checked="${item}" />
-              <label for="demo-priority-low">${element.gender}</label>
-            </div>`;
-          })}
+          ${detailsCol.map(
+            (element) => html`
+              <div class="col-4 col-12-small">
+                <input
+                  type="radio"
+                  id="${element.name}"
+                  name="${element.name}"
+                  ?checked="${element.robots === 'checked'}"
+                />
+                <label for="${element.name}">${element.gender}</label>
+              </div>
+            `
+          )}
           <div class="col-6 col-12-small">
             <input type="checkbox" id="demo-copy" name="demo-copy" />
             <label for="demo-copy">Email me a copy</label>
@@ -122,3 +122,4 @@ export class FormComponent extends LitElement {
     `;
   }
 }
+*/

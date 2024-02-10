@@ -28,6 +28,7 @@ export default defineConfig(({ command, mode }) => {
           banner: resolve(__dirname, 'src/blocks/banner/banner.ts'),
           features: resolve(__dirname, 'src/blocks/features/features.ts'),
           posts: resolve(__dirname, 'src/blocks/posts/posts.ts'),
+          table: resolve(__dirname, 'src/blocks/table/table.ts'),
         },
         output: {
           dir: 'dist',

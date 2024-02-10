@@ -123,7 +123,7 @@ export class MainService {
     const blocks = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
 
     blocks.forEach((block: HTMLDivElement) => {
-      block.style.display = 'none';
+      block.style.display = 'block';
       components.push({
         name: block.dataset['blockName'] as string,
         element: block,
@@ -136,7 +136,6 @@ export class MainService {
   private async loadComponentModules(components: ComponentMapping[]) {
     for (const component of components) {
       const componentModule = await import(`${window.hlx.codeBasePath}/dist/${component.name}/${component.name}.js`);
-
       if (componentModule.default) {
         await componentModule.default(component.element);
       }

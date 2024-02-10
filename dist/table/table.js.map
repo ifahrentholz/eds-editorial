@@ -1,0 +1,26 @@
+{
+    "version": 3,
+    "file": "table.js",
+    "sources": [
+      "../../src/blocks/table/table.ts"
+    ],
+    "sourcesContent": [
+      "/*\n * Table Block\n * Recreate a table\n * https://www.hlx.live/developer/block-collection/table\n */\n\nfunction buildCell(rowIndex) {\n  const cell = rowIndex ? document.createElement('td') : document.createElement('th');\n  if (!rowIndex) cell.setAttribute('scope', 'col');\n  return cell;\n}\n\nexport default async function decorate(block) {\n  const table = document.createElement('table');\n  const thead = document.createElement('thead');\n  const tbody = document.createElement('tbody');\n\n  const header = !block.classList.contains('no-header');\n  if (header) {\n    table.append(thead);\n  }\n  table.append(tbody);\n\n  [...block.children].forEach((child, i) => {\n    const row = document.createElement('tr');\n    if (header && i === 0) thead.append(row);\n    else tbody.append(row);\n    [...child.children].forEach((col) => {\n      const cell = buildCell(header ? i : i + 1);\n      cell.innerHTML = col.innerHTML;\n      row.append(cell);\n    });\n  });\n  block.style.removeProperty('display');\n  block.innerHTML = '';\n  block.append(table);\n}\n"
+    ],
+    "names": [
+      "buildCell",
+      "rowIndex",
+      "cell",
+      "decorate",
+      "block",
+      "table",
+      "thead",
+      "tbody",
+      "header",
+      "child",
+      "i",
+      "row",
+      "col"
+    ],
+    "mappings": "AAMA,SAASA,EAAUC,EAAU,CACrB,MAAAC,EAAOD,EAAW,SAAS,cAAc,IAAI,EAAI,SAAS,cAAc,IAAI,EAClF,OAAKA,GAAeC,EAAA,aAAa,QAAS,KAAK,EACxCA,CACT,CAEA,eAA8BC,EAASC,EAAO,CACtC,MAAAC,EAAQ,SAAS,cAAc,OAAO,EACtCC,EAAQ,SAAS,cAAc,OAAO,EACtCC,EAAQ,SAAS,cAAc,OAAO,EAEtCC,EAAS,CAACJ,EAAM,UAAU,SAAS,WAAW,EAChDI,GACFH,EAAM,OAAOC,CAAK,EAEpBD,EAAM,OAAOE,CAAK,EAElB,CAAC,GAAGH,EAAM,QAAQ,EAAE,QAAQ,CAACK,EAAOC,IAAM,CAClC,MAAAC,EAAM,SAAS,cAAc,IAAI,EACnCH,GAAUE,IAAM,EAAGJ,EAAM,OAAOK,CAAG,EAClCJ,EAAM,OAAOI,CAAG,EACrB,CA
+  
