@@ -2,8 +2,8 @@
 Your project's description...
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.hlx.page/
-- Live: https://main--{repo}--{owner}.hlx.live/
+- Preview: [https://main--eds-editorial--ifahrentholz.hlx.page/](https://main--eds-editorial--ifahrentholz.hlx.page/)
+- Live: [https://main--eds-editorial--ifahrentholz.hlx.live/](https://main--eds-editorial--ifahrentholz.hlx.live/)
 
 ## Installation
 
