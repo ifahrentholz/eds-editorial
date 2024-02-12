@@ -71,7 +71,12 @@ export default async function (block: HTMLElement) {
       postUrl: `${window.hlx.codeBasePath}${data[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: getFirstParagraph(doc),
-      picture: createOptimizedPicture({ src: data[index].image, alt: data[index].imagealt }),
+      picture: createOptimizedPicture({
+        src: data[index].image,
+        alt: data[index].imagealt,
+        width: '323',
+        height: '199',
+      }),
     };
   });
 

@@ -13,8 +13,8 @@ export declare class SidebarContact extends LitElement {
     protected createRenderRoot(): HTMLElement | DocumentFragment;
     connectedCallback(): void;
     fetchContactData(): Promise<void>;
-    renderHeader(headline?: string): typeof nothing | import("lit-html").TemplateResult<1>;
-    renderText(text?: string): typeof nothing | import("lit-html").TemplateResult<1>;
+    renderHeader(headline?: string): import("lit-html").TemplateResult<1> | typeof nothing;
+    renderText(text?: string): import("lit-html").TemplateResult<1> | typeof nothing;
     render(): import("lit-html").TemplateResult<1> | undefined;
 }
 export {};
