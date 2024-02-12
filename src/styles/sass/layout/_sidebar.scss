@@ -1,35 +1,27 @@
-///
-/// Editorial by HTML5 UP
-/// html5up.net | @ajlkn
-/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-///
-
 /* Sidebar */
 
 #search {
   form {
-    @include icon(false, solid);
     position: relative;
 
-    &:before {
-      @include vendor('transform', 'scaleX(-1)');
-      color: _palette(fg);
+    &::before {
+      color: fg;
       content: '\f002';
       cursor: default;
       display: block;
       font-size: 1.5em;
-      height: calc(_size(element-height) / 1.375);
-      line-height: calc(_size(element-height) / 1.375);
+      height: calc(element - height / 1.375);
+      line-height: calc(element - height / 1.375);
       opacity: 0.325;
       position: absolute;
       right: 0;
       text-align: center;
       top: 0;
-      width: calc(_size(element-height) / 1.375);
+      width: calc(element - height / 1.375);
     }
 
     input[type='text'] {
-      padding-right: _size(element-height);
+      padding-right: element-height;
     }
   }
 }
@@ -40,6 +32,7 @@
   @include vendor('flex-grow', '0');
   @include vendor('flex-shrink', '0');
   @include vendor('transition', ('margin-left 0.5s ease', 'box-shadow 0.5s ease'));
+
   background-color: _palette(bg-alt);
   font-size: 0.9em;
   position: relative;
@@ -51,6 +44,7 @@
 
   > .inner {
     @include padding($pad, $pad, (0, 0, $pad, 0));
+
     position: relative;
     width: _size(sidebar-width);
 
@@ -95,7 +89,8 @@
   .toggle {
     @include icon(false, solid);
     @include vendor('transition', 'left 0.5s ease');
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+    -webkit-tap-highlight-color: rgb(255 255 255 / 0%);
     border: 0;
     display: flex;
     align-items: center;
@@ -113,9 +108,8 @@
     width: 6em;
     z-index: _misc(z-index-base);
 
-    > icon-component {
+    > .icon-component {
       width: 2.5rem;
-      margin-left: -1.4375em;
     }
   }
 
@@ -130,6 +124,7 @@
 
     > .inner {
       @include padding($pad, $pad, (0, 0, $pad, 0));
+
       width: _size(sidebar-width-alt);
 
       > .alt {
@@ -145,10 +140,9 @@
       line-height: 6.25em;
       text-indent: 5em;
       width: 5em;
-
-      > icon-component {
-        margin-left: 0.5625em;
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     &.inactive {
@@ -157,7 +151,7 @@
   }
 
   @include breakpoint('<=large') {
-    box-shadow: 0 0 5em 0 rgba(0, 0, 0, 0.175);
+    box-shadow: 0 0 5em 0 rgb(0 0 0 / 17.5%);
     height: 100%;
     left: 0;
     position: fixed;
@@ -172,12 +166,11 @@
       -webkit-overflow-scrolling: touch;
       height: 100%;
       left: 0;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: hidden auto;
       position: absolute;
       top: 0;
 
-      &:after {
+      &::after {
         content: '';
         display: block;
         height: 4em;
@@ -192,10 +185,6 @@
     .toggle {
       text-indent: 6em;
       width: 6em;
-
-      > icon-component {
-        margin-left: -1.4375em;
-      }
     }
 
     body.is-preload & {
@@ -212,7 +201,7 @@
       text-indent: 7.25em;
       width: 7.25em;
 
-      &:before {
+      &::before {
         color: _palette(fg);
         margin-left: calc(-0.125em / 2);
         margin-top: calc(-0.5em / 2);
@@ -220,15 +209,21 @@
         z-index: 1;
       }
 
-      &:after {
+      &::after {
         background: transparentize(lighten(_palette(fg), 35), 0.25);
         border-radius: _size(border-radius);
         content: '';
         height: 3.5em;
-        left: 1em;
+        left: 1.15em;
         position: absolute;
-        top: 1em;
+        top: 1.35em;
         width: 5em;
+      }
+
+      .icon-component {
+        width: 35px;
+        color: _palette(fg);
+        height: 35px;
       }
     }
   }

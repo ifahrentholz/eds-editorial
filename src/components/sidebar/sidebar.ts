@@ -50,7 +50,7 @@ export class SidebarComponent extends LitElement {
         <sidebar-footer id="footer"></sidebar-footer>
       </div>
       <a href="#sidebar" class="toggle hamburger-icon" aria-label="Sidebar toggle"
-        ><icon-component name="hamburger"></icon-component
+        ><icon-component class="icon-component" name="hamburger"></icon-component
       ></a>
     `;
   }
