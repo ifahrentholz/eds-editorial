@@ -1,9 +1,9 @@
-import { html, render } from 'lit';
+import { html, render } from 'lit-html';
 
 interface TemplateArgs {
-  text?: HTMLParagraphElement;
-  description?: HTMLParagraphElement;
-  price?: HTMLParagraphElement;
+  text?: string;
+  description?: string;
+  price?: string;
   input?: Input[];
   sum?: number;
 }
@@ -48,19 +48,23 @@ const template = ({ text, description, price, input, sum }: TemplateArgs) => {
 export default function (block: HTMLElement) {
   const firstRow = block.querySelector('div');
 
-  const text = firstRow?.querySelector('.table div div:first-child');
-  const description = firstRow?.querySelector('div:nth-child(2) strong');
-  const price = firstRow?.querySelector('.table div div:last-child strong');
+  const text = firstRow?.querySelector('.table div div:first-child')?.textContent || '';
+  const description = firstRow?.querySelector('div:nth-child(2) strong')?.textContent || '';
+  const price = firstRow?.querySelector('.table div div:last-child strong')?.textContent || '';
 
   const input: Input[] = Array.from(document.querySelectorAll('.table > div:not(:first-child)')).map((item) => {
     return {
-      tableName: item.querySelector('div:first-child')?.innerHTML as string,
-      tableDescription: item.querySelector('div:nth-child(2)')?.innerHTML as string,
-      tablePrice: item.querySelector('div:last-child')?.innerHTML as string,
+      tableName: item.querySelector('div:first-child')?.textContent || '',
+      tableDescription: item.querySelector('div:nth-child(2)')?.textContent || '',
+      tablePrice: item.querySelector('div:last-child')?.textContent || '',
     };
   });
 
-  const result = input.reduce((total, item) => total + parseFloat(item.tablePrice), 0);
+  const result = input.reduce((total, item) => {
+    const price = item.tablePrice ? parseFloat(item.tablePrice) : 0;
+    return total + price;
+  }, 0);
+
   const sum = parseFloat(result.toFixed(2));
 
   block.innerHTML = '';
