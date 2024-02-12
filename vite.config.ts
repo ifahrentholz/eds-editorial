@@ -24,6 +24,7 @@ export default defineConfig(({ command, mode }) => {
         preserveEntrySignatures: 'strict',
         input: {
           styles: resolve(__dirname, 'src/styles/sass/main.scss'),
+          fonts: resolve(__dirname, 'src/styles/sass/fonts.scss'),
           main: resolve(__dirname, 'src/main.ts'),
           counter: resolve(__dirname, 'src/blocks/counter/counter.ts'),
           banner: resolve(__dirname, 'src/blocks/banner/banner.ts'),
