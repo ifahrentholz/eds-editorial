@@ -1,7 +1,8 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { fetchText } from '../../utils/fetch.ts';
+
+import { fetchText } from "../../utils/fetchText.ts";
 
 interface SidebarContactTemplateArgs {
   headline: HTMLElement | null;

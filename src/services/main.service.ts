@@ -29,6 +29,8 @@ export class MainService {
   init = async () => {
     this.setup();
     await this.loadEager();
+    // Comment this out to check if load eger loads the lcp blocks
+    await this.loadBlocks();
   };
 
   /**
@@ -68,11 +70,13 @@ export class MainService {
       this.sectionService.init(main);
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
-      await this.loadBlocks();
+      // Auslagern in Lazy
+
       // TODO: Performace adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
       }, 200);
+
       await this.waitForLCP();
     }
   };
@@ -136,6 +140,8 @@ export class MainService {
   }
 
   private async waitForLCP() {
+
+    // Js Chunks should be loaded
     const block = document.querySelector<Block>('.block');
     const hasLCPBlock = block && LCP_BLOCKS.includes(block?.dataset.blockName);
     if (hasLCPBlock) await this.loadBlock(block);

@@ -17,4 +17,6 @@ export declare class MainService {
     private collectBlocks;
     private loadBlockModules;
     private showSection;
+    private waitForLCP;
+    private loadBlock;
 }

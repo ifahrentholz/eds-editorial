@@ -1,5 +1,5 @@
-import { fetchJson } from '../utils/fetch.ts';
 import { SheetsResponse, Sitemap } from '../shared.types.ts';
+import { fetchJson } from "../utils/fetchJson.ts";
 
 export class SitemapService {
   async getSiteMap(): Promise<Sitemap> {

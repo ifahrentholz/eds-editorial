@@ -1,7 +1,7 @@
 import { html, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
-import { fetchText } from '../../utils/fetch.ts';
 import SitemapService  from "../../services/sitemap.service.ts";
+import { fetchText } from "../../utils/fetchText.ts";
 
 interface PostArgs {
   postUrl: string;
@@ -19,7 +19,7 @@ const postTemplate = (args: PostArgs) => {
       <h3>${headline}</h3>
       <p>${text?.slice(0, 200)}</p>
       <ul class="actions">
-        <li><a href="${postUrl}" class="button">${buttontext ?? 'More'}</a></li>
+        <li><a href="${postUrl}" class="button">${buttontext ? buttontext : 'More'}</a></li>
       </ul>
     </article>
   `;
@@ -46,7 +46,7 @@ export default async function (block: HTMLElement) {
       postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: doc.querySelector('p')?.innerText?.trim(),
-      buttontext: siteMapPostEntries[index].imagealt,
+      buttontext: siteMapPostEntries[index].buttontext,
       picture: createOptimizedPicture({
         src: siteMapPostEntries[index].image,
         alt: siteMapPostEntries[index].imagealt,

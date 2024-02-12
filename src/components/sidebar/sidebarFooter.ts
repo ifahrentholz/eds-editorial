@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { fetchText } from '../../utils/fetch.ts';
+
+import { fetchText } from "../../utils/fetchText.ts";
 
 @customElement('sidebar-footer')
 export class SidebarFooter extends LitElement {
