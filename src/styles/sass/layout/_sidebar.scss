@@ -37,6 +37,7 @@
   font-size: 0.9em;
   position: relative;
   width: _size(sidebar-width);
+  margin-left: (_size(sidebar-width) * -1);
 
   h2 {
     font-size: calc(1.25em / 0.9);
@@ -113,14 +114,15 @@
     }
   }
 
-  &.inactive {
-    margin-left: (_size(sidebar-width) * -1);
+  &.active {
+    margin-left: 0;
   }
 
   @include breakpoint('<=xlarge') {
     $pad: calc(1.5em / 0.9);
 
     width: _size(sidebar-width-alt);
+    margin-left: (_size(sidebar-width-alt) * -1);
 
     > .inner {
       @include padding($pad, $pad, (0, 0, $pad, 0));
@@ -145,21 +147,20 @@
       justify-content: center;
     }
 
-    &.inactive {
-      margin-left: (_size(sidebar-width-alt) * -1);
+    &.active {
+      margin-left: 0;
     }
   }
 
   @include breakpoint('<=large') {
-    box-shadow: 0 0 5em 0 rgb(0 0 0 / 17.5%);
     height: 100%;
     left: 0;
     position: fixed;
     top: 0;
     z-index: _misc(z-index-base);
 
-    &.inactive {
-      box-shadow: none;
+    &.active {
+      box-shadow: 0 0 5em 0 rgb(0 0 0 / 17.5%);
     }
 
     > .inner {

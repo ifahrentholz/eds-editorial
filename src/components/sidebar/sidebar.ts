@@ -5,7 +5,6 @@
 
 import { LitElement, html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
-import { debounce } from '@kluntje/js-utils/lib/function-helpers/decorators';
 
 import './sidebarNav.ts';
 import './sidebarContact.ts';
@@ -23,13 +22,6 @@ export class SidebarComponent extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    // this.setInitialVisibility();
-    window.addEventListener('resize', this.setInitialVisibility.bind(this));
-  }
-
-  @debounce(100)
-  private setInitialVisibility() {
-    window.innerWidth <= 1280 ? this.classList.add('inactive') : this.classList.remove('inactive');
   }
 
   firstUpdated(): void {
@@ -38,7 +30,7 @@ export class SidebarComponent extends LitElement {
 
   handleToggleClick = (e: Event) => {
     e.preventDefault();
-    this.classList.toggle('inactive');
+    this.classList.toggle('active');
   };
 
   render() {
