@@ -5,6 +5,7 @@ const { resolve } = require('path');
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// @ts-ignore:next-line
 export default defineConfig(({ command, mode }) => {
   return {
     css: {
