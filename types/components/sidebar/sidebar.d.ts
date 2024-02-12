@@ -1,3 +1,7 @@
+/**
+ * @module SidebarComponent
+ * @copyright diva-e (https://diva-e.com)
+ */
 import { LitElement } from 'lit';
 import './sidebarNav.ts';
 import './sidebarContact.ts';

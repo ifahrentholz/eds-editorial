@@ -34,6 +34,10 @@ const template = (args: TemplateArgs) => {
 };
 
 export default function (block: HTMLElement) {
+  const image = block.querySelector('img');
+  if (image) {
+    image.setAttribute('loading', 'eager');
+  }
   const firstRow = block.querySelector('div');
   const secondRow = block.children[1];
   const headline = firstRow?.querySelector('h1')?.innerText;

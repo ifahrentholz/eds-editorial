@@ -1,15 +1,8 @@
 import { html, LitElement } from 'lit';
 import { fetchData } from '../../utils/fetchData.ts';
-import { Sitemap, SiteMapEntry } from './sidebarNav.ts';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
-
-interface SheetsResponse {
-  type: string;
-  data: [];
-  offset: number;
-  total: number;
-}
+import { Sitemap, SiteMapEntry, SitemapResponse } from '../../shared.types.ts';
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {
@@ -59,7 +52,7 @@ export class SidebarPosts extends LitElement {
   }
 
   private async fetchSitemap() {
-    return <Sitemap>(await fetchData<SheetsResponse>({ endpoint: '/query-index.json', getJson: true })).data;
+    return <Sitemap>(await fetchData<SitemapResponse>({ endpoint: '/query-index.json', getJson: true })).data;
   }
 
   private renderPost(siteMapEntry: SiteMapEntry) {

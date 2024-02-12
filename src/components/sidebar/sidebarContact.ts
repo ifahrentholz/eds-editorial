@@ -1,17 +1,18 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { fetchData } from '../../utils/fetchData';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { undefinedOnEmpty } from '../../utils/undefinedOnEmpty';
 
 interface SidebarContactTemplateArgs {
-  headline: HTMLHeadingElement;
-  text: HTMLParagraphElement;
+  headline?: string;
+  text?: string;
   contacts: Contact[];
 }
 
 interface Contact {
-  contactIcon: string;
-  contactMarkup: string;
+  contactIcon?: string;
+  contactMarkup?: string;
 }
 
 @customElement('sidebar-contact')
@@ -32,17 +33,26 @@ export class SidebarContact extends LitElement {
     const response = await fetchData<string>({ endpoint: 'contact.plain.html' });
     const responseMarkup = document.createElement('div');
     responseMarkup.innerHTML = response;
-    // TODO: refactor contactTemplateArgs
     this.contactTemplateArgs = {
-      headline: responseMarkup.querySelector('h2') as HTMLHeadingElement,
-      text: responseMarkup.querySelector('p') as HTMLParagraphElement,
+      headline: undefinedOnEmpty(responseMarkup.querySelector('h2')?.innerText || ''),
+      text: undefinedOnEmpty(responseMarkup.querySelector('p')?.innerText || ''),
       contacts: Array.from(responseMarkup.querySelectorAll('.contact > div:not(:first-child)')).map((item) => {
         return {
-          contactIcon: item.querySelector('div')?.innerText as string,
-          contactMarkup: item.querySelector('div:last-child')?.innerHTML as string,
+          contactIcon: undefinedOnEmpty(item.querySelector('div')?.innerText || ''),
+          contactMarkup: undefinedOnEmpty(item.querySelector('div:last-child')?.innerHTML || ''),
         };
       }),
     };
+  }
+
+  renderHeader(headline?: string) {
+    if (!headline) return nothing;
+    return html`<header class="major"><h2>${headline}</h2></header>`;
+  }
+
+  renderText(text?: string) {
+    if (!text) return nothing;
+    return html`<p>${text}</p>`;
   }
 
   render() {
@@ -50,12 +60,11 @@ export class SidebarContact extends LitElement {
     const { headline, text, contacts } = this.contactTemplateArgs;
     return html`
       <section>
-        <header class="major">${headline}</header>
-        ${text}
+        ${this.renderHeader(headline)} ${this.renderText(text)}
         <ul class="contact">
           ${contacts.map((item) => {
             return html` <li class="icon solid">
-              <icon-component name="${item.contactIcon}"></icon-component>
+              <icon-component class="icon-component" name="${item.contactIcon}"></icon-component>
               ${unsafeHTML(item.contactMarkup)}
             </li>`;
           })}

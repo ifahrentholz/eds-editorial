@@ -2,16 +2,7 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
-
-export type SiteMapEntry = {
-  path: string;
-  title: string;
-  description: string;
-  lastModified: string; // Assuming this is a string representing a timestamp
-  image: string;
-  imagealt: string;
-  navtitle: string;
-};
+import { Sitemap, SiteMapEntry } from '../../shared.types';
 
 interface SubMenuItem {
   path: string;
@@ -23,8 +14,6 @@ interface MenuItem {
   navtitle: string;
   children?: SubMenuItem[];
 }
-
-export type Sitemap = SiteMapEntry[];
 
 @customElement('sidebar-nav')
 export class SidebarNav extends LitElement {
