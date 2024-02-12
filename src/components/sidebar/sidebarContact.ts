@@ -55,7 +55,7 @@ export class SidebarContact extends LitElement {
         <ul class="contact">
           ${contacts.map((item) => {
             return html` <li class="icon solid">
-              <icon-component name="${item.contactIcon}"></icon-component>
+              <icon-component class="icon-component" name="${item.contactIcon}"></icon-component>
               ${unsafeHTML(item.contactMarkup)}
             </li>`;
           })}

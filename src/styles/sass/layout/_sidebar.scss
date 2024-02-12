@@ -74,7 +74,7 @@
     }
   }
 
-  .contact icon-component {
+  .contact .icon-component {
     color: #f56a6a;
     display: inline-block;
     font-size: 1.5em;
@@ -178,7 +178,7 @@
       }
     }
 
-    .contact icon-component {
+    .contact .icon-component {
       width: 27px;
     }
 
@@ -193,7 +193,7 @@
   }
 
   @include breakpoint('<=small') {
-    .contact icon-component {
+    .contact .icon-component {
       width: 24px;
     }
 
