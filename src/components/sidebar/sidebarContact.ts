@@ -47,7 +47,7 @@ export class SidebarContact extends LitElement {
 
   renderHeader(headline?: string) {
     if (!headline) return nothing;
-    return html`<header class="major"><h2>Contact</h2></header>`;
+    return html`<header class="major"><h2>${headline}</h2></header>`;
   }
 
   renderText(text?: string) {
