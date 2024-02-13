@@ -7,7 +7,7 @@ interface FormTemplateData {
 
 interface FormField {
   name: string;
-  type: string;
+  type: 'text' | 'textarea' | 'select' | 'button';
   placeholder: string;
   label: string;
   id: string;
@@ -34,7 +34,7 @@ export class FormComponent extends LitElement {
     try {
       const response = await fetch('form.json');
       const data = await response.json();
-      const detailsData = data.details.data.map((item: any) => ({
+      const detailsData = data.data.map((item: any) => ({
         name: item.name,
         type: item.type,
         placeholder: item.placeholder,
@@ -62,6 +62,9 @@ export class FormComponent extends LitElement {
     `;
   }
 
+  renderButtonField(field: FormField) {
+    return html` <button type="${field.type}" class="${field.class}" id="${field.id}">${field.label}</button> `;
+  }
   renderTextareaField(field: FormField) {
     return html`
       <textarea
@@ -110,6 +113,7 @@ export class FormComponent extends LitElement {
       text: this.renderInputField,
       textarea: this.renderTextareaField,
       select: this.renderSelectField,
+      button: this.renderButtonField,
     };
 
     const renderer = fieldRenderers[field.type] || this.renderInputField;
