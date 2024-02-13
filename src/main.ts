@@ -2,6 +2,7 @@
 
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
+import './services/sitemap.service.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
 import { MainService } from './services/main.service.ts';

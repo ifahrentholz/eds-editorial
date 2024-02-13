@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
 import { Sitemap, SiteMapEntry } from '../../shared.types.ts';
-import SitemapService from "../../services/sitemap.service.ts";
+import SitemapService from '../../services/sitemap.service.ts';
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {

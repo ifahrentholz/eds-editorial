@@ -140,7 +140,6 @@ export class MainService {
   }
 
   private async waitForLCP() {
-
     // Js Chunks should be loaded
     const block = document.querySelector<Block>('.block');
     const hasLCPBlock = block && LCP_BLOCKS.includes(block?.dataset.blockName);
@@ -154,8 +153,8 @@ export class MainService {
       if (lcpCandidate && !lcpCandidate.complete) {
         lcpCandidate.setAttribute('loading', 'eager');
         lcpCandidate.setAttribute('fetchpriority', 'high');
-        lcpCandidate.addEventListener('load', () =>  resolve());
-        lcpCandidate.addEventListener('error',() =>  resolve());
+        lcpCandidate.addEventListener('load', () => resolve());
+        lcpCandidate.addEventListener('error', () => resolve());
       } else {
         resolve();
       }
@@ -163,13 +162,13 @@ export class MainService {
   }
 
   private async loadBlock(section: HTMLElement) {
-      const blocks: BlockMapping[] = this.collectBlocks(section);
-      if (!blocks.length) {
-        this.showSection(section);
-        return;
-      }
-
-      await this.loadBlockModules(blocks);
+    const blocks: BlockMapping[] = this.collectBlocks(section);
+    if (!blocks.length) {
       this.showSection(section);
+      return;
+    }
+
+    await this.loadBlockModules(blocks);
+    this.showSection(section);
   }
 }

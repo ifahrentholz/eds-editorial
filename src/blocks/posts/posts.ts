@@ -1,14 +1,14 @@
 import { html, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
-import SitemapService  from "../../services/sitemap.service.ts";
-import { fetchText } from "../../utils/fetchText.ts";
+import SitemapService from '../../services/sitemap.service.ts';
+import { fetchText } from '../../utils/fetchText.ts';
 
 interface PostArgs {
   postUrl: string;
   headline?: string;
   text?: string;
   picture: HTMLPictureElement;
-  buttontext?: string
+  buttontext?: string;
 }
 
 const postTemplate = (args: PostArgs) => {

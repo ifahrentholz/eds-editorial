@@ -1,8 +1,8 @@
 import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { replaceBySpecifier } from "../utils/replaceBySpecifier.ts";
-import { unsafeHTML } from "lit-html/directives/unsafe-html.js";
-import { fetchJson } from "../utils/fetchJson.ts";
+import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { fetchJson } from '../utils/fetchJson.ts';
 
 export interface HeaderResponseData {
   leftCol: LeftCol;
