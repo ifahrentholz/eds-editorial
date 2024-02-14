@@ -16,7 +16,7 @@ const template = (features: TemplateArgs) => {
       (feature) => html`
         <article>
           <span class="icon"><icon-component class="icon-wc" name="${feature.icon}"></icon-component></span>
-          <div class="content">${unsafeHTML(feature.textBlock)} - Test</div>
+          <div class="content">${unsafeHTML(feature.textBlock)}</div>
         </article>
       `
     )}
