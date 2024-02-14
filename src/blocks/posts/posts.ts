@@ -1,4 +1,4 @@
-import { html, render } from 'lit';
+import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import SitemapService from '../../services/sitemap.service.ts';
 import { fetchText } from '../../utils/fetchText.ts';
@@ -11,15 +11,27 @@ interface PostArgs {
   buttontext?: string;
 }
 
+const renderHeadline = (headline?: string) => {
+  if (!headline) return nothing;
+  return html`<h3>${headline}</h3>`;
+};
+
+const renderText = (text?: string) => {
+  if (!text) return nothing;
+  if (text.length > 200) {
+    return html`<p>${text.slice(0, 200)}...</p>`;
+  }
+  return html`<p>${text}</p>`;
+};
+
 const postTemplate = (args: PostArgs) => {
   const { postUrl, headline, text, picture, buttontext } = args;
   return html`
     <article>
       <a href="${postUrl}" class="image">${picture}</a>
-      <h3>${headline}</h3>
-      <p>${text?.slice(0, 200)}</p>
+      ${renderHeadline(headline)} ${renderText(text)}
       <ul class="actions">
-        <li><a href="${postUrl}" class="button">${buttontext ? buttontext : 'More'}</a></li>
+        <li><a href="${postUrl}" class="button">${buttontext || 'Goto Post'}</a></li>
       </ul>
     </article>
   `;
@@ -27,6 +39,12 @@ const postTemplate = (args: PostArgs) => {
 
 const template = (posts: PostArgs[]) => {
   return posts.map((post) => postTemplate(post));
+};
+
+// TODO: Candidate for a EDS helper function???
+const getFirstParagraph = (doc: Document): string | undefined => {
+  const paragraphs = Array.from(doc.querySelectorAll('p'));
+  return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText || undefined;
 };
 
 export default async function (block: HTMLElement) {
@@ -45,11 +63,13 @@ export default async function (block: HTMLElement) {
     return {
       postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
-      text: doc.querySelector('p')?.innerText?.trim(),
+      text: getFirstParagraph(doc),
       buttontext: siteMapPostEntries[index].buttontext,
       picture: createOptimizedPicture({
         src: siteMapPostEntries[index].image,
         alt: siteMapPostEntries[index].imagealt,
+        width: '323',
+        height: '199',
       }),
     };
   });

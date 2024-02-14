@@ -22,7 +22,7 @@ export class SidebarFooter extends LitElement {
     const responseMarkup = document.createElement('div');
     responseMarkup.innerHTML = response;
     this.footerMarkup = responseMarkup.querySelector('p');
-    this.footerMarkup?.classList.add('copyright');
+    if (this.footerMarkup) this.footerMarkup.classList.add('copyright');
   }
 
   render() {

@@ -61,8 +61,7 @@ export class HeaderComponent extends LitElement {
     const logoText = replaceBySpecifier({ input: leftCol.logoText, htmlTag: 'strong', specifier: ':::' });
     const logoTextHTML = unsafeHTML(logoText);
     return html`
-      <a href="${leftCol.logoLink}" class="logo"> ${logoTextHTML} </a>
-      <a href="${leftCol.logoLink}" class="logo">${leftCol.logoText}</a>
+      <a href="${leftCol.logoLink}" class="logo">${logoTextHTML}</a>
       <ul class="icons">
         ${rightCol.map((item) => {
           return html`

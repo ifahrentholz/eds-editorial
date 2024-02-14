@@ -29,8 +29,9 @@ export class MainService {
   init = async () => {
     this.setup();
     await this.loadEager();
+    await this.loadLazy();
     // Comment this out to check if load eger loads the lcp blocks
-    await this.loadBlocks();
+    // Should be in lazy
   };
 
   /**
@@ -70,7 +71,6 @@ export class MainService {
       this.sectionService.init(main);
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
-      // Auslagern in Lazy
 
       // TODO: Performace adjustment
       setTimeout(() => {
@@ -78,6 +78,15 @@ export class MainService {
       }, 200);
 
       await this.waitForLCP();
+
+      try {
+        /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
+        if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
+          this.loadFonts();
+        }
+      } catch (e) {
+        // do nothing
+      }
     }
   };
 
@@ -95,7 +104,10 @@ export class MainService {
     main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
   }
 
-  // private loadLazy = async () => {};
+  private loadLazy = async () => {
+    this.loadFonts();
+    await this.loadBlocks();
+  };
 
   private decorateTemplateAndTheme() {
     const template = getMetadata('template');
@@ -115,7 +127,7 @@ export class MainService {
     const blocksElements = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
 
     blocksElements.forEach((block: HTMLDivElement) => {
-      block.style.display = 'none';
+      // block.style.display = 'none';
       blockMap.push({
         name: block.dataset['blockName'] as string,
         element: block,
@@ -137,6 +149,30 @@ export class MainService {
 
   private showSection(section: HTMLElement) {
     section.style.removeProperty('display');
+  }
+
+  private async loadFonts() {
+    await this.loadCSS(`${window.hlx.codeBasePath}/dist/fonts/fonts.css`);
+    try {
+      if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
+    } catch (e) {
+      // do nothing
+    }
+  }
+
+  private async loadCSS(href: string) {
+    return new Promise((resolve, reject) => {
+      if (!document.querySelector(`head > link[href="${href}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = resolve;
+        link.onerror = reject;
+        document.head.append(link);
+      } else {
+        resolve(true);
+      }
+    });
   }
 
   private async waitForLCP() {
