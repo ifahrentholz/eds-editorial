@@ -15,8 +15,8 @@ jobs:
         with:
           node-version: 20
       - run: |
-          chmod +x .github/ingo_remove.sh
-          .github/ingo_remove.sh
+          chmod +x scripts/build/ingo_remove.sh
+          scripts/build/ingo_remove.sh
           cat .gitignore
       - run: npm ci && npm run build && npm run lint
       - run: npm run build --if-present
@@ -29,8 +29,8 @@ jobs:
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "eds-editorial-ci@diva-e.com"
           git add .
-          chmod +x .github/ingo_add.sh
-          .github/ingo_add.sh
+          chmod +x scripts/build/ingo_add.sh
+          scripts/build/ingo_add.sh
           cat .gitignore
           git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
           git push
