@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "dist/*" >> ../.gitignore
+echo "dist/*" >> .gitignore
