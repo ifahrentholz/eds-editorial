@@ -1,11 +1,14 @@
 import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
+import { fetchText } from '../../utils/fetch.ts';
+import SitemapService  from "../../services/sitemap.service.ts";
 
 interface PostArgs {
   postUrl: string;
   headline?: string;
   text?: string;
   picture: HTMLPictureElement;
+  buttontext?: string
 }
 
 const renderHeadline = (headline?: string) => {
@@ -22,13 +25,13 @@ const renderText = (text?: string) => {
 };
 
 const postTemplate = (args: PostArgs) => {
-  const { postUrl, headline, text, picture } = args;
+  const { postUrl, headline, text, picture, buttontext } = args;
   return html`
     <article>
       <a href="${postUrl}" class="image">${picture}</a>
       ${renderHeadline(headline)} ${renderText(text)}
       <ul class="actions">
-        <li><a href="${postUrl}" class="button">Goto Post</a></li>
+        <li><a href="${postUrl}" class="button">${buttontext || 'Goto Post'}</a></li>
       </ul>
     </article>
   `;
@@ -38,42 +41,33 @@ const template = (posts: PostArgs[]) => {
   return posts.map((post) => postTemplate(post));
 };
 
+// TODO: Candidate for a EDS helper function???
+const getFirstParagraph = (doc: Document): string | undefined => {
+  const paragraphs = Array.from(doc.querySelectorAll('p'));
+  return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText || undefined;
+};
+
 export default async function (block: HTMLElement) {
   block.innerHTML = '';
 
-  const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
-  const response = await req.json();
-
-  const data = response.data.filter((item) => {
-    return item.path.includes('/posts');
-  });
+  const parser = new DOMParser();
+  const siteMap = await SitemapService.getSiteMap();
+  const siteMapPostEntries = siteMap.filter((item) => item.path.includes('/posts'));
 
   const postsPreview = await Promise.all(
-    data.map(async (post) => {
-      const result = await fetch(`${window.hlx.codeBasePath}${post.path}.plain.html`);
-      return result.text();
-    })
+    siteMapPostEntries.map(async (post) => await fetchText(`${post.path}.plain.html`))
   );
 
-  const postsPreviewHtml = postsPreview.map((res) => {
-    var parser = new DOMParser();
-    return parser.parseFromString(res, 'text/html');
-  });
-
-  // TODO: Candidate for a EDS helper function???
-  const getFirstParagraph = (doc: Document): string | undefined => {
-    const paragraphs = Array.from(doc.querySelectorAll('p'));
-    return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText || undefined;
-  };
-
+  const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
   const posts = postsPreviewHtml.map((doc, index) => {
     return {
-      postUrl: `${window.hlx.codeBasePath}${data[index].path}`,
+      postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: getFirstParagraph(doc),
+      buttontext: siteMapPostEntries[index].imagealt,
       picture: createOptimizedPicture({
-        src: data[index].image,
-        alt: data[index].imagealt,
+        src: siteMapPostEntries[index].image,
+        alt: siteMapPostEntries[index].imagealt,
         width: '323',
         height: '199',
       }),

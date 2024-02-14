@@ -1,18 +1,17 @@
-import { LitElement, html, nothing } from 'lit';
+import { html, LitElement, nothing } from "lit";
 import { customElement, state } from 'lit/decorators.js';
-import { fetchData } from '../../utils/fetchData';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { undefinedOnEmpty } from '../../utils/undefinedOnEmpty';
+import { fetchText } from '../../utils/fetch.ts';
 
 interface SidebarContactTemplateArgs {
-  headline?: string;
-  text?: string;
+  headline: HTMLElement | null;
+  text: HTMLElement | null;
   contacts: Contact[];
 }
 
 interface Contact {
-  contactIcon?: string;
-  contactMarkup?: string;
+  icon: HTMLElement | null;
+  markup: HTMLElement | null;
 }
 
 @customElement('sidebar-contact')
@@ -20,56 +19,100 @@ export class SidebarContact extends LitElement {
   @state()
   contactTemplateArgs: SidebarContactTemplateArgs;
 
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
-  }
-
-  connectedCallback(): void {
+  async connectedCallback() {
     super.connectedCallback();
-    this.fetchContactData();
+    const contactHtml = await this.fetchContactsHtml();
+    this.getContactTemplateArgs(contactHtml);
   }
 
-  async fetchContactData() {
-    const response = await fetchData<string>({ endpoint: 'contact.plain.html' });
-    const responseMarkup = document.createElement('div');
-    responseMarkup.innerHTML = response;
-    this.contactTemplateArgs = {
-      headline: undefinedOnEmpty(responseMarkup.querySelector('h2')?.innerText || ''),
-      text: undefinedOnEmpty(responseMarkup.querySelector('p')?.innerText || ''),
-      contacts: Array.from(responseMarkup.querySelectorAll('.contact > div:not(:first-child)')).map((item) => {
-        return {
-          contactIcon: undefinedOnEmpty(item.querySelector('div')?.innerText || ''),
-          contactMarkup: undefinedOnEmpty(item.querySelector('div:last-child')?.innerHTML || ''),
-        };
-      }),
-    };
+  async fetchContactsHtml() {
+    const parser = new DOMParser();
+    const contactHtmlString = await fetchText('contact.plain.html');
+    return parser.parseFromString(contactHtmlString, 'text/html');
   }
 
-  renderHeader(headline?: string) {
+  renderHeader(headline: HTMLElement | null) {
     if (!headline) return nothing;
-    return html`<header class="major"><h2>${headline}</h2></header>`;
+    return html`
+      <header class="major">
+        <h2>${headline}</h2>
+      </header>`;
   }
 
-  renderText(text?: string) {
+  renderText(text: HTMLElement | null) {
     if (!text) return nothing;
     return html`<p>${text}</p>`;
   }
 
   render() {
-    if (!this.contactTemplateArgs) return;
+    if (!this.contactTemplateArgs) return nothing;
+
     const { headline, text, contacts } = this.contactTemplateArgs;
+
     return html`
       <section>
-        ${this.renderHeader(headline)} ${this.renderText(text)}
-        <ul class="contact">
-          ${contacts.map((item) => {
-            return html` <li class="icon solid">
-              <icon-component class="icon-component" name="${item.contactIcon}"></icon-component>
-              ${unsafeHTML(item.contactMarkup)}
-            </li>`;
-          })}
-        </ul>
+        ${this.renderHeader(headline)} 
+        ${this.renderText(text)} 
+        ${this.renderContacts(contacts)}
       </section>
     `;
+  }
+
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
+  }
+
+  private renderContact(contact: Contact) {
+    const { icon, markup } = contact;
+    if (!icon && !markup) return nothing;
+    console.log(icon?.innerHTML);
+    console.log(markup?.innerHTML);
+
+    return html`
+      <li class="icon solid">
+        ${this.renderIcon(icon)}
+        ${this.renderContactMarkup(markup)}
+      </li>`;
+  }
+
+  private getContactsArgs(contactHtml: Document): Contact[] {
+    const contactsElement = contactHtml.querySelectorAll('.contact > div:not(:first-child)');
+    const contactsArray = Array.from(contactsElement);
+
+    return contactsArray.map((contactElement) => {
+      return {
+        icon: contactElement.querySelector('div'),
+        markup: contactElement.querySelector('div:last-child'),
+      };
+    });
+  }
+
+  private getContactTemplateArgs(contactHtml: Document) {
+    const headline = contactHtml.querySelector('h2');
+    const text = contactHtml.querySelector('p');
+    const contacts = this.getContactsArgs(contactHtml);
+
+    this.contactTemplateArgs = {
+      headline,
+      text,
+      contacts,
+    };
+  }
+
+  private renderContacts(contacts: Contact[]) {
+    if (contacts.length === 0) return nothing;
+    return html` <ul class="contact">
+      ${contacts.map((contact) => this.renderContact(contact))}
+    </ul>`;
+  }
+
+  private renderIcon(icon: HTMLElement | null) {
+    if (!icon) return nothing;
+    return html`<icon-component class="icon-component" name="${icon.innerHTML}"></icon-component>`;
+  }
+
+  private renderContactMarkup(markup: HTMLElement | null) {
+    if (!markup) return nothing;
+    return unsafeHTML(markup.innerHTML);
   }
 }

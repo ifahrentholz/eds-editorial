@@ -1,20 +1,26 @@
-import { LitElement, nothing } from 'lit';
+import { LitElement, nothing } from "lit";
 interface SidebarContactTemplateArgs {
-    headline?: string;
-    text?: string;
+    headline: HTMLElement | null;
+    text: HTMLElement | null;
     contacts: Contact[];
 }
 interface Contact {
-    contactIcon?: string;
-    contactMarkup?: string;
+    icon: HTMLElement | null;
+    markup: HTMLElement | null;
 }
 export declare class SidebarContact extends LitElement {
     contactTemplateArgs: SidebarContactTemplateArgs;
+    connectedCallback(): Promise<void>;
+    fetchContactsHtml(): Promise<Document>;
+    renderHeader(headline: HTMLElement | null): typeof nothing | import("lit-html").TemplateResult<1>;
+    renderText(text: HTMLElement | null): typeof nothing | import("lit-html").TemplateResult<1>;
+    render(): typeof nothing | import("lit-html").TemplateResult<1>;
     protected createRenderRoot(): HTMLElement | DocumentFragment;
-    connectedCallback(): void;
-    fetchContactData(): Promise<void>;
-    renderHeader(headline?: string): import("lit-html").TemplateResult<1> | typeof nothing;
-    renderText(text?: string): import("lit-html").TemplateResult<1> | typeof nothing;
-    render(): import("lit-html").TemplateResult<1> | undefined;
+    private renderContact;
+    private getContactsArgs;
+    private getContactTemplateArgs;
+    private renderContacts;
+    private renderIcon;
+    private renderContactMarkup;
 }
 export {};

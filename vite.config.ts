@@ -5,7 +5,6 @@ const { resolve } = require('path');
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// @ts-ignore:next-line
 export default defineConfig(({ command, mode }) => {
   return {
     css: {
@@ -24,7 +23,6 @@ export default defineConfig(({ command, mode }) => {
         preserveEntrySignatures: 'strict',
         input: {
           styles: resolve(__dirname, 'src/styles/sass/main.scss'),
-          fonts: resolve(__dirname, 'src/styles/sass/fonts.scss'),
           main: resolve(__dirname, 'src/main.ts'),
           counter: resolve(__dirname, 'src/blocks/counter/counter.ts'),
           banner: resolve(__dirname, 'src/blocks/banner/banner.ts'),
