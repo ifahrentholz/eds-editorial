@@ -6,6 +6,7 @@ import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
 import { MainService } from './services/main.service.ts';
 
+// Todo
 // function preloadLcpImageCandidate() {
 //   const lcpCandidate = document.querySelector('main img') as HTMLImageElement | null;
 //   const linkTag = document.createElement('link');
