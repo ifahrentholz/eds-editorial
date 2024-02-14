@@ -28,7 +28,7 @@ jobs:
         run: |
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "eds-editorial-ci@diva-e.com"
-          git add -u
+          git add .
           chmod +x scripts/build/ingo_add.sh
           scripts/build/ingo_add.sh
           cat .gitignore
