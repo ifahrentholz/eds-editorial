@@ -8,6 +8,8 @@ jobs:
       CI_COMMIT_MESSAGE: Continuous Integration Build Project
       CI_COMMIT_AUTHOR: ${{ github.event.repository.name }} Continuous Integration
     steps:
+      - name: Display event name
+        run: echo "github.event_name=${{ github.event_name }}"
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Use Node.js 20
@@ -19,11 +21,8 @@ jobs:
         uses: tj-actions/verify-changed-files@v18
         id: verify-changed-files
         with:
-          files: |
-            dist
-      - name: Display event name
-        run: echo "github.event_name=${{ github.event_name }}"
-      - name: Commit build artifacts (dist, devdist, docs, coverage)
+          files: dist
+      - name: Commit dist if changed
         if: env.CI_COMMIT_AUTHOR != 'auto' && github.event_name != 'pull_request' && contains(steps.verify-changed-files.outputs.changed_files, 'dist')
         run: |
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
