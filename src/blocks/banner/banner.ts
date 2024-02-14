@@ -15,7 +15,7 @@ const template = (args: TemplateArgs) => {
     <div id="banner">
       <div class="content">
         <header>
-          <h1>Ingo 1: ${headline}</h1>
+          <h1>${headline}</h1>
           <p>${subline}</p>
         </header>
         ${texts?.map((text) => html`<p>${text.innerText}</p>`)}
