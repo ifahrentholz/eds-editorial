@@ -1,8 +1,9 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
-import '../icon';import { SiteMapEntry } from '../../shared.types';
-import SitemapService  from '../../services/sitemap.service.ts';
+import '../icon';
+import { SiteMapEntry } from '../../shared.types';
+import SitemapService from '../../services/sitemap.service.ts';
 
 interface SubMenuItem {
   path: string;
@@ -48,9 +49,9 @@ export class SidebarNav extends LitElement {
         <span class="submenu__text">${item.navtitle} </span>
         <icon-component class="submenu__icon" name="chevron-down"></icon-component>
       </span>
-    <ul>
-      ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
-    </ul>`;
+      <ul>
+        ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
+      </ul>`;
   }
 
   private renderMenuItem(item: MenuItem) {

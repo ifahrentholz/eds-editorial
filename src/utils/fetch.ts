@@ -1,4 +1,4 @@
-import  fetchCache  from './FetchCache.ts';
+import fetchCache from './FetchCache.ts';
 
 const fetchData = async (endpoint: string, init?: RequestInit): Promise<Response> => {
   const decoratedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
@@ -6,7 +6,7 @@ const fetchData = async (endpoint: string, init?: RequestInit): Promise<Response
   const cache = fetchCache.get(url);
 
   if (cache !== null) {
-    return  cache;
+    return cache;
   }
 
   const response = await fetch(url, init);

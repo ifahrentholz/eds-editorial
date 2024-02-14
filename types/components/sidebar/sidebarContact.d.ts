@@ -1,4 +1,4 @@
-import { LitElement, nothing } from "lit";
+import { LitElement, nothing } from 'lit';
 interface SidebarContactTemplateArgs {
     headline: HTMLElement | null;
     text: HTMLElement | null;
