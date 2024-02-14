@@ -10,7 +10,7 @@ const fetchData = async (endpoint: string, init?: RequestInit): Promise<Response
   }
 
   const response = await fetch(url, init);
-  fetchCache.set(url, response);
+  fetchCache.set(url, response.clone());
 
   return response;
 };

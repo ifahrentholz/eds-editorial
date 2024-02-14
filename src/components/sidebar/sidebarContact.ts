@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from "lit";
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { fetchText } from '../../utils/fetch.ts';
@@ -10,18 +10,14 @@ interface SidebarContactTemplateArgs {
 }
 
 interface Contact {
-  contactIcon: HTMLElement | null;
-  contactMarkup: HTMLElement | null;
+  icon: HTMLElement | null;
+  markup: HTMLElement | null;
 }
 
 @customElement('sidebar-contact')
 export class SidebarContact extends LitElement {
   @state()
   contactTemplateArgs: SidebarContactTemplateArgs;
-
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
-  }
 
   async connectedCallback() {
     super.connectedCallback();
@@ -35,27 +31,48 @@ export class SidebarContact extends LitElement {
     return parser.parseFromString(contactHtmlString, 'text/html');
   }
 
+  renderHeader(headline: HTMLElement | null) {
+    if (!headline) return nothing;
+    return html`
+      <header class="major">
+        <h2>${headline}</h2>
+      </header>`;
+  }
+
+  renderText(text: HTMLElement | null) {
+    if (!text) return nothing;
+    return html`<p>${text}</p>`;
+  }
+
   render() {
-    if (!this.contactTemplateArgs) return;
+    if (!this.contactTemplateArgs) return nothing;
 
     const { headline, text, contacts } = this.contactTemplateArgs;
 
     return html`
       <section>
-        <header class="major">${headline}</header>
-        ${text}
-        <ul class="contact">
-          ${contacts.map((contact) => this.renderContact(contact))}
-        </ul>
+        ${this.renderHeader(headline)} 
+        ${this.renderText(text)} 
+        ${this.renderContacts(contacts)}
       </section>
     `;
   }
 
+  protected createRenderRoot(): HTMLElement | DocumentFragment {
+    return this;
+  }
+
   private renderContact(contact: Contact) {
-    return html` <li class="icon solid">
-      <icon-component name="${contact.contactIcon?.innerHTML}"></icon-component>
-      ${unsafeHTML(contact.contactMarkup?.innerHTML)}
-    </li>`;
+    const { icon, markup } = contact;
+    if (!icon && !markup) return nothing;
+    console.log(icon?.innerHTML);
+    console.log(markup?.innerHTML);
+
+    return html`
+      <li class="icon solid">
+        ${this.renderIcon(icon)}
+        ${this.renderContactMarkup(markup)}
+      </li>`;
   }
 
   private getContactsArgs(contactHtml: Document): Contact[] {
@@ -64,8 +81,8 @@ export class SidebarContact extends LitElement {
 
     return contactsArray.map((contactElement) => {
       return {
-        contactIcon: contactElement.querySelector('div'),
-        contactMarkup: contactElement.querySelector('div:last-child'),
+        icon: contactElement.querySelector('div'),
+        markup: contactElement.querySelector('div:last-child'),
       };
     });
   }
@@ -80,5 +97,22 @@ export class SidebarContact extends LitElement {
       text,
       contacts,
     };
+  }
+
+  private renderContacts(contacts: Contact[]) {
+    if (contacts.length === 0) return nothing;
+    return html` <ul class="contact">
+      ${contacts.map((contact) => this.renderContact(contact))}
+    </ul>`;
+  }
+
+  private renderIcon(icon: HTMLElement | null) {
+    if (!icon) return nothing;
+    return html`<icon-component class="icon-component" name="${icon.innerHTML}"></icon-component>`;
+  }
+
+  private renderContactMarkup(markup: HTMLElement | null) {
+    if (!markup) return nothing;
+    return unsafeHTML(markup.innerHTML);
   }
 }
