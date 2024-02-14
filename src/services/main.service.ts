@@ -30,8 +30,6 @@ export class MainService {
     this.setup();
     await this.loadEager();
     await this.loadLazy();
-    // Comment this out to check if load eger loads the lcp blocks
-    // Should be in lazy
   };
 
   /**
@@ -105,7 +103,7 @@ export class MainService {
   }
 
   private loadLazy = async () => {
-    this.loadFonts();
+    await this.loadFonts();
     await this.loadBlocks();
   };
 
@@ -117,9 +115,10 @@ export class MainService {
   }
 
   private loadBlocks = async () => {
-    const sections = document.querySelectorAll<HTMLElement>('.section');
+    const sections = [...document.querySelectorAll<HTMLElement>('.section')];
+    const blockPromises = sections.map((section) => this.loadBlock(section));
 
-    sections.forEach((section) => this.loadBlock(section));
+    await Promise.all(blockPromises);
   };
 
   private collectBlocks(section: HTMLElement): BlockMapping[] {
@@ -127,7 +126,6 @@ export class MainService {
     const blocksElements = section.querySelectorAll<HTMLDivElement>('[data-block-name]');
 
     blocksElements.forEach((block: HTMLDivElement) => {
-      // block.style.display = 'none';
       blockMap.push({
         name: block.dataset['blockName'] as string,
         element: block,

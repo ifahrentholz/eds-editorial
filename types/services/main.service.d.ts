@@ -20,4 +20,6 @@ export declare class MainService {
     private showSection;
     private loadFonts;
     private loadCSS;
+    private waitForLCP;
+    private loadBlock;
 }
