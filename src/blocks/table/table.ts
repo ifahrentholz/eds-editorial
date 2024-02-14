@@ -1,73 +1,72 @@
-import { html, render } from 'lit-html';
+import { html, render } from 'lit';
 
-interface TemplateArgs {
-  text?: string;
-  description?: string;
-  price?: string;
-  input?: Input[];
-  sum?: number;
+interface TableArgs {
+  [key: string]: string;
 }
 
-interface Input {
-  tableName?: string;
-  tableDescription?: string;
-  tablePrice?: string;
-}
-
-const template = ({ text, description, price, input, sum }: TemplateArgs) => {
+const tableTemplate = (headers: string[], data: string[][]) => {
   return html`
     <table>
       <thead>
         <tr>
-          <th>${text}</th>
-          <th>${description}</th>
-          <th>${price}</th>
+          ${headers.map((header) => html`<th>${header}</th>`)}
         </tr>
       </thead>
       <tbody>
-        ${input?.map((item) => {
-          return html`
+        ${data.map(
+          (rowData) => html`
             <tr>
-              <td>${item.tableName}</td>
-              <td>${item.tableDescription}</td>
-              <td>${item.tablePrice}</td>
+              ${rowData.map((data) => html`<td>${data}</td>`)}
             </tr>
-          `;
-        })}
+          `
+        )}
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2"></td>
-          <td>${sum}</td>
-        </tr>
-      </tfoot>
     </table>
   `;
 };
 
-export default function (block: HTMLElement) {
-  const firstRow = block.querySelector('div');
+const template = (tables: { headers: string[]; data: string[] }[]) => {
+  return tables.map((table) => tableTemplate(table.headers, table.data));
+};
 
-  const text = firstRow?.querySelector('.table div div:first-child')?.textContent || '';
-  const description = firstRow?.querySelector('div:nth-child(2) strong')?.textContent || '';
-  const price = firstRow?.querySelector('.table div div:last-child strong')?.textContent || '';
-
-  const input: Input[] = Array.from(document.querySelectorAll('.table > div:not(:first-child)')).map((item) => {
-    return {
-      tableName: item.querySelector('div:first-child')?.textContent || '',
-      tableDescription: item.querySelector('div:nth-child(2)')?.textContent || '',
-      tablePrice: item.querySelector('div:last-child')?.textContent || '',
-    };
-  });
-
-  const result = input.reduce((total, item) => {
-    const price = item.tablePrice ? parseFloat(item.tablePrice) : 0;
-    return total + price;
-  }, 0);
-
-  const sum = parseFloat(result.toFixed(2));
-
+export default async function renderTables(block: HTMLElement) {
   block.innerHTML = '';
-  block.style.removeProperty('display');
-  render(template({ text, description, price, input, sum }), block);
+
+  try {
+    const req = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
+    if (!req.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const response = await req.json();
+
+    const tablesData = response.data.filter((item: any) => item.path.includes('/generic'));
+
+    const tables = await Promise.all(
+      tablesData.map(async (table: any) => {
+        const tableReq = await fetch(`${window.hlx.codeBasePath}${table.path}.plain.html`);
+        if (!tableReq.ok) {
+          throw new Error(`Failed to fetch data for ${table.path}`);
+        }
+        const tableContent = await tableReq.text();
+        const parser = new DOMParser();
+        const tableDoc = parser.parseFromString(tableContent, 'text/html');
+
+        const tableRows = Array.from(tableDoc.querySelectorAll('.table div'));
+        const headers = Array.from(tableRows[0].querySelectorAll('div')).map((cell) => cell.innerText);
+
+        const data: string[][] = [];
+        for (let i = 1; i < tableRows.length; i++) {
+          const rowData = Array.from(tableRows[i].querySelectorAll('div')).map((cell) => cell.innerText);
+          data.push(rowData);
+        }
+
+        return { headers, data };
+      })
+    );
+
+    block.style.removeProperty('display');
+    render(template(tables), block);
+  } catch (error) {
+    console.error('Error rendering tables:', error);
+  }
 }
