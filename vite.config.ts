@@ -31,6 +31,7 @@ export default defineConfig(({ command, mode }) => {
           features: resolve(__dirname, 'src/blocks/features/features.ts'),
           posts: resolve(__dirname, 'src/blocks/posts/posts.ts'),
           table: resolve(__dirname, 'src/blocks/table/table.ts'),
+          form: resolve(__dirname, 'src/blocks/form/form.ts'),
         },
         output: {
           dir: 'dist',

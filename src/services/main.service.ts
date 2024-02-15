@@ -59,7 +59,6 @@ export class MainService {
       this.blockService.decorateBlocks(main);
 
       this.addTableContainer(main);
-      this.addFormContainer(main);
 
       await this.loadBlocks();
       // TODO: Performace adjustment
@@ -98,11 +97,6 @@ export class MainService {
     const tableContainer = document.createElement('table-component');
     tableContainer.setAttribute('id', 'table');
     main.append(tableContainer);
-  }
-  private addFormContainer(main: HTMLElement) {
-    const formContainer = document.createElement('form-component');
-    formContainer.setAttribute('id', 'form');
-    main.append(formContainer);
   }
 
   // private loadLazy = async () => {};

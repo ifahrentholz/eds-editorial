@@ -1,9 +1,5 @@
 import { html, render } from 'lit';
 
-interface TableArgs {
-  [key: string]: string;
-}
-
 const tableTemplate = (headers: string[], data: string[][]) => {
   return html`
     <table>

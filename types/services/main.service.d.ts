@@ -13,7 +13,6 @@ export declare class MainService {
     private addSidebarContainer;
     private addInnerContainer;
     private addTableContainer;
-    private addFormContainer;
     private loadLazy;
     private decorateTemplateAndTheme;
     private loadBlocks;
