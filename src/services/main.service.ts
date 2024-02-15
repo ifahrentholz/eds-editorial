@@ -8,19 +8,13 @@ type BlockMapping = {
   element: HTMLDivElement;
 };
 
-interface Block extends HTMLElement {
-  dataset: {
-    blockName: string;
-  };
-}
-
 interface LcpCandidate extends HTMLElement {
   complete: boolean;
 }
 
-const LCP_BLOCKS = ['banner'];
-
 export class MainService {
+  private lcpBlocks = ['banner'];
+
   constructor(
     private sectionService: SectionService,
     private blockService: BlockService
@@ -114,11 +108,16 @@ export class MainService {
     if (theme) addClasses(document.body, theme);
   }
 
+  /**
+   * Loads Blocks
+   * by getting all sections and load every block in every section
+   * and shows every section that is finished loading.
+   */
   private loadBlocks = async () => {
     const sections = [...document.querySelectorAll<HTMLElement>('.section')];
-    const blockPromises = sections.map((section) => this.loadBlock(section));
+    const SectionsPromises = sections.map((section) => this.loadBlock(section));
 
-    await Promise.all(blockPromises);
+    await Promise.all(SectionsPromises);
   };
 
   private collectBlocks(section: HTMLElement): BlockMapping[] {
@@ -135,13 +134,11 @@ export class MainService {
     return blockMap;
   }
 
-  private async loadBlockModules(blocks: BlockMapping[]) {
-    for (const block of blocks) {
-      const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+  private async loadBlockModules(block: BlockMapping) {
+    const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
 
-      if (blockModule.default) {
-        await blockModule.default(block.element);
-      }
+    if (blockModule.default) {
+      await blockModule.default(block.element);
     }
   }
 
@@ -174,10 +171,22 @@ export class MainService {
   }
 
   private async waitForLCP() {
-    // Js Chunks should be loaded
-    const block = document.querySelector<Block>('.block');
-    const hasLCPBlock = block && LCP_BLOCKS.includes(block?.dataset.blockName);
-    if (hasLCPBlock) await this.loadBlock(block);
+    /* Js Chunks should be loaded
+    Old logic only looks after the first block
+    New logic looks in the first section after lcp candidates, 
+    since we show ech section depending on if its blocks and modules are loaded */
+    const firstSection: HTMLElement | null = document.querySelector('.section');
+
+    if (firstSection) {
+      const blocks = this.collectBlocks(firstSection);
+      const blockPromises = blocks.map(async (block) => {
+        const hasLCPBlock = this.lcpBlocks.includes(block.name);
+        if (hasLCPBlock) await this.loadBlockModules(block);
+      });
+
+      await Promise.all(blockPromises);
+      this.showSection(firstSection);
+    }
 
     // @ts-ignore
     document.body.style.display = null;
@@ -196,13 +205,16 @@ export class MainService {
   }
 
   private async loadBlock(section: HTMLElement) {
-    const blocks: BlockMapping[] = this.collectBlocks(section);
-    if (!blocks.length) {
+    const sectionsBlocks: BlockMapping[] = this.collectBlocks(section);
+    if (!sectionsBlocks.length) {
       this.showSection(section);
       return;
     }
 
-    await this.loadBlockModules(blocks);
+    for (const block of sectionsBlocks) {
+      await this.loadBlockModules(block);
+    }
+
     this.showSection(section);
   }
 }
