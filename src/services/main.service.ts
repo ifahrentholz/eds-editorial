@@ -61,7 +61,7 @@ export class MainService {
       // TODO: Performace adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
-      }, 120);
+      }, 200);
 
       // await this.waitForLCP(LCP_BLOCKS);
 
