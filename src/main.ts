@@ -22,6 +22,7 @@ import { MainService } from './services/main.service.ts';
   const sectionService = new SectionService(blockService);
   const main = new MainService(sectionService, blockService);
   await main.init();
+  console.log('TEst CI');
 })();
 
 declare global {

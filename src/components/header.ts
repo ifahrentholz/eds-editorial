@@ -67,6 +67,7 @@ export class HeaderComponent extends LitElement {
           return html`
             <li>
               <a href="${item.socialLink}" class="icon brands" aria-label="${item.socialLabel}">
+              <a href="${item.socialLink}" class="icon brands">
                 <icon-component class="header-icon" name="${item.socialIcon}"></icon-component>
                 <span class="label">${item.socialLabel}</span></a
               >
