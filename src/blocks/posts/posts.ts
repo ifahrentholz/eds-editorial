@@ -44,8 +44,7 @@ const template = (posts: PostArgs[]) => {
 // TODO: Candidate for a EDS helper function???
 const findFirstNonEmptyParagraph = (doc: Document): string | undefined => {
   const paragraphs = Array.from(doc.querySelectorAll('p'));
-  //TODO: Check if is default return type undifinded if not found
-  return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText || undefined;
+  return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText;
 };
 
 export default async function (block: HTMLElement) {
