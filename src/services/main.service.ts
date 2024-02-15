@@ -59,9 +59,7 @@ export class MainService {
       this.blockService.decorateBlocks(main);
       await this.loadBlocks();
       // TODO: Performace adjustment
-      setTimeout(() => {
-        document.body.removeAttribute('style');
-      }, 100);
+      document.body.removeAttribute('style');
 
       // await this.waitForLCP(LCP_BLOCKS);
 
