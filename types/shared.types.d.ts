@@ -6,6 +6,7 @@ export type SiteMapEntry = {
     image: string;
     imagealt: string;
     navtitle: string;
+    buttontext: string;
 };
 export type Sitemap = SiteMapEntry[];
 export interface SheetsResponse {
