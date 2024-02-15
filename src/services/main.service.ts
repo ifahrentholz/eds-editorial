@@ -74,7 +74,7 @@ export class MainService {
       try {
         /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
         if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
-          this.loadFonts();
+          await this.loadFonts();
         }
       } catch (e) {
         // do nothing
@@ -135,10 +135,18 @@ export class MainService {
   }
 
   private async loadBlockModules(block: BlockMapping) {
-    const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+    const status = block.element.dataset.blockStatus;
 
-    if (blockModule.default) {
-      await blockModule.default(block.element);
+    if (status !== 'loading' && status !== 'loaded') {
+      block.element.dataset.blockStatus = 'loading';
+
+      const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+
+      if (blockModule.default) {
+        await blockModule.default(block.element);
+      }
+
+      block.element.dataset.blockStatus = 'loaded';
     }
   }
 
