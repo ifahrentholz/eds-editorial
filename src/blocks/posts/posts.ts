@@ -39,7 +39,6 @@ export default async function (block: HTMLElement) {
   const postsPreview = await Promise.all(
     data.map(async (post) => {
       const result = await fetch(`${window.hlx.codeBasePath}${post.path}.plain.html`);
-      console.log(result)
       return result.text();
     })
   );

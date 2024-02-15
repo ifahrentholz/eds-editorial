@@ -25,7 +25,7 @@ const tableTemplate = (headers: string[], data: string[][]) => {
   `;
 };
 
-const template = (tables: { headers: string[]; data: string[] }[]) => {
+const template = (tables: { headers: string[]; data: string[][] }[]) => {
   return tables.map((table) => tableTemplate(table.headers, table.data));
 };
 
@@ -57,6 +57,7 @@ export default async function renderTables(block: HTMLElement) {
         const data: string[][] = [];
         for (let i = 1; i < tableRows.length; i++) {
           const rowData = Array.from(tableRows[i].querySelectorAll('div')).map((cell) => cell.innerText);
+          console.log(tableRows[i]);
           data.push(rowData);
         }
 
