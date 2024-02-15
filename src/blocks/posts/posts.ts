@@ -42,9 +42,9 @@ const template = (posts: PostArgs[]) => {
 };
 
 // TODO: Candidate for a EDS helper function???
-const getFirstParagraph = (doc: Document): string | undefined => {
+const findFirstNonEmptyParagraph = (doc: Document): string | undefined => {
   const paragraphs = Array.from(doc.querySelectorAll('p'));
-  return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText || undefined;
+  return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText;
 };
 
 export default async function (block: HTMLElement) {
@@ -63,7 +63,7 @@ export default async function (block: HTMLElement) {
     return {
       postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
-      text: getFirstParagraph(doc),
+      text: findFirstNonEmptyParagraph(doc),
       buttontext: siteMapPostEntries[index].imagealt,
       picture: createOptimizedPicture({
         src: siteMapPostEntries[index].image,
