@@ -21,9 +21,9 @@ export class SidebarComponent extends LitElement {
 
   firstUpdated(): void {
     this.toggleRef.value!.addEventListener('click', this.handleToggleClick);
-    setTimeout(() => {
-      this.classList.add('activate-animations');
-    }, 100);
+    // setTimeout(() => {
+    this.classList.add('activate-animations');
+    // }, 100);
   }
 
   handleToggleClick = (e: Event) => {
