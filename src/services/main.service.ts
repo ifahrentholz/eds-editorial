@@ -8,6 +8,10 @@ type BlockMapping = {
   element: HTMLDivElement;
 };
 
+const LOADED = 'loaded';
+const IS_LOADED = !!sessionStorage.getItem(LOADED);
+const LOAD_TIMEOUT = IS_LOADED ? 0 : 200;
+
 export class MainService {
   constructor(
     private sectionService: SectionService,
@@ -59,9 +63,12 @@ export class MainService {
       this.blockService.decorateBlocks(main);
       await this.loadBlocks();
       // TODO: Performace adjustment
+      console.log('LOADED', IS_LOADED);
+      console.log('LOAD_TIMEOUT', LOAD_TIMEOUT);
       setTimeout(() => {
         document.body.removeAttribute('style');
-      }, 100);
+        sessionStorage.setItem(LOADED, 'true');
+      }, LOAD_TIMEOUT);
 
       // await this.waitForLCP(LCP_BLOCKS);
 
