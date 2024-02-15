@@ -64,7 +64,7 @@ export default async function (block: HTMLElement) {
       postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: findFirstNonEmptyParagraph(doc),
-      buttontext: siteMapPostEntries[index].imagealt,
+      buttontext: siteMapPostEntries[index].buttontext,
       picture: createOptimizedPicture({
         src: siteMapPostEntries[index].image,
         alt: siteMapPostEntries[index].imagealt,
