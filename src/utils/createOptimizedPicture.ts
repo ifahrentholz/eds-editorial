@@ -10,6 +10,8 @@
 interface CreateOptimizedPictureArgs {
   src: string;
   alt: string;
+  width: string;
+  height: string;
   eager?: boolean;
   breakpoints?: Array<Record<string, string>>;
 }
@@ -19,6 +21,8 @@ export function createOptimizedPicture(args: CreateOptimizedPictureArgs): HTMLPi
     src,
     alt,
     eager = false,
+    width,
+    height,
     breakpoints = [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
   } = args;
   const url = new URL(src, window.location.href);
@@ -46,6 +50,8 @@ export function createOptimizedPicture(args: CreateOptimizedPictureArgs): HTMLPi
       const img = document.createElement('img');
       img.setAttribute('loading', eager ? 'eager' : 'lazy');
       img.setAttribute('alt', alt);
+      img.setAttribute('width', width);
+      img.setAttribute('height', height);
       picture.appendChild(img);
       img.setAttribute('src', `${pathname}?width=${br.width}&format=${ext}&optimize=medium`);
     }

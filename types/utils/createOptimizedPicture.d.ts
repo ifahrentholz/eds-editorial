@@ -9,6 +9,8 @@
 interface CreateOptimizedPictureArgs {
     src: string;
     alt: string;
+    width: string;
+    height: string;
     eager?: boolean;
     breakpoints?: Array<Record<string, string>>;
 }

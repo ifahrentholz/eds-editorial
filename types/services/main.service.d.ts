@@ -14,9 +14,12 @@ export declare class MainService {
     private addInnerContainer;
     private addTableContainer;
     private addFormContainer;
+    private loadLazy;
     private decorateTemplateAndTheme;
-    private loadComponents;
-    private collectComponents;
-    private loadComponentModules;
+    private loadBlocks;
+    private collectBlocks;
+    private loadBlockModules;
     private showSection;
+    private loadFonts;
+    private loadCSS;
 }

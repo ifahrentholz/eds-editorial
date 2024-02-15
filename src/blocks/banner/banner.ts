@@ -9,10 +9,8 @@ interface TemplateArgs {
   buttons?: HTMLAnchorElement[];
 }
 
-const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) => {
-  // if (picture) {
-  //   picture.querySelector('img')?.removeAttribute('loading');
-  // }
+const template = (args: TemplateArgs) => {
+  const { headline, subline, texts, buttons, picture } = args;
   return html`
     <div id="banner">
       <div class="content">
@@ -36,6 +34,10 @@ const template = ({ headline, subline, texts, buttons, picture }: TemplateArgs) 
 };
 
 export default function (block: HTMLElement) {
+  const image = block.querySelector('img');
+  if (image) {
+    image.setAttribute('loading', 'eager');
+  }
   const firstRow = block.querySelector('div');
   const secondRow = block.children[1];
   const headline = firstRow?.querySelector('h1')?.innerText;
@@ -43,6 +45,8 @@ export default function (block: HTMLElement) {
   const texts = firstRow ? [...firstRow.querySelectorAll('p')] : [];
   const buttons = [...secondRow?.querySelectorAll('a')];
   const picture = firstRow?.querySelector('picture') || undefined;
+  const img = picture?.querySelector('img');
+  img?.setAttribute('loading', 'eager');
 
   block.innerHTML = '';
 

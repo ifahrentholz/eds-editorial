@@ -2,18 +2,8 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
-
-export type SiteMapEntry = {
-  path: string;
-  title: string;
-  description: string;
-  lastModified: string; // Assuming this is a string representing a timestamp
-  image: string;
-  imagealt: string;
-  navtitle: string;
-  'nav-test': string;
-  imageAlt: string;
-};
+import { SiteMapEntry } from '../../shared.types';
+import SitemapService from '../../services/sitemap.service.ts';
 
 interface SubMenuItem {
   path: string;
@@ -26,8 +16,6 @@ interface MenuItem {
   children?: SubMenuItem[];
 }
 
-export type Sitemap = SiteMapEntry[];
-
 @customElement('sidebar-nav')
 export class SidebarNav extends LitElement {
   @state()
@@ -38,8 +26,7 @@ export class SidebarNav extends LitElement {
   }
 
   async firstUpdated() {
-    const sitemap = await this.fetchSitemap();
-    this.items = this.groupByFirstLevelPath(sitemap);
+    this.items = await this.groupByFirstLevelPath();
   }
 
   render() {
@@ -63,11 +50,11 @@ export class SidebarNav extends LitElement {
         <icon-component class="submenu__icon" name="chevron-down"></icon-component>
       </span>
       <ul>
-        ${item.children.map((child) => html`<li><a href="${child.path}">${child.navtitle}</a></li>`)}
+        ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
       </ul>`;
   }
 
-  private renderMenuItem(item) {
+  private renderMenuItem(item: MenuItem) {
     return html` <li>
       ${item.children !== undefined ? this.renderSubMenu(item) : html`<a href="${item.path}">${item.navtitle}</a>`}
     </li>`;
@@ -75,14 +62,8 @@ export class SidebarNav extends LitElement {
 
   private renderMenuItems() {
     return html` <ul>
-      ${this.items.map((item) => this.renderMenuItem(item))}
+      ${this.items.map((item: MenuItem) => this.renderMenuItem(item))}
     </ul>`;
-  }
-
-  private async fetchSitemap(): Promise<Sitemap> {
-    const response = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
-    const json = await response.json();
-    return json.data;
   }
 
   private getSubmenuName = (entry: SiteMapEntry) => {
@@ -94,9 +75,11 @@ export class SidebarNav extends LitElement {
     return item.navtitle || item.title;
   }
 
-  groupByFirstLevelPath = (data: Sitemap) => {
+  groupByFirstLevelPath = async () => {
     const groups = {};
-    data.forEach((item) => {
+    const sitemap = await SitemapService.getSiteMap();
+
+    sitemap.forEach((item) => {
       const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
       if (!groups[firstLevelPath]) {
         groups[firstLevelPath] = [];
