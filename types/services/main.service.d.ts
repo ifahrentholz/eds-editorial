@@ -12,7 +12,6 @@ export declare class MainService {
     private loadEager;
     private addSidebarContainer;
     private addInnerContainer;
-    private addTableContainer;
     private loadLazy;
     private decorateTemplateAndTheme;
     private loadBlocks;

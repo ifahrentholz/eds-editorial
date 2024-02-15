@@ -58,8 +58,6 @@ export class MainService {
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
 
-      this.addTableContainer(main);
-
       await this.loadBlocks();
       // TODO: Performace adjustment
       setTimeout(() => {
@@ -91,12 +89,6 @@ export class MainService {
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
     main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
-  }
-
-  private addTableContainer(main: HTMLElement) {
-    const tableContainer = document.createElement('table-component');
-    tableContainer.setAttribute('id', 'table');
-    main.append(tableContainer);
   }
 
   // private loadLazy = async () => {};
