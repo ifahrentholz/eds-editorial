@@ -11,10 +11,8 @@ interface FormField {
   options?: string[];
 }
 
-const fetchFormData = async () => {
-  const response = await fetch('form.json');
-  const data = await response.json();
-  const detailsData = data.data.map((item: any) => ({
+const createFiled = (item: any): FormField => {
+  return {
     name: item.name,
     type: item.type,
     placeholder: item.placeholder,
@@ -23,8 +21,14 @@ const fetchFormData = async () => {
     class: item.class,
     rows: item.rows || undefined,
     options: item.options ? item.options.split(',').map((option: string) => option.trim()) : undefined,
-  }));
-  return { detailsCol: detailsData };
+  };
+};
+
+const fetchFormData = async () => {
+  const response = await fetch('form.json');
+  const data = await response.json();
+  const detailsData = data.data.map((item: any) => createFiled(item));
+  return detailsData;
 };
 
 const renderInputField = (field: FormField) => {
@@ -64,14 +68,13 @@ const renderSelectField = (field: FormField) => {
 
 const template = (templateArgs) => {
   if (!templateArgs) return nothing;
-  const { detailsCol } = templateArgs;
 
   return html`
     <div style="padding: 35px">
       <h2>Form</h2>
       <form method="post">
         <div class="row gtr-uniform">
-          ${detailsCol.map(
+          ${templateArgs.map(
             (element) => html`
               <div class="${element.class}">
                 ${renderField(element)}
@@ -97,7 +100,7 @@ const renderField = (field: FormField) => {
   return renderer.call(this, field);
 };
 export default async function (block: HTMLElement) {
-  const formData = fetchFormData();
+  const formData = await fetchFormData();
   block.style.removeProperty('display');
   render(template(formData), block);
 }
