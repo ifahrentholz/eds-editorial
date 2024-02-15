@@ -1,8 +1,8 @@
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { LitElement, PropertyValueMap, html } from 'lit';
+import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { fetchData } from '../utils/fetchData';
-import { replaceBySpecifier } from '../utils/replaceBySpecifier';
+import { fetchJson } from '../utils/fetch.ts';
+import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
 export interface HeaderResponseData {
   leftCol: LeftCol;
@@ -48,7 +48,7 @@ export class HeaderComponent extends LitElement {
 
   async fetchHeaderData() {
     try {
-      const response = await fetchData<HeaderResponseData>({ endpoint: 'header.json', getJson: true });
+      const response = await fetchJson<HeaderResponseData>('header.json');
       this.headerData = { leftCol: response.leftCol.data[0], rightCol: response.rightCol.data };
     } catch (error) {
       console.error('HeaderComponent: ', error);
@@ -61,12 +61,13 @@ export class HeaderComponent extends LitElement {
     const logoText = replaceBySpecifier({ input: leftCol.logoText, htmlTag: 'strong', specifier: ':::' });
     const logoTextHTML = unsafeHTML(logoText);
     return html`
-      <a href="${leftCol.logoLink}" class="logo"> ${logoTextHTML} </a>
+      <a href="${leftCol.logoLink}" class="logo">${logoTextHTML}</a>
       <ul class="icons">
         ${rightCol.map((item) => {
           return html`
             <li>
               <a href="${item.socialLink}" class="icon brands" aria-label="${item.socialLabel}">
+              <a href="${item.socialLink}" class="icon brands">
                 <icon-component class="header-icon" name="${item.socialIcon}"></icon-component>
                 <span class="label">${item.socialLabel}</span></a
               >

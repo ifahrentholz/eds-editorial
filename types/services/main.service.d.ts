@@ -12,9 +12,12 @@ export declare class MainService {
     private loadEager;
     private addSidebarContainer;
     private addInnerContainer;
+    private loadLazy;
     private decorateTemplateAndTheme;
     private loadBlocks;
     private collectBlocks;
     private loadBlockModules;
     private showSection;
+    private loadFonts;
+    private loadCSS;
 }

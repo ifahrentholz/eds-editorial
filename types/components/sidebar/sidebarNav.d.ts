@@ -1,6 +1,5 @@
 import { LitElement } from 'lit';
 import '../icon';
-import { Sitemap } from '../../shared.types';
 interface SubMenuItem {
     path: string;
     navtitle: string;
@@ -19,9 +18,8 @@ export declare class SidebarNav extends LitElement {
     private renderSubMenu;
     private renderMenuItem;
     private renderMenuItems;
-    private fetchSitemap;
     private getSubmenuName;
     private getNavTitle;
-    groupByFirstLevelPath: (data: Sitemap) => MenuItem[];
+    groupByFirstLevelPath: () => Promise<MenuItem[]>;
 }
 export {};
