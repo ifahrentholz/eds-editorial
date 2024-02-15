@@ -64,15 +64,6 @@ export class MainService {
       }, 200);
 
       // await this.waitForLCP(LCP_BLOCKS);
-
-      try {
-        /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
-        if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
-          this.loadFonts();
-        }
-      } catch (e) {
-        // do nothing
-      }
     }
   };
 
