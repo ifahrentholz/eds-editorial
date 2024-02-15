@@ -26,12 +26,15 @@
   }
 }
 
+#sidebar.activate-animations {
+  @include vendor('transition', ('margin-left 0.5s ease', 'box-shadow 0.5s ease'));
+}
+
 #sidebar {
   $pad: calc(2em / 0.9);
 
   @include vendor('flex-grow', '0');
   @include vendor('flex-shrink', '0');
-  // @include vendor('transition', ('margin-left 0.5s ease', 'box-shadow 0.5s ease'));
 
   background-color: _palette(bg-alt);
   font-size: 0.9em;
