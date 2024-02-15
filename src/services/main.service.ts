@@ -70,7 +70,7 @@ export class MainService {
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
 
-      // TODO: Performace adjustment
+      // TODO: Performance adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
       }, 200);
