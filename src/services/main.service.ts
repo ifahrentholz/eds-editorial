@@ -10,7 +10,7 @@ type BlockMapping = {
 
 const LOADED = 'loaded';
 const IS_LOADED = !!sessionStorage.getItem(LOADED);
-const LOAD_TIMEOUT = IS_LOADED ? 0 : 200;
+const LOAD_TIMEOUT = IS_LOADED ? 0 : 150;
 
 export class MainService {
   constructor(
