@@ -29,6 +29,11 @@ export default defineConfig(({ command, mode }) => {
   return {
     css: {
       devSourcemap: true,
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import 'src/styles/sass/libs/_index.scss';`,
+        },
+      },
     },
     build: {
       sourcemap: true,
