@@ -1,1 +1,1 @@
-export default function decorate(block: any): Promise<void>;
+export default function decorate(block: HTMLElement): Promise<void>;
