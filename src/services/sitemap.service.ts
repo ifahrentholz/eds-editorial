@@ -1,18 +1,13 @@
 import { SheetsResponse, Sitemap } from '../shared.types.ts';
-import { fetchJson } from '../utils/fetchJson.ts';
+import fetchService from './fetch.service.ts';
 
 export class SitemapService {
-  private fetchPromise: Promise<SheetsResponse>;
-
   async getSiteMap(): Promise<Sitemap> {
     return <Sitemap>(await this.getQueryIndex()).data;
   }
 
-  async getQueryIndex(): Promise<SheetsResponse> {
-    // Ensures only to start one promise for this fetch request at a time
-    if (this.fetchPromise) return this.fetchPromise;
-    this.fetchPromise = fetchJson<SheetsResponse>('/query-index.json');
-    return this.fetchPromise;
+  getQueryIndex(): Promise<SheetsResponse> {
+    return fetchService.fetchJson<SheetsResponse>('/query-index.json');
   }
 }
 

@@ -1,8 +1,7 @@
 import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-
-import { fetchText } from '../../utils/fetchText.ts';
+import fetchService from '../../services/fetch.service.ts';
 
 interface SidebarContactTemplateArgs {
   headline: HTMLElement | null;
@@ -28,7 +27,7 @@ export class SidebarContact extends LitElement {
 
   async fetchContactsHtml() {
     const parser = new DOMParser();
-    const contactHtmlString = await fetchText('contact.plain.html');
+    const contactHtmlString = await fetchService.fetchText('contact.plain.html');
     return parser.parseFromString(contactHtmlString, 'text/html');
   }
 

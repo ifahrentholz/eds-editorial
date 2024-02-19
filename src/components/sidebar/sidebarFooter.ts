@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-
-import { fetchText } from '../../utils/fetchText.ts';
+import fetchService from '../../services/fetch.service.ts';
 
 @customElement('sidebar-footer')
 export class SidebarFooter extends LitElement {
@@ -18,7 +17,7 @@ export class SidebarFooter extends LitElement {
   }
 
   async fetchFooterData() {
-    const response = await fetchText('footer.plain.html');
+    const response = await fetchService.fetchText('footer.plain.html');
     const responseMarkup = document.createElement('div');
     responseMarkup.innerHTML = response;
     this.footerMarkup = responseMarkup.querySelector('p');
