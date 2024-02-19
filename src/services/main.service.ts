@@ -110,6 +110,7 @@ export class MainService {
       }
 
       await this.loadBlockModules(blocks);
+      await this.loadBlockStyles(blocks);
       this.showSection(section);
     });
   };
@@ -134,6 +135,16 @@ export class MainService {
 
       if (blockModule.default) {
         await blockModule.default(block.element);
+      }
+    }
+  }
+
+  async loadBlockStyles(blocks: BlockMapping[]) {
+    for (const block of blocks) {
+      try {
+        await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
+      } catch (error) {
+        console.error(`problem with block '${block.name}' loading styles`);
       }
     }
   }
