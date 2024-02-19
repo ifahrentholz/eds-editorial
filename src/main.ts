@@ -2,7 +2,6 @@
 
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
-import './components/table.ts';
 import './blocks/form/form.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
