@@ -1,1 +1,1 @@
-export default function renderTables(block: HTMLElement): Promise<void>;
+export default function decorate(block: HTMLElement): void;
