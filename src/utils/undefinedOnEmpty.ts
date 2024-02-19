@@ -1,3 +1,3 @@
 export const undefinedOnEmpty = (value: string): string | undefined => {
-  return value === '' ? undefined : value;
+  return value.trim() === '' ? undefined : value;
 };
