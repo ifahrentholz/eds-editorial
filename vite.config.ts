@@ -44,7 +44,7 @@ export default defineConfig(({ command, mode }) => {
         input: {
           main: resolve(__dirname, config.mainTsPath),
           styles: resolve(__dirname, config.mainScssPath),
-          // fonts: resolve(__dirname, config.fontsScssPath),
+          fonts: resolve(__dirname, config.fontsScssPath),
           ...blocksEntries,
         },
         output: {
