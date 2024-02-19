@@ -67,7 +67,7 @@ export class MainService {
       // TODO: Performance adjustment
       setTimeout(() => {
         document.body.removeAttribute('style');
-      }, 200);
+      }, 100);
 
       await this.waitForLCP();
 
@@ -85,9 +85,7 @@ export class MainService {
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
-    window.innerWidth <= 1280
-      ? sidebarContainer.classList.add('inactive')
-      : sidebarContainer.classList.remove('inactive');
+    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
     main.after(sidebarContainer);
   }
 

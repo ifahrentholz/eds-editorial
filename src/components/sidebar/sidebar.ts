@@ -4,7 +4,8 @@
  */
 
 import { LitElement, html } from 'lit';
-import { customElement, query } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
+import { Ref, createRef, ref } from 'lit/directives/ref.js';
 
 import './sidebarNav.ts';
 import './sidebarContact.ts';
@@ -13,19 +14,14 @@ import './sidebarFooter.ts';
 
 @customElement('sidebar-component')
 export class SidebarComponent extends LitElement {
-  @query('.toggle')
-  toggle: HTMLAnchorElement;
-
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
+  toggleRef: Ref<HTMLAnchorElement> = createRef();
+  createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-  }
-
   firstUpdated(): void {
-    this.toggle.addEventListener('click', this.handleToggleClick);
+    this.toggleRef.value!.addEventListener('click', this.handleToggleClick);
+    this.classList.add('activate-animations');
   }
 
   handleToggleClick = (e: Event) => {
@@ -41,9 +37,9 @@ export class SidebarComponent extends LitElement {
         <sidebar-contact></sidebar-contact>
         <sidebar-footer id="footer"></sidebar-footer>
       </div>
-      <a href="#sidebar" class="toggle hamburger-icon" aria-label="Sidebar toggle"
-        ><icon-component class="icon-component" name="hamburger"></icon-component
-      ></a>
+      <a ${ref(this.toggleRef)} href="#sidebar" class="toggle hamburger-icon" aria-label="Sidebar toggle">
+        <icon-component class="icon-component" name="hamburger"></icon-component>
+      </a>
     `;
   }
 }
