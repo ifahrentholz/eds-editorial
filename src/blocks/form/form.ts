@@ -7,14 +7,15 @@ const parseFieldData = (item: any): FormField => {
   return {
     name: item.name,
     type: item.type,
+    label: item.label || undefined,
     placeholder: item.placeholder,
-    label: item.label,
-    id: item.id,
-    class: item.class,
-    rows: item.rows || undefined,
     options: item.options ? item.options.split(',').map((option: string) => option.trim()) : undefined,
-    value: item.value || item.label || undefined,
+    value: item.value || undefined,
     required: item.required && (item.required.toLowerCase() === 'true' || item.required.toLowerCase() === 'x'),
+    id: item.id || undefined,
+    fieldset: item.fieldset || undefined,
+    rows: item.rows || undefined,
+    class: item.class,
   };
 };
 
@@ -29,18 +30,8 @@ const template = (templateArgs: FormField[]) => {
 
   return html`
     <div style="padding: 35px">
-      <h2>Form</h2>
       <form method="post">
-        <div class="row gtr-uniform">
-          ${templateArgs.map(
-            (element) => html`
-              <div class="${element.class}">
-                ${renderField(element)}
-                <label for="${element.id}">${element.label}</label>
-              </div>
-            `
-          )}
-        </div>
+        <div class="row gtr-uniform">${templateArgs.map((element) => html`${renderField(element)}`)}</div>
       </form>
     </div>
   `;
@@ -100,7 +91,7 @@ async function handleSubmit(form) {
     handleSubmitError(form, e);
   } finally {
     form.setAttribute('data-submitting', 'false');
-    form.reset.click();
+    form.reset();
     submit.disabled = false;
   }
 }
@@ -117,8 +108,15 @@ export default async function decorate(block: HTMLElement) {
   render(template(formData), block);
 
   const form = block.querySelector('form');
-
   if (form) {
+    // group fields into fieldsets
+    const fieldsets = form.querySelectorAll('fieldset');
+    fieldsets.forEach((fieldset) => {
+      form.querySelectorAll(`[data-fieldset="${fieldset.name}"`).forEach((field) => {
+        fieldset.append(field);
+      });
+    });
+
     form.dataset.action = pathname.split('.json')[0];
     form.addEventListener('submit', (e) => {
       e.preventDefault();
