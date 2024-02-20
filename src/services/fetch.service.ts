@@ -4,24 +4,18 @@ class FetchService {
   private async fetchData(endpoint: string, init?: RequestInit): Promise<Response> {
     const url = this.getUrl(endpoint);
 
-    if (this.responseMap.has(url)) {
-      return await this.responseMap.get(url)!;
-    }
+    if (this.responseMap.has(url)) return this.responseMap.get(url)!;
 
     const fetchPromise = fetch(url, init);
 
     this.responseMap.set(url, fetchPromise);
 
-    try {
-      const response = await fetchPromise;
-      if (response.ok) {
-        return response;
-      }
-      //TODO: Error logging
-      return response;
-    } finally {
-      this.responseMap.delete(url);
-    }
+    const response = await fetchPromise;
+
+    if (response.ok) return response;
+
+    console.error(response.statusText);
+    return response;
   }
 
   public async fetchJson<T>(endpoint: string, init?: RequestInit): Promise<T> {
