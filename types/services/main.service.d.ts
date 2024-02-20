@@ -7,6 +7,7 @@ type BlockMapping = {
 export declare class MainService {
     private sectionService;
     private blockService;
+    private lcpBlocks;
     constructor(sectionService: SectionService, blockService: BlockService);
     init: () => Promise<void>;
     /**
@@ -18,6 +19,11 @@ export declare class MainService {
     private addInnerContainer;
     private loadLazy;
     private decorateTemplateAndTheme;
+    /**
+     * Loads Blocks
+     * by getting all sections and load every block in every section
+     * and shows every section that is finished loading.
+     */
     private loadBlocks;
     private collectBlocks;
     private loadBlockModules;
@@ -25,5 +31,7 @@ export declare class MainService {
     private showSection;
     private loadFonts;
     private loadCSS;
+    private waitForLCP;
+    private loadBlock;
 }
 export {};
