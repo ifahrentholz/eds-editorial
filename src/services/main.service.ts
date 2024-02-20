@@ -89,6 +89,7 @@ export class MainService {
   }
 
   private loadLazy = () => {
+    this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
     this.loadFonts();
   };
 

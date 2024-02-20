@@ -10,6 +10,7 @@ const config: Config = {
   mainTsPath: 'src/main.ts',
   mainScssPath: 'src/styles/sass/main.scss',
   fontsScssPath: 'src/styles/sass/fonts.scss',
+  lazyStylesScssPath: 'src/styles/sass/lazy-styles.scss',
   blocksName: ['counter', 'banner', 'features', 'posts'],
 };
 
@@ -41,6 +42,7 @@ export default defineConfig(({ command, mode }) => {
           main: resolve(__dirname, config.mainTsPath),
           styles: resolve(__dirname, config.mainScssPath),
           fonts: resolve(__dirname, config.fontsScssPath),
+          lazyStyles: resolve(__dirname, config.lazyStylesScssPath),
           ...blocksEntries,
         },
         output: {
