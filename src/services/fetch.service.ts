@@ -14,7 +14,9 @@ class FetchService {
 
     if (response.ok) return response;
 
+    //TODO: Use DebugService in future
     console.error(response.statusText);
+    this.responseMap.delete(url);
     return response;
   }
 
