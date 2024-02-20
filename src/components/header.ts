@@ -2,7 +2,7 @@ import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import fetchService from '../services/fetch.service.ts';
+import FetchService from '../services/fetch.service.ts';
 
 export interface HeaderResponseData {
   leftCol: LeftCol;
@@ -48,7 +48,7 @@ export class HeaderComponent extends LitElement {
 
   async fetchHeaderData() {
     try {
-      const response = await fetchService.fetchJson<HeaderResponseData>('header.json');
+      const response = await FetchService.fetchJson<HeaderResponseData>('header.json');
       this.headerData = { leftCol: response.leftCol.data[0], rightCol: response.rightCol.data };
     } catch (error) {
       console.error('HeaderComponent: ', error);
