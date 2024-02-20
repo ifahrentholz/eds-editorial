@@ -13,6 +13,8 @@ const parseFieldData = (item: any): FormField => {
     class: item.class,
     rows: item.rows || undefined,
     options: item.options ? item.options.split(',').map((option: string) => option.trim()) : undefined,
+    value: item.value || item.label || undefined,
+    required: item.required && (item.required.toLowerCase() === 'true' || item.required.toLowerCase() === 'x'),
   };
 };
 
