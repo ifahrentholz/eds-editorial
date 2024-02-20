@@ -29,7 +29,6 @@ const getTsEntry = (blockName) => {
 export const generateBlockEntries = (blocksName: string[]) => {
   let entries = {};
   blocksName.forEach((blockName) => {
-    //Object.assign(entries, getCssEntry(blockName), getTsEntry(blockName));
     const cssEntry = getCssEntry(blockName);
     const tsEntry = getTsEntry(blockName);
     entries = { ...entries, ...cssEntry, ...tsEntry };
