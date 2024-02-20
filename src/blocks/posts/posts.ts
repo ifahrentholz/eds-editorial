@@ -2,6 +2,7 @@ import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import { fetchText } from '../../utils/fetch.ts';
 import SitemapService from '../../services/sitemap.service.ts';
+import './posts.scss';
 
 interface PostArgs {
   postUrl: string;

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
-import { Config, STYLE_PREFIX, generateBlockEntries } from './vite.helpers';
+import { Config, generateBlockEntries } from './vite.helpers';
 
 const { resolve } = require('path');
 
@@ -16,15 +16,6 @@ const config: Config = {
 // @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
   const blocksEntries = generateBlockEntries(config.blocksName);
-
-  const outputAssetFileNames = (info) => {
-    if (info.name.endsWith('.css') && info.name.startsWith(STYLE_PREFIX)) {
-      const fileName = info.name.replace(STYLE_PREFIX, '');
-      const folderName = fileName.replace('.css', '');
-      return `${folderName}/${fileName}`;
-    }
-    return '[name]/[name][extname]';
-  };
 
   return {
     css: {
@@ -54,7 +45,9 @@ export default defineConfig(({ command, mode }) => {
         },
         output: {
           dir: 'dist',
-          assetFileNames: outputAssetFileNames,
+          assetFileNames: () => {
+            return '[name]/[name][extname]';
+          },
           chunkFileNames: '__chunks__/[name].[hash].js',
           entryFileNames: '[name]/[name].js',
         },

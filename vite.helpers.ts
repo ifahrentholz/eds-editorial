@@ -9,16 +9,9 @@ export interface Config {
   blocksName: string[];
 }
 
-export const STYLE_PREFIX = 'blockStyles_';
-
 const getBlockEntry = (blockName, fileType) => {
   const filePath = resolve(__dirname, `src/blocks/${blockName}/${blockName}.${fileType}`);
   return fs.existsSync(filePath) ? filePath : null;
-};
-
-const getCssEntry = (blockName) => {
-  const scssPath = getBlockEntry(blockName, 'scss');
-  return scssPath ? { [`${STYLE_PREFIX}${blockName}`]: scssPath } : null;
 };
 
 const getTsEntry = (blockName) => {
@@ -29,9 +22,8 @@ const getTsEntry = (blockName) => {
 export const generateBlockEntries = (blocksName: string[]) => {
   let entries = {};
   blocksName.forEach((blockName) => {
-    const cssEntry = getCssEntry(blockName);
     const tsEntry = getTsEntry(blockName);
-    entries = { ...entries, ...cssEntry, ...tsEntry };
+    entries = { ...entries, ...tsEntry };
   });
   return entries;
 };
