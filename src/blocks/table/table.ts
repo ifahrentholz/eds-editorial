@@ -30,15 +30,16 @@ const template = (args: TemplateArgs) => {
 };
 
 export default function decorate(block: HTMLElement) {
-  const tableData = block.querySelector('.table div');
+  const headers: string[] = [];
+  const data: string[][] = [];
 
-  if (!tableData) {
-    return;
-  }
-
-  const headers = Array.from(tableData.querySelectorAll('div')).map((cell) => cell.innerText);
-  const rows = Array.from(tableData.parentElement?.children || []).filter((row) => row !== tableData);
-  const data = rows.map((row) => Array.from(row.querySelectorAll('div')).map((cell) => cell.innerText));
+  [...block.children].forEach((child, index) => {
+    if (index === 0) {
+      headers.push(...Array.from(child.querySelectorAll('div')).map((cell) => cell.innerText));
+    } else {
+      data.push(Array.from(child.querySelectorAll('div')).map((cell) => cell.innerText));
+    }
+  });
 
   block.innerHTML = '';
 
