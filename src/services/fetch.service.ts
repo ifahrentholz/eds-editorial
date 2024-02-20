@@ -2,14 +2,14 @@ class FetchService {
   private responseMap = new Map<string, Promise<Response>>();
 
   private async fetchData(endpoint: string, init?: RequestInit): Promise<Response> {
-    const decoratedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    const url = `${window.hlx.codeBasePath}${decoratedEndpoint}`;
+    const url = this.getUrl(endpoint);
 
     if (this.responseMap.has(url)) {
       return await this.responseMap.get(url)!;
     }
 
     const fetchPromise = fetch(url, init);
+
     this.responseMap.set(url, fetchPromise);
 
     try {
@@ -32,6 +32,11 @@ class FetchService {
   public async fetchText(endpoint: string, init?: RequestInit): Promise<string> {
     const response = await this.fetchData(endpoint, init);
     return response.clone().text();
+  }
+
+  private getUrl(endpoint: string) {
+    const decoratedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    return `${window.hlx.codeBasePath}${decoratedEndpoint}`;
   }
 }
 
