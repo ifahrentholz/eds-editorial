@@ -2,6 +2,7 @@ import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import FetchService from '../../services/fetch.service.ts';
 import { SheetsResponse } from '../../shared.types.ts';
+import './posts.scss';
 
 interface PostArgs {
   postUrl: string;

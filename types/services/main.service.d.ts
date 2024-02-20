@@ -27,7 +27,7 @@ export declare class MainService {
     private loadBlocks;
     private collectBlocks;
     private loadBlockModules;
-    loadBlockStyles(blocks: BlockMapping[]): Promise<void>;
+    loadBlockStyles(block: BlockMapping): Promise<void>;
     private showSection;
     private loadFonts;
     private loadCSS;

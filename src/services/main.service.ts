@@ -149,13 +149,11 @@ export class MainService {
     }
   }
 
-  async loadBlockStyles(blocks: BlockMapping[]) {
-    for (const block of blocks) {
-      try {
-        await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
-      } catch (error) {
-        console.error(`problem with block '${block.name}' loading styles`);
-      }
+  async loadBlockStyles(block: BlockMapping) {
+    try {
+      await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
+    } catch (error) {
+      console.error(`problem with block '${block.name}' loading styles`);
     }
   }
 
@@ -230,6 +228,7 @@ export class MainService {
 
     for (const block of sectionsBlocks) {
       await this.loadBlockModules(block);
+      await this.loadBlockStyles(block);
     }
 
     this.showSection(section);
