@@ -1,8 +1,8 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
-import { Sitemap, SiteMapEntry } from '../../shared.types.ts';
-import SitemapService from '../../services/sitemap.service.ts';
+import { SheetsResponse, Sitemap, SiteMapEntry } from '../../shared.types.ts';
+import FetchService from '../../services/fetch.service.ts';
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {
@@ -64,7 +64,7 @@ export class SidebarPosts extends LitElement {
   }
 
   private async getPosts() {
-    const sitemap = await SitemapService.getSiteMap();
-    return sitemap.filter((item) => item.path.includes('/posts'));
+    const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+    return queryIndex.data.filter((item) => item.path.includes('/posts'));
   }
 }

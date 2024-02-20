@@ -1,6 +1,6 @@
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
-import './services/sitemap.service.ts';
+import './services/fetch.service.ts';
 declare global {
     interface Window {
         hlx: {
