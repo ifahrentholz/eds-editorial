@@ -162,6 +162,27 @@ const renderRadioField = (field: FormField) => {
   return { fieldElement, fieldWrapper };
 };
 
+const renderToggleField = (field: FormField) => {
+  const { fieldElement, fieldWrapper } = renderInputField(field, false);
+  fieldElement.type = 'checkbox';
+  if (!field.value) fieldElement.value = 'on';
+  fieldElement.classList.add('toggle');
+
+  const toggleSwitch = document.createElement('div');
+  toggleSwitch.classList.add('toggle-switch');
+  toggleSwitch.append(fieldElement);
+  fieldWrapper.append(toggleSwitch);
+
+  const slider = document.createElement('span');
+  slider.classList.add('toggle-slider');
+  toggleSwitch.append(slider);
+  slider.addEventListener('click', () => {
+    fieldElement.checked = !fieldElement.checked;
+  });
+
+  return { fieldElement, fieldWrapper };
+};
+
 const renderButtonField = (field: FormField) => {
   const button = document.createElement('button');
   button.textContent = field.label || field.name;
@@ -181,6 +202,7 @@ const FIELD_RENDERER_FUNCTIONS = {
   checkbox: renderCheckboxField,
   select: renderSelectField,
   radio: renderRadioField,
+  toggle: renderToggleField,
   button: renderButtonField,
   fieldset: renderFieldset,
   submit: renderButtonField,
