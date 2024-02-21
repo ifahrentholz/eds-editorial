@@ -9,9 +9,24 @@ const iconNames = Object.keys(iconOverview).map((iconPath) => iconPath.replace(/
 const renderIcon = (icon: string) => {
   return html`
     <div class="icon-container">
-      <icon-component class="icon" name="${icon}"></icon-component>
+      <icon-component @click="${() => copyNameToClipboard(icon)}" class="icon" name="${icon}"></icon-component>
     </div>
   `;
+};
+
+const copyNameToClipboard = async (name) => {
+  await navigator.clipboard.writeText(name);
+  addToastNotification();
+};
+
+const addToastNotification = () => {
+  const toast = document.createElement('div');
+  toast.classList.add('icons-toast');
+  toast.innerText = 'Icon name copied to clipboard!';
+  document.body.append(toast);
+  setTimeout(() => {
+    toast.remove();
+  }, 2000);
 };
 
 const template = (icons: string[]) => {

@@ -58,28 +58,27 @@ ul.icons {
     white-space: nowrap;
     flex: 0 0 auto;
     opacity: 0;
-    background-color: var(--light-color);
+    background-color: _palette(bg);
     border-radius: 4px;
   }
 
   .icon-container:hover .icon-label {
     opacity: 1;
   }
+}
 
-  .icons-toast {
-    position: fixed;
-    background-color: var(--light-color);
-    top: 30vh;
-    right: 50vw;
-    transform: translateX(50%);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
-    z-index: 1000;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: var(--body-font-size-m);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  }
+.icons-toast {
+  position: fixed;
+  background-color: _palette(bg);
+  top: 30vh;
+  right: 50vw;
+  transform: translateX(50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  z-index: 1000;
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
