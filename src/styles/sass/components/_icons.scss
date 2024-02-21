@@ -6,25 +6,80 @@
 
 /* Icons */
 
-	ul.icons {
-		cursor: default;
-		list-style: none;
-		padding-left: 0;
+ul.icons {
+  cursor: default;
+  list-style: none;
+  padding-left: 0;
 
-		li {
-			display: inline-block;
-			padding: 0 1em 0 0;
+  li {
+    display: inline-block;
+    padding: 0 1em 0 0;
 
-			&:last-child {
-				padding-right: 0;
-			}
+    &:last-child {
+      padding-right: 0;
+    }
 
-			.icon {
-				color: inherit;
+    .icon {
+      color: inherit;
 
-				&:before {
-					font-size: 1.25em;
-				}
-			}
-		}
-	}
+      &:before {
+        font-size: 1.25em;
+      }
+    }
+  }
+}
+
+.icons-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  grid-gap: 16px;
+
+  .icon-container {
+    padding: 20px;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .icon-container .icon-component {
+    height: 44px;
+    width: 44px;
+    flex: 0 0 44px;
+  }
+
+  .icon-label {
+    margin-top: 8px;
+    font-size: 14px;
+    display: block;
+    padding: 4px 8px;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    opacity: 0;
+    background-color: var(--light-color);
+    border-radius: 4px;
+  }
+
+  .icon-container:hover .icon-label {
+    opacity: 1;
+  }
+
+  .icons-toast {
+    position: fixed;
+    background-color: var(--light-color);
+    top: 30vh;
+    right: 50vw;
+    transform: translateX(50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 1000;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: var(--body-font-size-m);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  }
+}

@@ -29,7 +29,7 @@ export default defineConfig(({ command, mode }) => {
           counter: resolve(__dirname, 'src/blocks/counter/counter.ts'),
           banner: resolve(__dirname, 'src/blocks/banner/banner.ts'),
           features: resolve(__dirname, 'src/blocks/features/features.ts'),
-          icons: resolve(__dirname, 'src/blocks/icons/icons.ts'),
+          'icon-overview': resolve(__dirname, 'src/blocks/icon-overview/icon-overview.ts'),
           posts: resolve(__dirname, 'src/blocks/posts/posts.ts'),
         },
         output: {
