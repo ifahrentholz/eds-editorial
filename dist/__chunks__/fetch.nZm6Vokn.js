@@ -1,2 +1,0 @@
-class i{constructor(){this.cache=new Map,this.set=(t,e)=>{this.recordExists(t)||this.cache.set(t,e)},this.get=t=>this.recordExists(t)?this.cache.get(t):null,this.recordExists=t=>this.cache.has(t)}}const n=new i,r=async(s,t)=>{const e=s.startsWith("/")?s:`/${s}`,c=`${window.hlx.codeBasePath}${e}`,a=n.get(c);if(a!==null)return a;const h=await fetch(c,t);return n.set(c,h.clone()),h},o=async(s,t)=>await(await r(s,t)).text(),f=async(s,t)=>await(await r(s,t)).json();export{f as a,o as f};
-//# sourceMappingURL=fetch.nZm6Vokn.js.map

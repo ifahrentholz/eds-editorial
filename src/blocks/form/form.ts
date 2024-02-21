@@ -1,5 +1,5 @@
 import { html, nothing, render } from 'lit';
-import { fetchJson } from '../../utils/fetch';
+import FetchService from '../../services/fetch.service.ts';
 import { SheetsResponse } from '../../shared.types';
 import { renderField, FormField } from '../form/form-fields';
 
@@ -20,7 +20,7 @@ const parseFieldData = (item: any): FormField => {
 };
 
 const fetchFormData = async (pathname) => {
-  const data: SheetsResponse = await fetchJson(pathname);
+  const data: SheetsResponse = await FetchService.fetchJson(pathname);
   const detailsData = data.data.map((item: any) => parseFieldData(item));
   return detailsData;
 };
