@@ -2,7 +2,7 @@
 
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
-import './blocks/form/form.ts';
+import './services/fetch.service.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
 import { MainService } from './services/main.service.ts';
@@ -23,7 +23,6 @@ import { MainService } from './services/main.service.ts';
   const sectionService = new SectionService(blockService);
   const main = new MainService(sectionService, blockService);
   await main.init();
-  console.log('TEst CI');
 })();
 
 declare global {

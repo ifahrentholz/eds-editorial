@@ -8,7 +8,13 @@ type BlockMapping = {
   element: HTMLDivElement;
 };
 
+interface LcpCandidate extends HTMLElement {
+  complete: boolean;
+}
+
 export class MainService {
+  private lcpBlocks = ['banner'];
+
   constructor(
     private sectionService: SectionService,
     private blockService: BlockService
@@ -17,7 +23,7 @@ export class MainService {
   init = async () => {
     this.setup();
     await this.loadEager();
-    this.loadLazy();
+    await this.loadLazy();
   };
 
   /**
@@ -44,12 +50,6 @@ export class MainService {
     // TODO: how to support different languages here
     document.documentElement.lang = 'en';
     this.decorateTemplateAndTheme();
-    if (document) {
-      const body = document.querySelector('body');
-      if (body) {
-        body.style.display = 'none';
-      }
-    }
     const main = document.querySelector('main');
     if (main) {
       main.setAttribute('id', 'main');
@@ -58,18 +58,17 @@ export class MainService {
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
 
-      await this.loadBlocks();
-      // TODO: Performace adjustment
+      // TODO: Performance adjustment
       setTimeout(() => {
-        document.body.removeAttribute('style');
-      }, 200);
+        document.body.classList.add('show');
+      }, 100);
 
-      // await this.waitForLCP(LCP_BLOCKS);
+      await this.waitForLCP();
 
       try {
         /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
         if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
-          this.loadFonts();
+          await this.loadFonts();
         }
       } catch (e) {
         // do nothing
@@ -80,9 +79,7 @@ export class MainService {
   private addSidebarContainer(main: HTMLElement) {
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
-    window.innerWidth <= 1280
-      ? sidebarContainer.classList.add('inactive')
-      : sidebarContainer.classList.remove('inactive');
+    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
     main.after(sidebarContainer);
   }
 
@@ -91,9 +88,9 @@ export class MainService {
     main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
   }
 
-  // private loadLazy = async () => {};
-  private loadLazy = () => {
-    this.loadFonts();
+  private loadLazy = async () => {
+    await this.loadFonts();
+    await this.loadBlocks();
   };
 
   private decorateTemplateAndTheme() {
@@ -103,19 +100,16 @@ export class MainService {
     if (theme) addClasses(document.body, theme);
   }
 
+  /**
+   * Loads Blocks
+   * by getting all sections and load every block in every section
+   * and shows every section that is finished loading.
+   */
   private loadBlocks = async () => {
-    const sections = document.querySelectorAll<HTMLElement>('.section');
+    const sections = [...document.querySelectorAll<HTMLElement>('.section')];
+    const SectionsPromises = sections.map((section) => this.loadBlock(section));
 
-    sections.forEach(async (section) => {
-      const blocks: BlockMapping[] = this.collectBlocks(section);
-      if (!blocks.length) {
-        this.showSection(section);
-        return;
-      }
-
-      await this.loadBlockModules(blocks);
-      this.showSection(section);
-    });
+    await Promise.all(SectionsPromises);
   };
 
   private collectBlocks(section: HTMLElement): BlockMapping[] {
@@ -132,13 +126,19 @@ export class MainService {
     return blockMap;
   }
 
-  private async loadBlockModules(blocks: BlockMapping[]) {
-    for (const block of blocks) {
+  private async loadBlockModules(block: BlockMapping) {
+    const status = block.element.dataset.blockStatus;
+
+    if (status !== 'loading' && status !== 'loaded') {
+      block.element.dataset.blockStatus = 'loading';
+
       const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
 
       if (blockModule.default) {
         await blockModule.default(block.element);
       }
+
+      block.element.dataset.blockStatus = 'loaded';
     }
   }
 
@@ -168,5 +168,53 @@ export class MainService {
         resolve(true);
       }
     });
+  }
+
+  private async waitForLCP() {
+    /* Js Chunks should be loaded
+    Old logic only looks after the first block
+    New logic looks in the first section after lcp candidates, 
+    since we show ech section depending on if its blocks and modules are loaded */
+    const firstSection: HTMLElement | null = document.querySelector('.section');
+
+    if (firstSection) {
+      const blocks = this.collectBlocks(firstSection);
+      const blockPromises = blocks.map(async (block) => {
+        const hasLCPBlock = this.lcpBlocks.includes(block.name);
+        if (hasLCPBlock) await this.loadBlockModules(block);
+      });
+
+      await Promise.all(blockPromises);
+      this.showSection(firstSection);
+    }
+
+    // @ts-ignore
+    document.body.style.display = null;
+    const lcpCandidate = document.querySelector<LcpCandidate>('main img');
+
+    await new Promise<void>((resolve) => {
+      if (lcpCandidate && !lcpCandidate.complete) {
+        lcpCandidate.setAttribute('loading', 'eager');
+        lcpCandidate.setAttribute('fetchpriority', 'high');
+        lcpCandidate.addEventListener('load', () => resolve());
+        lcpCandidate.addEventListener('error', () => resolve());
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  private async loadBlock(section: HTMLElement) {
+    const sectionsBlocks: BlockMapping[] = this.collectBlocks(section);
+    if (!sectionsBlocks.length) {
+      this.showSection(section);
+      return;
+    }
+
+    for (const block of sectionsBlocks) {
+      await this.loadBlockModules(block);
+    }
+
+    this.showSection(section);
   }
 }

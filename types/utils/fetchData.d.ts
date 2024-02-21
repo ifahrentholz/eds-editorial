@@ -1,7 +1,1 @@
-interface FetchDataOptions {
-    endpoint: string;
-    getJson?: boolean;
-    init?: RequestInit | undefined;
-}
-export declare const fetchData: <T>(options: FetchDataOptions) => Promise<T>;
-export {};
+export declare const fetchData: (endpoint: string, init?: RequestInit) => Promise<Response>;
