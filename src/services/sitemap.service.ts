@@ -1,5 +1,5 @@
-import { fetchJson } from '../utils/fetch.ts';
 import { SheetsResponse, Sitemap } from '../shared.types.ts';
+import FetchService from './fetch.service.ts';
 
 export class SitemapService {
   async getSiteMap(): Promise<Sitemap> {
@@ -7,7 +7,11 @@ export class SitemapService {
   }
 
   async getQueryIndex(): Promise<SheetsResponse> {
-    return await fetchJson('/query-index.json');
+    return await FetchService.fetchJson('/query-index.json', {
+      cacheOptions: {
+        cacheType: 'runtime',
+      },
+    });
   }
 }
 

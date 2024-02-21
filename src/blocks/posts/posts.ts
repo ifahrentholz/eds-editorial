@@ -1,7 +1,7 @@
 import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
-import { fetchText } from '../../utils/fetch.ts';
 import SitemapService from '../../services/sitemap.service.ts';
+import FetchService from '../../services/fetch.service.ts';
 
 interface PostArgs {
   postUrl: string;
@@ -55,7 +55,13 @@ export default async function (block: HTMLElement) {
   const siteMapPostEntries = siteMap.filter((item) => item.path.includes('/posts'));
 
   const postsPreview = await Promise.all(
-    siteMapPostEntries.map(async (post) => await fetchText(`${post.path}.plain.html`))
+    siteMapPostEntries.map((post) =>
+      FetchService.fetchText(`${post.path}.plain.html`, {
+        cacheOptions: {
+          cacheType: 'runtime',
+        },
+      })
+    )
   );
 
   const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
