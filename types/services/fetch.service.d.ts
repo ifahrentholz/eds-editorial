@@ -10,6 +10,7 @@ declare class FetchService {
     private runtimeCache;
     fetchJson<T>(url: string, options?: FetchServiceOptions): Promise<T>;
     fetchText(url: string, options?: FetchServiceOptions): Promise<string>;
+    private fetchData;
     private getResponseJSON;
     private getResponseText;
     private getCachedData;

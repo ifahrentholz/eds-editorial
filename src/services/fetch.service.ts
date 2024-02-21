@@ -14,44 +14,35 @@ class FetchService {
 
   private runtimeCache = new RuntimeCache();
 
-  public async fetchJson<T>(url: string, options: FetchServiceOptions = {}): Promise<T> {
-    const { cacheOptions } = options;
+  public fetchJson<T>(url: string, options: FetchServiceOptions = {}): Promise<T> {
+    return this.fetchData(url, options, this.getResponseJSON<T>);
+  }
 
+  public fetchText(url: string, options: FetchServiceOptions = {}): Promise<string> {
+    return this.fetchData(url, options, this.getResponseText);
+  }
+
+  private async fetchData<T>(
+    url: string,
+    options: FetchServiceOptions,
+    dataMapper: (Response) => Promise<T>
+  ): Promise<T> {
+    const { cacheOptions } = options;
     const cachedData = this.getCachedData<T>(url, cacheOptions);
     if (cachedData !== null) return cachedData;
 
     const pipelinedRequest = this.requestPipeline.get(url);
-    if (pipelinedRequest !== undefined) return this.getResponseJSON(await pipelinedRequest);
+    if (pipelinedRequest !== undefined) return dataMapper(await pipelinedRequest);
 
     const request = fetch(url, options.fetchOptions);
     this.requestPipeline.set(url, request);
 
     const response = await request;
     this.requestPipeline.delete(url);
-    const responseJson = await this.getResponseJSON<T>(response);
+    const responseData = await dataMapper(response);
 
-    this.setCachedData(url, responseJson, cacheOptions);
-    return responseJson;
-  }
-
-  public async fetchText(url: string, options: FetchServiceOptions = {}): Promise<string> {
-    const { cacheOptions } = options;
-
-    const cachedData = this.getCachedData<string>(url, cacheOptions);
-    if (cachedData !== null) return cachedData;
-
-    const pipelinedRequest = this.requestPipeline.get(url);
-    if (pipelinedRequest !== undefined) return this.getResponseText(await pipelinedRequest);
-
-    const request = fetch(url, options.fetchOptions);
-    this.requestPipeline.set(url, request);
-
-    const response = await request;
-    this.requestPipeline.delete(url);
-    const responseText = await this.getResponseText(response);
-
-    this.setCachedData(url, responseText, cacheOptions);
-    return responseText;
+    this.setCachedData(url, responseData, cacheOptions);
+    return responseData;
   }
 
   private async getResponseJSON<T>(response: Response): Promise<T> {
