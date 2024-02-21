@@ -1,0 +1,12 @@
+{
+  "project": "Example",
+  "plugins": [
+    {
+      "id": "library",
+      "title": "Library",
+      "environments": ["edit"],
+      "url": "/sidekick-library/library.html",
+      "includePaths": ["**.docx**"]
+    }
+  ]
+}
