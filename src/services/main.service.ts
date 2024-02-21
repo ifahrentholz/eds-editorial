@@ -50,12 +50,6 @@ export class MainService {
     // TODO: how to support different languages here
     document.documentElement.lang = 'en';
     this.decorateTemplateAndTheme();
-    if (document) {
-      const body = document.querySelector('body');
-      if (body) {
-        body.style.display = 'none';
-      }
-    }
     const main = document.querySelector('main');
     if (main) {
       main.setAttribute('id', 'main');
@@ -66,7 +60,7 @@ export class MainService {
 
       // TODO: Performance adjustment
       setTimeout(() => {
-        document.body.removeAttribute('style');
+        document.body.classList.add('show');
       }, 100);
 
       await this.waitForLCP();
