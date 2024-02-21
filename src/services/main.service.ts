@@ -60,7 +60,7 @@ export class MainService {
 
       // TODO: Performance adjustment
       setTimeout(() => {
-        document.body.classList.add('show');
+        document.body.removeAttribute('style');
       }, 100);
 
       await this.waitForLCP();
