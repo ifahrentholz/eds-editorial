@@ -1,8 +1,13 @@
 import { html, render } from 'lit';
 
+interface TableCell {
+  text: string;
+  styles?: string;
+}
+
 interface TemplateArgs {
-  headers: string[];
-  data: string[][];
+  headers: TableCell[];
+  data: TableCell[][];
 }
 
 const template = (args: TemplateArgs) => {
@@ -12,14 +17,14 @@ const template = (args: TemplateArgs) => {
       <table>
         <thead>
           <tr>
-            ${headers.map((header) => html`<th>${header}</th>`)}
+            ${headers.map((header) => html`<th style="${header.styles || ''}">${header.text}</th>`)}
           </tr>
         </thead>
         <tbody>
           ${data.map(
             (row) => html`
               <tr>
-                ${row.map((cell) => html`<td>${cell}</td>`)}
+                ${row.map((cell) => html`<td style="${cell.styles || ''}">${cell.text}</td>`)}
               </tr>
             `
           )}
@@ -30,14 +35,24 @@ const template = (args: TemplateArgs) => {
 };
 
 export default function decorate(block: HTMLElement) {
-  const headers: string[] = [];
-  const data: string[][] = [];
+  const headers: TableCell[] = [];
+  const data: TableCell[][] = [];
 
   [...block.children].forEach((child, index) => {
     if (index === 0) {
-      headers.push(...Array.from(child.querySelectorAll('div')).map((cell) => cell.innerText));
+      headers.push(
+        ...Array.from(child.querySelectorAll('div')).map((cell) => ({
+          text: cell.textContent || cell.innerText,
+          styles: '',
+        }))
+      );
     } else {
-      data.push(Array.from(child.querySelectorAll('div')).map((cell) => cell.innerText));
+      data.push(
+        Array.from(child.querySelectorAll('div')).map((cell) => ({
+          text: cell.textContent || cell.innerText,
+          styles: '',
+        }))
+      );
     }
   });
 

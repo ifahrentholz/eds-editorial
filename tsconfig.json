@@ -22,5 +22,5 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
   },
-  "include": ["blocks/**/*.ts", "scripts/**/*.ts", "src/**/*.ts", "src/blocks/table/table.ts"],
+  "include": ["blocks/**/*.ts", "scripts/**/*.ts", "src/**/*.ts"],
 }
