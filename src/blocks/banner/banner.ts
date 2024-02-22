@@ -1,12 +1,14 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibID';
 
 interface TemplateArgs {
-  headline?: string;
-  subline?: string;
+  headline: ConstructedElement;
+  subline: ConstructedElement;
   picture?: HTMLPictureElement;
-  texts?: HTMLParagraphElement[];
-  buttons?: HTMLAnchorElement[];
+  texts: ConstructedElement[];
+  buttons: ConstructedElement[];
 }
 
 const template = (args: TemplateArgs) => {
@@ -15,15 +17,24 @@ const template = (args: TemplateArgs) => {
     <div id="banner">
       <div class="content">
         <header>
-          <h1>${headline}</h1>
-          <p>${subline}</p>
+          <h1 data-library-id="${ifDefined(headline.id)}" contenteditable="${ifDefined(true)}">${headline.text}</h1>
+          <p data-library-id="${ifDefined(subline.id)}" contenteditable="${ifDefined(true)}">${subline.text}</p>
         </header>
-        ${texts?.map((text) => html`<p>${text.innerText}</p>`)}
+        ${texts?.map(
+          (text) =>
+            html`<p data-library-id="${ifDefined(text.id)}" contenteditable="${ifDefined(true)}">${text.text}</p>`
+        )}
         <ul class="actions">
           ${buttons?.map(
             (button) =>
               html`<li>
-                <a href="${button.href}" class="button big">${button.innerText}</a>
+                <a
+                  href="${button.href}"
+                  class="button big"
+                  data-library-id="${ifDefined(button.id)}"
+                  contenteditable="${ifDefined(true)}"
+                  >${button.text}</a
+                >
               </li>`
           )}
         </ul>
@@ -40,10 +51,10 @@ export default function (block: HTMLElement) {
   }
   const firstRow = block.querySelector('div');
   const secondRow = block.children[1];
-  const headline = firstRow?.querySelector('h1')?.innerText;
-  const subline = firstRow?.querySelector('h3')?.innerText;
-  const texts = firstRow ? [...firstRow.querySelectorAll('p')] : [];
-  const buttons = [...secondRow?.querySelectorAll('a')];
+  const headline = extractSidekickLibId(firstRow?.querySelector('h1'));
+  const subline = extractSidekickLibId(firstRow?.querySelector('h3'));
+  const texts = firstRow ? [...firstRow.querySelectorAll('p')].map((item) => extractSidekickLibId(item)) : [];
+  const buttons = secondRow ? [...secondRow.querySelectorAll('a')].map((item) => extractSidekickLibId(item)) : [];
   const picture = firstRow?.querySelector('picture') || undefined;
   const img = picture?.querySelector('img');
   img?.setAttribute('loading', 'eager');
