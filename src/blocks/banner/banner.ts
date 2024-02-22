@@ -1,7 +1,7 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibID';
+import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibId';
 
 interface TemplateArgs {
   headline: ConstructedElement;

@@ -1,27 +1,58 @@
 import { html, nothing, render } from 'lit';
 import FetchService from '../../services/fetch.service.ts';
-import { SheetsResponse } from '../../shared.types';
 import { renderField, FormField } from '../form/form-fields';
 
-const parseFieldData = (item: any): FormField => {
+type FormElement = {
+  name: string;
+  type:
+    | 'headline'
+    | 'plaintext'
+    | 'text'
+    | 'button'
+    | 'fieldset'
+    | 'select'
+    | 'toggle'
+    | 'radio'
+    | 'checkbox'
+    | 'textarea'
+    | 'reset'
+    | 'submit';
+  label: string;
+  placeholder: string;
+  options: string;
+  value: string;
+  required: string;
+  id: string;
+  fieldset: string;
+  class: string;
+};
+
+interface SheetsResponse {
+  type: string;
+  data: FormElement[];
+  offset: number;
+  total: number;
+}
+
+const parseFieldData = (item: FormElement): FormField => {
   return {
     name: item.name,
     type: item.type,
-    label: item.label || undefined,
+    label: item.label || '',
     placeholder: item.placeholder,
-    options: item.options ? item.options.split(',').map((option: string) => option.trim()) : undefined,
+    options: item.options ? item.options.split(',').map((option: string) => option.trim()) : [],
     value: item.value || undefined,
-    required: item.required && (item.required.toLowerCase() === 'true' || item.required.toLowerCase() === 'x'),
-    id: item.id || undefined,
+    required:
+      item.required !== undefined && (item.required.toLowerCase() === 'true' || item.required.toLowerCase() === 'x'),
+    id: item.id || '',
     fieldset: item.fieldset || undefined,
-    rows: item.rows || undefined,
     class: item.class,
   };
 };
 
-const fetchFormData = async (pathname) => {
+const fetchFormData = async (pathname: string) => {
   const data: SheetsResponse = await FetchService.fetchJson(pathname);
-  const detailsData = data.data.map((item: any) => parseFieldData(item));
+  const detailsData = data.data.map((item: FormElement) => parseFieldData(item));
   return detailsData;
 };
 
@@ -29,7 +60,7 @@ const template = (templateArgs: FormField[]) => {
   if (!templateArgs) return nothing;
 
   return html`
-    <div style="padding: 35px">
+    <div>
       <form method="post">
         <div class="row gtr-uniform">${templateArgs.map((element) => html`${renderField(element)}`)}</div>
       </form>
@@ -61,17 +92,18 @@ function handleSubmitError(form, error) {
   form.querySelector('button[type="submit"]').disabled = false;
 }
 
-async function handleSubmit(form) {
+async function handleSubmit(form: HTMLFormElement) {
   if (form.getAttribute('data-submitting') === 'true') return;
 
-  const submit = form.querySelector('button[type="submit"]');
+  const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
   try {
     form.setAttribute('data-submitting', 'true');
-    submit.disabled = true;
+    if (submit) submit.disabled = true;
 
     // create payload
+    const action = form.dataset.action ?? '';
     const payload = generatePayload(form);
-    const response = await fetch(form.dataset.action, {
+    const response = await fetch(action, {
       method: 'POST',
       body: JSON.stringify({ data: payload }),
       headers: {
@@ -92,7 +124,7 @@ async function handleSubmit(form) {
   } finally {
     form.setAttribute('data-submitting', 'false');
     form.reset();
-    submit.disabled = false;
+    if (submit) submit.disabled = false;
   }
 }
 

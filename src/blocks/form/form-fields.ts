@@ -1,16 +1,29 @@
+import { html, nothing } from 'lit';
 import { toClassName } from '../../utils/toClassName';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 export interface FormField {
   name: string;
-  type: any;
+  type:
+    | 'headline'
+    | 'plaintext'
+    | 'text'
+    | 'button'
+    | 'fieldset'
+    | 'select'
+    | 'toggle'
+    | 'radio'
+    | 'checkbox'
+    | 'textarea'
+    | 'reset'
+    | 'submit';
   label: string;
   placeholder: string;
   options: string[];
   value?: string;
-  required: boolean;
+  required?: boolean;
   id: string;
-  fieldset: string;
-  rows: number;
+  fieldset?: string;
   class: string;
 }
 
@@ -23,175 +36,141 @@ const generateFieldId = (field: FormField, suffix = '') => {
   return `${slug}${idSuffix}`;
 };
 
-const setCommonAttributes = (fieldElement, field: FormField) => {
-  if (field.id) fieldElement.id = field.id;
-  if (field.name) fieldElement.name = field.name;
-  if (field.required) fieldElement.required = field.required;
-  if (field.placeholder) fieldElement.placeholder = field.placeholder;
-  if (field.value) fieldElement.value = field.value;
-};
-
-const renderFieldWrapper = (field: FormField) => {
-  const fieldWrapper = document.createElement('div');
-  if (field.class) fieldWrapper.className = field.class;
-  if (field.fieldset) fieldWrapper.dataset.fieldset = field.fieldset;
-  return fieldWrapper;
+const renderLegend = (legend: string) => {
+  return html` <legend>${legend}</legend> `;
 };
 
 const renderFieldset = (field: FormField) => {
-  const fieldElement = document.createElement('fieldset');
-  fieldElement.className = 'row gtr-uniform';
-  setCommonAttributes(fieldElement, field);
-
-  if (field.label) {
-    const legend = document.createElement('legend');
-    legend.textContent = field.label;
-    fieldElement.append(legend);
-  }
-
-  const fieldWrapper = renderFieldWrapper(field);
-  fieldWrapper.append(fieldElement);
-
-  return { fieldElement, fieldWrapper };
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      <fieldset
+        class="row gtr-uniform"
+        id="${ifDefined(field.id)}"
+        name="${ifDefined(field.name)}"
+        placeholder="${ifDefined(field.placeholder)}"
+        value="${ifDefined(field.value)}"
+        required="${ifDefined(field.required)}"
+      >
+        ${field.label ? renderLegend(field.label) : nothing}
+      </fieldset>
+    </div>
+  `;
 };
 
 const renderHeading = (field: FormField) => {
-  const fieldWrapper = renderFieldWrapper(field);
-  const level = field.class && field.class.includes('sub-heading') ? 3 : 2;
-  const heading = document.createElement(`h${level}`);
-  heading.textContent = field.value || field.label;
-  heading.id = field.id;
-  fieldWrapper.append(heading);
-  return { fieldElement: heading, fieldWrapper };
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      ${field.class && field.class.includes('sub-heading')
+        ? html`<h3 id="${ifDefined(field.id)}">${field.value || field.label}</h3>`
+        : html`<h2 id="${ifDefined(field.id)}">${field.value || field.label}</h2>`}
+    </div>
+  `;
 };
 
-const renderLabel = (field: FormField) => {
-  const label = document.createElement('label');
-  label.id = generateFieldId(field, '-label');
-  label.textContent = field.label || field.name;
-  label.setAttribute('for', field.id);
-  return label;
+const renderLabel = (id: string, field: FormField) => {
+  return html` <label id="${id}" for="${field.id}"> ${field.label || field.name} </label> `;
 };
 
 const renderPlaintext = (field: FormField) => {
-  const fieldWrapper = renderFieldWrapper(field);
-  const text = document.createElement('p');
-  text.textContent = field.value || field.label;
-  text.id = field.id;
-  fieldWrapper.append(text);
-  return { fieldElement: text, fieldWrapper };
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      <p id="${ifDefined(field.id)}">${field.value || field.label}</p>
+    </div>
+  `;
 };
 
 const renderInputField = (field: FormField, hasLabelOnTop = true) => {
-  const fieldElement = document.createElement('input');
-  fieldElement.type = field.type;
-  setCommonAttributes(fieldElement, field);
-
-  const fieldWrapper = renderFieldWrapper(field);
-  const label = renderLabel(field);
-  fieldElement.setAttribute('aria-labelledby', label.id);
-
-  if (hasLabelOnTop) {
-    fieldWrapper.append(label);
-    fieldWrapper.append(fieldElement);
-  } else {
-    fieldWrapper.append(fieldElement);
-    fieldWrapper.append(label);
-  }
-
-  return { fieldElement, fieldWrapper };
+  const labelId = generateFieldId(field, '-label');
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      ${hasLabelOnTop ? renderLabel(labelId, field) : nothing}
+      <input
+        id="${ifDefined(field.id)}"
+        name="${ifDefined(field.name)}"
+        placeholder="${ifDefined(field.placeholder)}"
+        value="${ifDefined(field.value)}"
+        required="${ifDefined(field.required)}"
+        type="${ifDefined(field.type)}"
+        aria-labelledby="${labelId}"
+      />
+      ${!hasLabelOnTop ? renderLabel(labelId, field) : nothing}
+    </div>
+  `;
 };
 
 const renderTextareaField = (field: FormField) => {
-  const fieldElement = document.createElement('textarea');
-  setCommonAttributes(fieldElement, field);
-
-  const fieldWrapper = renderFieldWrapper(field);
-  const label = renderLabel(field);
-  fieldElement.setAttribute('aria-labelledby', label.id);
-  fieldWrapper.append(label);
-  fieldWrapper.append(fieldElement);
-
-  return { fieldElement, fieldWrapper };
+  const labelId = generateFieldId(field, '-label');
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      ${field.label ? renderLabel(labelId, field) : nothing}
+      <textarea
+        id="${ifDefined(field.id)}"
+        name="${ifDefined(field.name)}"
+        placeholder="${ifDefined(field.placeholder)}"
+        value="${ifDefined(field.value)}"
+        required="${ifDefined(field.required)}"
+        aria-labelledby="${labelId}"
+      ></textarea>
+    </div>
+  `;
 };
 
 const renderCheckboxField = (field: FormField) => {
-  const { fieldElement, fieldWrapper } = renderInputField(field, false);
-  if (!field.value) fieldElement.value = 'checked';
-  return { fieldElement, fieldWrapper };
+  if (!field.value) field.value = 'checked';
+  return renderInputField(field, false);
+};
+
+const renderSelectFieldOption = (option: string, selectValue) => {
+  const text = option.trim();
+  const value = option.trim().toLowerCase() ?? '';
+  const selected = value === selectValue ? '' : undefined;
+  return html`<option selected="${ifDefined(selected)}" value="${value}">${text}</option>`;
 };
 
 const renderSelectField = (field: FormField) => {
-  const select = document.createElement('select');
-  setCommonAttributes(select, field);
-  const addOption = ({ text, value }) => {
-    const option = document.createElement('option');
-    option.text = text.trim();
-    option.value = value.trim();
-    if (option.value === select.value) {
-      option.setAttribute('selected', '');
-    }
-    select.add(option);
-    return option;
-  };
-
-  if (field.placeholder) {
-    const placeholder = addOption({ text: field.placeholder, value: '' });
-    placeholder.setAttribute('disabled', '');
-  }
-
-  if (field.options) {
-    const options = field.options.map((opt) => ({
-      text: opt.trim(),
-      value: opt.trim().toLowerCase(),
-    }));
-
-    options.forEach((opt) => addOption(opt));
-  }
-
-  const fieldWrapper = renderFieldWrapper(field);
-  fieldWrapper.append(renderLabel(field));
-  fieldWrapper.append(select);
-
-  return { fieldElement: select, fieldWrapper };
+  const labelId = generateFieldId(field, '-label');
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      ${field.label ? renderLabel(labelId, field) : nothing}
+      <select
+        id="${ifDefined(field.id)}"
+        name="${ifDefined(field.name)}"
+        placeholder="${ifDefined(field.placeholder)}"
+        value="${ifDefined(field.value)}"
+        required="${ifDefined(field.required)}"
+      >
+        ${field.options.map((option) => renderSelectFieldOption(option, field.value))}
+      </select>
+    </div>
+  `;
 };
 
 const renderRadioField = (field: FormField) => {
-  const { fieldElement, fieldWrapper } = renderInputField(field, false);
-  if (!field.value) fieldElement.value = field.label || 'on';
-  return { fieldElement, fieldWrapper };
-};
-
-const renderToggleField = (field: FormField) => {
-  const { fieldElement, fieldWrapper } = renderInputField(field, false);
-  fieldElement.type = 'checkbox';
-  if (!field.value) fieldElement.value = 'on';
-  fieldElement.classList.add('toggle');
-
-  const toggleSwitch = document.createElement('div');
-  toggleSwitch.classList.add('toggle-switch');
-  toggleSwitch.append(fieldElement);
-  fieldWrapper.append(toggleSwitch);
-
-  const slider = document.createElement('span');
-  slider.classList.add('toggle-slider');
-  toggleSwitch.append(slider);
-  slider.addEventListener('click', () => {
-    fieldElement.checked = !fieldElement.checked;
-  });
-
-  return { fieldElement, fieldWrapper };
+  if (!field.value) field.value = field.label || 'on';
+  return renderInputField(field, false);
 };
 
 const renderButtonField = (field: FormField) => {
-  const button = document.createElement('button');
-  button.textContent = field.label || field.name;
-  button.classList.add(field.class);
-  button.type = field.type;
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      <button class="${ifDefined(field.class)}" type="${ifDefined(field.type)}">${field.label || field.name}</button>
+    </div>
+  `;
+};
 
-  const fieldWrapper = renderFieldWrapper(field);
-  fieldWrapper.append(button);
-  return { field: button, fieldWrapper };
+const renderResetField = (field: FormField) => {
+  return html`
+    <div class="${ifDefined(field.class)}" data-fieldset="${ifDefined(field.fieldset)}">
+      <input
+        id="${ifDefined(field.id)}"
+        name="${ifDefined(field.name)}"
+        placeholder="${ifDefined(field.placeholder)}"
+        value="${ifDefined(field.value)}"
+        required="${ifDefined(field.required)}"
+        type="reset"
+      />
+    </div>
+  `;
 };
 
 const FIELD_RENDERER_FUNCTIONS = {
@@ -202,9 +181,9 @@ const FIELD_RENDERER_FUNCTIONS = {
   checkbox: renderCheckboxField,
   select: renderSelectField,
   radio: renderRadioField,
-  toggle: renderToggleField,
   button: renderButtonField,
   fieldset: renderFieldset,
+  reset: renderResetField,
   submit: renderButtonField,
 };
 
@@ -214,5 +193,5 @@ export const renderField = (field: FormField) => {
   const renderFieldFunc = FIELD_RENDERER_FUNCTIONS[type] || renderInputField;
   const fieldElements = renderFieldFunc(field);
 
-  return fieldElements.fieldWrapper;
+  return fieldElements;
 };
