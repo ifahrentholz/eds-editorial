@@ -17,12 +17,24 @@ const template = (args: TemplateArgs) => {
     <div id="banner">
       <div class="content">
         <header>
-          <h1 data-library-id="${ifDefined(headline.id)}" contenteditable="${ifDefined(true)}">${headline.text}</h1>
-          <p data-library-id="${ifDefined(subline.id)}" contenteditable="${ifDefined(true)}">${subline.text}</p>
+          <h1
+            data-library-id="${ifDefined(headline.id)}"
+            contenteditable="${ifDefined(headline.id ? true : undefined)}"
+          >
+            ${headline.text}
+          </h1>
+          <p data-library-id="${ifDefined(subline.id)}" contenteditable="${ifDefined(headline.id ? true : undefined)}">
+            ${subline.text}
+          </p>
         </header>
         ${texts?.map(
           (text) =>
-            html`<p data-library-id="${ifDefined(text.id)}" contenteditable="${ifDefined(true)}">${text.text}</p>`
+            html`<p
+              data-library-id="${ifDefined(text.id)}"
+              contenteditable="${ifDefined(headline.id ? true : undefined)}"
+            >
+              ${text.text}
+            </p>`
         )}
         <ul class="actions">
           ${buttons?.map(
@@ -32,7 +44,7 @@ const template = (args: TemplateArgs) => {
                   href="${button.href}"
                   class="button big"
                   data-library-id="${ifDefined(button.id)}"
-                  contenteditable="${ifDefined(true)}"
+                  contenteditable="${ifDefined(headline.id ? true : undefined)}"
                   >${button.text}</a
                 >
               </li>`
