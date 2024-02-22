@@ -80,6 +80,7 @@ export class MainService {
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
     window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
+    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
     main.after(sidebarContainer);
   }
 
