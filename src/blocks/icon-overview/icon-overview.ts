@@ -1,4 +1,5 @@
 import { html, render } from 'lit';
+import { Toast } from '../../components/toast.ts';
 
 const renderIcon = (icon: string, message: string, duration: number) => {
   return html`
@@ -13,7 +14,9 @@ const renderIcon = (icon: string, message: string, duration: number) => {
 };
 
 const showToast = (message: string, duration: number) => {
-  const toast = html` <toast-component message="${message}" duration="${duration}"></toast-component>`;
+  const toast = new Toast();
+  toast.message = message;
+  toast.duration = duration;
   render(toast, document.body);
 };
 const copyNameToClipboard = async (name: string, message: string, duration: number) => {

@@ -16,10 +16,7 @@ export class Toast extends LitElement {
   }
 
   close() {
-    const parent = this.parentElement;
-    if (parent) {
-      parent.removeChild(this);
-    }
+    this.remove();
   }
 
   render() {
