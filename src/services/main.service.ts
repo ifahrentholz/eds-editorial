@@ -216,10 +216,7 @@ export class MainService {
       this.showSection(section);
       return;
     }
-    sectionsBlocks.push({
-      name: 'test',
-      element: document.createElement('div'),
-    });
+
     for (const block of sectionsBlocks) {
       await this.loadBlockModules(block);
     }
