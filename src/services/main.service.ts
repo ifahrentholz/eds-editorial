@@ -1,4 +1,3 @@
-import { nothing } from 'lit';
 import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { getLocation } from '../utils/getWindowLocation';
