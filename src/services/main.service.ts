@@ -1,3 +1,4 @@
+import { nothing } from 'lit';
 import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { getLocation } from '../utils/getWindowLocation';
@@ -78,6 +79,8 @@ export class MainService {
   };
 
   private addSidebarContainer(main: HTMLElement) {
+    if (window.location.href === 'about:srcdoc') return;
+
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
     window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
@@ -87,7 +90,10 @@ export class MainService {
 
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
-    main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
+    main.innerHTML =
+      window.location.href === 'about:srcdoc'
+        ? `<div class="inner sidekick-lib--active">${children}</div>`
+        : `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
   }
 
   private loadLazy = async () => {
