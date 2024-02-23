@@ -128,18 +128,23 @@ export class MainService {
   }
 
   private async loadBlockModules(block: BlockMapping) {
-    const status = block.element.dataset.blockStatus;
+    const status = block.element.dataset.blockStatus ?? '';
 
-    if (status !== 'loading' && status !== 'loaded') {
+    if (!['loading', 'loaded', 'error'].includes(status)) {
       block.element.dataset.blockStatus = 'loading';
 
-      const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+      try {
+        const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
 
-      if (blockModule.default) {
-        await blockModule.default(block.element);
+        if (blockModule.default) {
+          await blockModule.default(block.element);
+        }
+
+        block.element.dataset.blockStatus = 'loaded';
+      } catch (error) {
+        block.element.dataset.blockStatus = 'error';
+        console.error('An error occurred during module import:', error);
       }
-
-      block.element.dataset.blockStatus = 'loaded';
     }
   }
 
@@ -211,7 +216,10 @@ export class MainService {
       this.showSection(section);
       return;
     }
-
+    sectionsBlocks.push({
+      name: 'test',
+      element: document.createElement('div'),
+    });
     for (const block of sectionsBlocks) {
       await this.loadBlockModules(block);
     }
