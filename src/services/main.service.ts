@@ -1,5 +1,6 @@
 import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
+import { getLocation } from '../utils/getWindowLocation';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 
@@ -33,7 +34,7 @@ export class MainService {
     window.hlx = window.hlx || {};
     window.hlx.RUM_MASK_URL = 'full';
     window.hlx.codeBasePath = '';
-    window.hlx.lighthouse = new URLSearchParams(window.location.search).get('lighthouse') === 'on';
+    window.hlx.lighthouse = new URLSearchParams(getLocation().search).get('lighthouse') === 'on';
 
     const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
     if (scriptEl) {
@@ -150,7 +151,7 @@ export class MainService {
   private async loadFonts() {
     await this.loadCSS(`${window.hlx.codeBasePath}/dist/fonts/fonts.css`);
     try {
-      if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
+      if (!getLocation().hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
     } catch (e) {
       // do nothing
     }

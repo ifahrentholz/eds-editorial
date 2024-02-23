@@ -7,6 +7,8 @@
  * @returns {Element} The picture element
  */
 
+import { getHref } from './getWindowLocation';
+
 interface CreateOptimizedPictureArgs {
   src: string;
   alt: string;
@@ -25,7 +27,7 @@ export function createOptimizedPicture(args: CreateOptimizedPictureArgs): HTMLPi
     height,
     breakpoints = [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
   } = args;
-  const url = new URL(src, window.location.href);
+  const url = new URL(src, getHref());
   const picture = document.createElement('picture');
   const { pathname } = url;
   const ext = pathname.substring(pathname.lastIndexOf('.') + 1);
