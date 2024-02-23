@@ -16,6 +16,6 @@
  * const result2 = undefinedOnEmpty(nonEmptyValue);
  * console.log(result2); // Output: 'Hello, World!'
  */
-export const undefinedOnEmpty = (value: string): string | undefined => {
+export function undefinedOnEmpty(value: string): string | undefined {
   return value === '' ? undefined : value;
-};
+}
