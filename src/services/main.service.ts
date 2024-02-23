@@ -89,10 +89,7 @@ export class MainService {
 
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
-    main.innerHTML =
-      window.location.href === 'about:srcdoc'
-        ? `<div class="inner sidekick-lib--active">${children}</div>`
-        : `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
+    main.innerHTML = `<div class="inner">${window.location.href === 'about:srcdoc' ? `` : `<header-component id="header"></header-component>`}${children}</div>`;
   }
 
   private loadLazy = async () => {
