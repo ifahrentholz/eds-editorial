@@ -1,22 +1,10 @@
 import { html, nothing, render } from 'lit';
 import FetchService from '../../services/fetch.service.ts';
-import { renderField, FormField } from '../form/form-fields';
+import { renderField, FormField, FormFieldType, FormFieldInput, FormFieldSelect } from '../form/form-fields';
 
 type FormElement = {
   name: string;
-  type:
-    | 'headline'
-    | 'plaintext'
-    | 'text'
-    | 'button'
-    | 'fieldset'
-    | 'select'
-    | 'toggle'
-    | 'radio'
-    | 'checkbox'
-    | 'textarea'
-    | 'reset'
-    | 'submit';
+  type: string;
   label: string;
   placeholder: string;
   options: string;
@@ -34,19 +22,20 @@ interface SheetsResponse {
   total: number;
 }
 
-const parseFieldData = (item: FormElement): FormField => {
+type FormPayload = Record<string, string>;
+
+const parseFieldData = (item: FormElement): FormField | FormFieldInput | FormFieldSelect => {
   return {
+    class: item.class !== '' ? item.class : undefined,
+    id: item.id !== '' ? item.id : undefined,
     name: item.name,
-    type: item.type,
-    label: item.label || '',
-    placeholder: item.placeholder,
+    label: item.label,
+    fieldset: item.fieldset !== '' ? item.fieldset : undefined,
+    value: item.value !== '' ? item.value : undefined,
+    type: item.type.toLowerCase() as FormFieldType,
+    placeholder: item.placeholder || undefined,
     options: item.options ? item.options.split(',').map((option: string) => option.trim()) : [],
-    value: item.value || undefined,
-    required:
-      item.required !== undefined && (item.required.toLowerCase() === 'true' || item.required.toLowerCase() === 'x'),
-    id: item.id || '',
-    fieldset: item.fieldset || undefined,
-    class: item.class,
+    required: item.required.toLowerCase() === 'true' || item.required.toLowerCase() === 'x' ? true : undefined,
   };
 };
 
@@ -68,10 +57,10 @@ const template = (templateArgs: FormField[]) => {
   `;
 };
 
-function generatePayload(form) {
+function generatePayload(form: HTMLFormElement): FormPayload {
   const payload = {};
 
-  [...form.elements].forEach((field) => {
+  [...(form.elements as HTMLCollectionOf<HTMLFormElement>)].forEach((field) => {
     if (field.name && field.type !== 'submit' && !field.disabled) {
       if (field.type === 'radio') {
         if (field.checked) payload[field.name] = field.value;
