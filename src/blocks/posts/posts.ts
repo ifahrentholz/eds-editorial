@@ -54,7 +54,7 @@ export default async function (block: HTMLElement) {
 
   const parser = new DOMParser();
   const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
-  const siteMapPostEntries = queryIndex.data.filter((item) => item.path.includes('/posts'));
+  const siteMapPostEntries = queryIndex.data.filter((item) => item.path.startsWith('/posts'));
 
   const postsPreview = await Promise.all(
     siteMapPostEntries.map(async (post) => await FetchService.fetchText(`${post.path}.plain.html`))

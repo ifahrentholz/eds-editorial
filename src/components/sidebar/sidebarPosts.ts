@@ -65,6 +65,6 @@ export class SidebarPosts extends LitElement {
 
   private async getPosts() {
     const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
-    return queryIndex.data.filter((item) => item.path.includes('/posts'));
+    return queryIndex.data.filter((item) => item.path.startsWith('/posts'));
   }
 }
