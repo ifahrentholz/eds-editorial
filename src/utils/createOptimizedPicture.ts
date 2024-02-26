@@ -3,7 +3,7 @@
  *
  * @interface CreateOptimizedPictureArgs
  * @property {string} src - The URL of the image.
- * @property {string} alt - The alternate text for the image.
+ * @property {string} alt - The alternative text for the image.
  * @property {string} width - The width of the image in CSS pixels.
  * @property {string} height - The height of the image in CSS pixels.
  * @property {boolean} [eager] - Whether to load the image immediately.
