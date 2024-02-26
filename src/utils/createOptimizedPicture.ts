@@ -1,4 +1,23 @@
 /**
+ * Represents a breakpoint configuration used in responsive web design.
+ *
+ * @interface BreakPoint
+ * @property {string} [media] - The media query string defining the condition for this breakpoint.
+ * @property {string} [width] - The width associated with this breakpoint.
+ *
+ * @example
+ * // Example usage:
+ * const exampleBreakPoint: BreakPoint = {
+ *   media: "(min-width: 600px)",
+ *   width: "100"
+ * };
+ */
+interface BreakPoint {
+  media?: string;
+  width?: string;
+}
+
+/**
  * Represents the arguments for creating an optimized picture element.
  *
  * @interface CreateOptimizedPictureArgs
@@ -7,7 +26,7 @@
  * @property {string} width - The width of the image in CSS pixels.
  * @property {string} height - The height of the image in CSS pixels.
  * @property {boolean} [eager] - Whether to load the image immediately.
- * @property {Array<Record<string, string>>} [breakpoints] - The breakpoints for responsive images.
+ * @property {BreakPoint[]} [breakpoints] - The breakpoints for responsive images.
  */
 interface CreateOptimizedPictureArgs {
   src: string;
@@ -15,7 +34,7 @@ interface CreateOptimizedPictureArgs {
   width: string;
   height: string;
   eager?: boolean;
-  breakpoints?: Array<Record<string, string>>;
+  breakpoints?: BreakPoint[];
 }
 
 /**
