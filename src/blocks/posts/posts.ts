@@ -2,9 +2,11 @@ import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import FetchService from '../../services/fetch.service.ts';
 import { SheetsResponse } from '../../shared.types.ts';
+import { isSidekickLibraryActive } from '../../utils/extractSidekickLibraryId.ts';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 interface PostArgs {
-  postUrl: string;
+  postUrl: string | undefined;
   headline?: string;
   text?: string;
   picture: HTMLPictureElement;
@@ -28,10 +30,10 @@ const postTemplate = (args: PostArgs) => {
   const { postUrl, headline, text, picture, buttontext } = args;
   return html`
     <article>
-      <a href="${postUrl}" class="image">${picture}</a>
+      <a href="${ifDefined(postUrl)}" class="image">${picture}</a>
       ${renderHeadline(headline)} ${renderText(text)}
       <ul class="actions">
-        <li><a href="${postUrl}" class="button">${buttontext || 'Goto Post'}</a></li>
+        <li><a href="${ifDefined(postUrl)}" class="button">${buttontext || 'Goto Post'}</a></li>
       </ul>
     </article>
   `;
@@ -61,7 +63,7 @@ export default async function (block: HTMLElement) {
   const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
   const posts = postsPreviewHtml.map((doc, index) => {
     return {
-      postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
+      postUrl: isSidekickLibraryActive ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: findFirstNonEmptyParagraph(doc),
       buttontext: siteMapPostEntries[index].buttontext,
