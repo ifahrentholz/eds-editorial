@@ -29,7 +29,7 @@ interface ReplaceBySpecifier {
   *   htmlTag: 'strong'
   * });
   * console.log(result1);
-  * // Output: 'This is a <strong>test</strong> string with some <strong>test</strong> keywords.'
+  * // Output: 'This is a <strong> string with some </strong> keywords.'
   *
   * // Example 2:
   * const result2 = replaceBySpecifier({
@@ -38,7 +38,7 @@ interface ReplaceBySpecifier {
   *   htmlTag: 'span'
   * });
   * console.log(result2);
-  * // Output: 'Hello<span>,</span> world!'
+  * // Output: 'Hello<span> world!</span>'
  */
 export function replaceBySpecifier({ input, specifier, htmlTag }: ReplaceBySpecifier): string {
   return input
