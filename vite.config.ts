@@ -1,18 +1,11 @@
 import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
-import { Config, generateBlockEntries } from './vite.helpers';
+import { generateBlockEntries } from './vite.helpers';
+import { config } from './config.ts';
 
 const { resolve } = require('path');
 
 const isProd = process.env.NODE_ENV === 'production';
-
-const config: Config = {
-  mainTsPath: 'src/main.ts',
-  mainScssPath: 'src/styles/sass/main.scss',
-  fontsScssPath: 'src/styles/sass/fonts.scss',
-  lazyStylesScssPath: 'src/styles/sass/lazy-styles.scss',
-  blocksName: ['banner', 'features', 'posts'],
-};
 
 // @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {

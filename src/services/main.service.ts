@@ -2,6 +2,7 @@ import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
+import { config } from '../../config.ts';
 
 type BlockMapping = {
   name: string;
@@ -90,9 +91,13 @@ export class MainService {
   }
 
   private loadLazy = async () => {
-    this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
-    await this.loadFonts();
-    await this.loadBlocks();
+    try {
+      if (config.lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      await this.loadFonts();
+      await this.loadBlocks();
+    } catch (error) {
+      console.error('Load lazy error: ', error);
+    }
   };
 
   private decorateTemplateAndTheme() {
