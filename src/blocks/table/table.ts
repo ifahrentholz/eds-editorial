@@ -1,5 +1,5 @@
 import { html, render } from 'lit';
-import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibID';
+import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibId';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 interface TemplateArgs {
