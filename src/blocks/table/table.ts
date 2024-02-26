@@ -1,46 +1,30 @@
 import { html, render } from 'lit';
-import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibID';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
+
+interface TableCell {
+  text: string;
+  styles?: string;
+}
 
 interface TemplateArgs {
-  headers: ConstructedElement[];
-  data: ConstructedElement[][];
+  headers: TableCell[];
+  data: TableCell[][];
 }
 
 const template = (args: TemplateArgs) => {
   const { headers, data } = args;
-
   return html`
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
-            ${headers.map(
-              (header) => html`
-                <th
-                  data-library-id="${ifDefined(header.id)}"
-                  contenteditable="${ifDefined(header.id ? true : undefined)}"
-                >
-                  ${header.text}
-                </th>
-              `
-            )}
+            ${headers.map((header) => html`<th style="${header.styles || ''}">${header.text}</th>`)}
           </tr>
         </thead>
         <tbody>
           ${data.map(
             (row) => html`
               <tr>
-                ${row.map(
-                  (cell) => html`
-                    <td
-                      data-library-id="${ifDefined(cell.id)}"
-                      contenteditable="${ifDefined(cell.id ? true : undefined)}"
-                    >
-                      ${cell.text}
-                    </td>
-                  `
-                )}
+                ${row.map((cell) => html`<td style="${cell.styles || ''}">${cell.text}</td>`)}
               </tr>
             `
           )}
@@ -51,22 +35,22 @@ const template = (args: TemplateArgs) => {
 };
 
 export default function decorate(block: HTMLElement) {
-  const headers: ConstructedElement[] = [];
-  const data: ConstructedElement[][] = [];
+  const headers: TableCell[] = [];
+  const data: TableCell[][] = [];
 
   [...block.children].forEach((child, index) => {
     if (index === 0) {
       headers.push(
-        ...Array.from(child.querySelectorAll<HTMLElement>('strong')).map((cell) => ({
-          text: cell.textContent || '',
-          id: extractSidekickLibId(cell).id,
+        ...Array.from(child.querySelectorAll('div')).map((cell) => ({
+          text: cell.textContent || cell.innerText,
+          styles: '',
         }))
       );
     } else {
       data.push(
-        Array.from(child.querySelectorAll<HTMLElement>('strong')).map((cell) => ({
-          text: cell.textContent || '',
-          id: extractSidekickLibId(cell).id,
+        Array.from(child.querySelectorAll('div')).map((cell) => ({
+          text: cell.innerText,
+          styles: '',
         }))
       );
     }
