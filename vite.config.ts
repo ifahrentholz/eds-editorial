@@ -9,8 +9,8 @@ const isProd = process.env.NODE_ENV === 'production';
 
 // @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
-  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath, blocksName } = config;
-  const blocksEntries = generateBlockEntries(blocksName);
+  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath } = config;
+  const blocksEntries = generateBlockEntries();
 
   return {
     css: {

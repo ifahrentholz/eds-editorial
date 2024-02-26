@@ -3,7 +3,6 @@ interface Config {
   mainScssPath: string;
   fontsScssPath: string;
   lazyStylesScssPath?: string;
-  blocksName: string[];
 }
 
 export const config: Config = {
@@ -11,5 +10,4 @@ export const config: Config = {
   mainScssPath: 'src/styles/sass/main.scss',
   fontsScssPath: 'src/styles/sass/fonts.scss',
   lazyStylesScssPath: 'src/styles/sass/lazy-styles.scss',
-  blocksName: ['banner', 'features', 'posts'],
 };
