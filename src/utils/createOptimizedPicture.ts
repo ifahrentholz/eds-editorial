@@ -28,8 +28,8 @@ interface CreateOptimizedPictureArgs {
  * const args = {
  *   src: 'image.jpg',
  *   alt: 'Example Image',
- *   width: '100%',
- *   height: 'auto',
+ *   width: '200',
+ *   height: '150',
  *   eager: true,
  *   breakpoints: [
  *     { media: '(min-width: 600px)', width: '800' },
