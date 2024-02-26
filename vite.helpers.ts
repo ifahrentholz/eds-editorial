@@ -19,9 +19,9 @@ const getTsEntry = (blockName) => {
   return tsPath ? { [blockName]: tsPath } : null;
 };
 
-export const generateBlockEntries = (blocksNames: string[]) => {
+export const generateBlockEntries = (blockNames: string[]) => {
   let entries = {};
-  blocksNames.forEach((blockName) => {
+  blockNames.forEach((blockName) => {
     const tsEntry = getTsEntry(blockName);
     entries = { ...entries, ...tsEntry };
   });
