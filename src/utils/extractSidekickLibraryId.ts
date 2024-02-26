@@ -4,12 +4,12 @@ export type ConstructedElement = {
   href?: string;
 };
 
-export const extractSidekickLibId = (element: any): ConstructedElement => {
-  const sidekickLibActive: boolean = window.location.href === 'about:srcdoc';
+export const isSidekickLibraryActive: boolean = window.location.href === 'about:srcdoc';
 
+export const extractSidekickLibraryId = (element: any): ConstructedElement => {
   if (!element) return { id: undefined, text: '', href: '' };
 
-  if (sidekickLibActive) {
+  if (isSidekickLibraryActive) {
     return {
       id: element.getAttribute('data-library-id') || undefined,
       text: element.innerHTML,
