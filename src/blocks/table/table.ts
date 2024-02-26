@@ -1,5 +1,5 @@
 import { html, render } from 'lit';
-import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibId';
+import { ConstructedElement, extractSidekickLibraryId } from '../../utils/extractSidekickLibraryId';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 interface TemplateArgs {
@@ -59,14 +59,14 @@ export default function decorate(block: HTMLElement) {
       headers.push(
         ...Array.from(child.querySelectorAll<HTMLElement>('strong')).map((cell) => ({
           text: cell.textContent || '',
-          id: extractSidekickLibId(cell).id,
+          id: extractSidekickLibraryId(cell).id,
         }))
       );
     } else {
       data.push(
         Array.from(child.querySelectorAll<HTMLElement>('strong')).map((cell) => ({
           text: cell.textContent || '',
-          id: extractSidekickLibId(cell).id,
+          id: extractSidekickLibraryId(cell).id,
         }))
       );
     }

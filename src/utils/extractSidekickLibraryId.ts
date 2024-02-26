@@ -4,7 +4,7 @@ export type ConstructedElement = {
   href?: string;
 };
 
-export const extractSidekickLibId = (element: any): ConstructedElement => {
+export const extractSidekickLibraryId = (element: any): ConstructedElement => {
   const sidekickLibActive: boolean = window.location.href === 'about:srcdoc';
 
   if (!element) return { id: undefined, text: '', href: '' };
