@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
-import '../icon';
 import { SheetsResponse, SiteMapEntry } from '../../shared.types';
 import FetchService from '../../services/fetch.service.ts';
 

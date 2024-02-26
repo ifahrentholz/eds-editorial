@@ -2,7 +2,7 @@
 
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
-import './components/toast.ts';
+import './components/icon/icon.ts';
 import './services/fetch.service.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';

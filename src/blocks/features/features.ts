@@ -1,8 +1,6 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
-import '../../components/icon';
-
 interface Feature {
   icon: string;
   textBlock: string;
