@@ -11,12 +11,13 @@ const config: Config = {
   mainScssPath: 'src/styles/sass/main.scss',
   fontsScssPath: 'src/styles/sass/fonts.scss',
   lazyStylesScssPath: 'src/styles/sass/lazy-styles.scss',
-  blocksName: ['counter', 'banner', 'features', 'posts'],
+  blocksName: ['banner', 'features', 'posts'],
 };
 
 // @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
-  const blocksEntries = generateBlockEntries(config.blocksName);
+  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath, blocksName } = config;
+  const blocksEntries = generateBlockEntries(blocksName);
 
   return {
     css: {
@@ -39,10 +40,10 @@ export default defineConfig(({ command, mode }) => {
         cache: false,
         preserveEntrySignatures: 'strict',
         input: {
-          main: resolve(__dirname, config.mainTsPath),
-          styles: resolve(__dirname, config.mainScssPath),
-          fonts: resolve(__dirname, config.fontsScssPath),
-          lazyStyles: resolve(__dirname, config.lazyStylesScssPath),
+          main: resolve(__dirname, mainTsPath),
+          styles: resolve(__dirname, mainScssPath),
+          fonts: resolve(__dirname, fontsScssPath),
+          lazyStyles: resolve(__dirname, lazyStylesScssPath),
           ...blocksEntries,
         },
         output: {
