@@ -1,7 +1,7 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { ConstructedElement, extractSidekickLibId } from '../../utils/extractSidekickLibID';
+import { ConstructedElement, extractSidekickLibraryId } from '../../utils/extractSidekickLibraryId';
 
 interface TemplateArgs {
   headline: ConstructedElement;
@@ -63,10 +63,10 @@ export default function (block: HTMLElement) {
   }
   const firstRow = block.querySelector('div');
   const secondRow = block.children[1];
-  const headline = extractSidekickLibId(firstRow?.querySelector('h1'));
-  const subline = extractSidekickLibId(firstRow?.querySelector('h3'));
-  const texts = firstRow ? [...firstRow.querySelectorAll('p')].map((item) => extractSidekickLibId(item)) : [];
-  const buttons = secondRow ? [...secondRow.querySelectorAll('a')].map((item) => extractSidekickLibId(item)) : [];
+  const headline = extractSidekickLibraryId(firstRow?.querySelector('h1'));
+  const subline = extractSidekickLibraryId(firstRow?.querySelector('h3'));
+  const texts = firstRow ? [...firstRow.querySelectorAll('p')].map((item) => extractSidekickLibraryId(item)) : [];
+  const buttons = secondRow ? [...secondRow.querySelectorAll('a')].map((item) => extractSidekickLibraryId(item)) : [];
   const picture = firstRow?.querySelector('picture') || undefined;
   const img = picture?.querySelector('img');
   img?.setAttribute('loading', 'eager');
