@@ -72,8 +72,8 @@ export default function decorate(block: HTMLElement) {
     }
   });
 
-  block.innerHTML = '';
+  // block.innerHTML = '';
 
-  block.style.removeProperty('display');
-  render(template({ headers, data }), block);
+  // block.style.removeProperty('display');
+  // render(template({ headers, data }), block);
 }
