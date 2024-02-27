@@ -2,8 +2,8 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../icon';
-import { SiteMapEntry } from '../../shared.types';
-import SitemapService from '../../services/sitemap.service.ts';
+import { SheetsResponse, SiteMapEntry } from '../../shared.types';
+import FetchService from '../../services/fetch.service.ts';
 
 interface SubMenuItem {
   path: string;
@@ -77,9 +77,9 @@ export class SidebarNav extends LitElement {
 
   groupByFirstLevelPath = async () => {
     const groups = {};
-    const sitemap = await SitemapService.getSiteMap();
+    const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
 
-    sitemap.forEach((item) => {
+    queryIndex.data.forEach((item) => {
       const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
       if (!groups[firstLevelPath]) {
         groups[firstLevelPath] = [];
