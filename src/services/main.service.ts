@@ -91,9 +91,10 @@ export class MainService {
   }
 
   private loadLazy = async () => {
+    const { lazyStylesScssPath, fontsScssPath } = config;
     try {
-      if (config.lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
-      await this.loadFonts();
+      if (lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
     } catch (error) {
       console.error('Load lazy error: ', error);
