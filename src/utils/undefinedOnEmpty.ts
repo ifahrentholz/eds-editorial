@@ -17,5 +17,5 @@
  * console.log(result2); // Output: 'Hello, World!'
  */
 export function undefinedOnEmpty(value: string): string | undefined {
-  return value === '' ? undefined : value;
+  return value.trim() === '' ? undefined : value;
 }

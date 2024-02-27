@@ -2,6 +2,7 @@ import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
+import { config } from '../../config.ts';
 
 type BlockMapping = {
   name: string;
@@ -97,8 +98,14 @@ export class MainService {
   }
 
   private loadLazy = async () => {
-    await this.loadFonts();
-    await this.loadBlocks();
+    const { lazyStylesScssPath, fontsScssPath } = config;
+    try {
+      if (lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      if (fontsScssPath) await this.loadFonts();
+      await this.loadBlocks();
+    } catch (error) {
+      console.error('Load lazy error: ', error);
+    }
   };
 
   private decorateTemplateAndTheme() {
@@ -152,6 +159,14 @@ export class MainService {
         block.element.dataset.blockStatus = Status.error;
         console.error('An error occurred during module import:', error);
       }
+    }
+  }
+
+  async loadBlockStyles(block: BlockMapping) {
+    try {
+      await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
+    } catch (error) {
+      console.error(`problem with block '${block.name}' loading styles`);
     }
   }
 
@@ -226,6 +241,7 @@ export class MainService {
 
     for (const block of sectionsBlocks) {
       await this.loadBlockModules(block);
+      await this.loadBlockStyles(block);
     }
 
     this.showSection(section);
