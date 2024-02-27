@@ -42,7 +42,8 @@ const getDuration = (block: HTMLElement) => {
 
 export default function decorate(block: HTMLElement) {
   // Vite runs on build time and finds all svg files in icons directory
-  const iconOverview = import.meta.glob('../../icons/*.svg');
+  // Since import.meta.glob only accepts literals ICON_PATH cant be used
+  const iconOverview = import.meta.glob('/public/icons/*.svg');
   const iconNames = Object.keys(iconOverview).map((iconPath) => iconPath.replace(/^.*\/(.*?)\.svg$/, '$1'));
   const message = getMessage(block);
   const duration = getDuration(block);
