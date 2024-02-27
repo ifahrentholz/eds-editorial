@@ -48,7 +48,9 @@ export class HeaderComponent extends LitElement {
 
   async fetchHeaderData() {
     try {
-      const response = await FetchService.fetchJson<HeaderResponseData>('header.json');
+      const response = await FetchService.fetchJson<HeaderResponseData>('header.json', {
+        cacheOptions: { cacheType: 'runtime' },
+      });
       this.headerData = { leftCol: response.leftCol.data[0], rightCol: response.rightCol.data };
     } catch (error) {
       console.error('HeaderComponent: ', error);

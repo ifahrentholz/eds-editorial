@@ -1,38 +1,73 @@
+import { RuntimeCache } from '../utils/RuntimeCache';
+
+export interface FetchServiceCacheOptions {
+  cacheType?: 'runtime'; // 'local' | 'session' | "request" can be added later
+}
+
+export interface FetchServiceOptions {
+  fetchOptions?: RequestInit;
+  cacheOptions?: FetchServiceCacheOptions;
+}
+
 class FetchService {
-  private responseMap = new Map<string, Promise<Response>>();
+  private requestPipeline: Map<string, Promise<Response>> = new Map();
 
-  private async fetchData(endpoint: string, init?: RequestInit): Promise<Response> {
-    const url = this.getUrl(endpoint);
+  private runtimeCache = new RuntimeCache();
 
-    if (this.responseMap.has(url)) return this.responseMap.get(url)!;
-
-    const fetchPromise = fetch(url, init);
-
-    this.responseMap.set(url, fetchPromise);
-
-    const response = await fetchPromise;
-
-    if (response.ok) return response;
-
-    //TODO: Use DebugService in future
-    console.error(response.statusText);
-    this.responseMap.delete(url);
-    return response;
+  public fetchJson<T>(url: string, options: FetchServiceOptions = {}): Promise<T> {
+    return this.fetchData(url, options, this.getResponseJSON<T>);
   }
 
-  public async fetchJson<T>(endpoint: string, init?: RequestInit): Promise<T> {
-    const response = await this.fetchData(endpoint, init);
-    return await response.clone().json();
+  public fetchText(url: string, options: FetchServiceOptions = {}): Promise<string> {
+    return this.fetchData(url, options, this.getResponseText);
   }
 
-  public async fetchText(endpoint: string, init?: RequestInit): Promise<string> {
-    const response = await this.fetchData(endpoint, init);
-    return response.clone().text();
+  private async fetchData<T>(
+    url: string,
+    options: FetchServiceOptions,
+    dataMapper: (Response) => Promise<T>
+  ): Promise<T> {
+    const { cacheOptions } = options;
+    const cachedData = this.getCachedData<T>(url, cacheOptions);
+    if (cachedData !== null) return cachedData;
+
+    const pipelinedRequest = this.requestPipeline.get(url);
+    if (pipelinedRequest !== undefined) return dataMapper(await pipelinedRequest);
+
+    const request = fetch(url, options.fetchOptions);
+    this.requestPipeline.set(url, request);
+
+    const response = await request;
+    this.requestPipeline.delete(url);
+    const responseData = await dataMapper(response);
+
+    this.setCachedData(url, responseData, cacheOptions);
+    return responseData;
   }
 
-  private getUrl(endpoint: string) {
-    const decoratedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    return `${window.hlx.codeBasePath}${decoratedEndpoint}`;
+  private async getResponseJSON<T>(response: Response): Promise<T> {
+    const responseClone = response.clone();
+    const responseJson = await responseClone.json();
+    return responseJson;
+  }
+
+  private async getResponseText(response: Response): Promise<string> {
+    const responseClone = response.clone();
+    const responseText = await responseClone.text();
+    return responseText;
+  }
+
+  private getCachedData<T>(url: string, cacheOptions?: FetchServiceCacheOptions): T | null {
+    if (cacheOptions?.cacheType === 'runtime') {
+      return this.runtimeCache.get(url) ?? null;
+    }
+    return null;
+  }
+
+  private setCachedData<T>(url: string, data: T, cacheOptions?: FetchServiceCacheOptions): void {
+    if (cacheOptions?.cacheType === 'runtime') {
+      this.runtimeCache.set(url, data);
+    }
   }
 }
 

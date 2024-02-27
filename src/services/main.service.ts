@@ -2,6 +2,7 @@ import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
+import { config } from '../../config.ts';
 
 type BlockMapping = {
   name: string;
@@ -10,6 +11,13 @@ type BlockMapping = {
 
 interface LcpCandidate extends HTMLElement {
   complete: boolean;
+}
+
+class Status {
+  static unloaded = 'unloaded';
+  static loading = 'loading';
+  static loaded = 'loaded';
+  static error = 'error';
 }
 
 export class MainService {
@@ -90,8 +98,14 @@ export class MainService {
   }
 
   private loadLazy = async () => {
-    await this.loadFonts();
-    await this.loadBlocks();
+    const { lazyStylesScssPath, fontsScssPath } = config;
+    try {
+      if (lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      if (fontsScssPath) await this.loadFonts();
+      await this.loadBlocks();
+    } catch (error) {
+      console.error('Load lazy error: ', error);
+    }
   };
 
   private decorateTemplateAndTheme() {
@@ -128,18 +142,31 @@ export class MainService {
   }
 
   private async loadBlockModules(block: BlockMapping) {
-    const status = block.element.dataset.blockStatus;
+    const status = block.element.dataset.blockStatus ?? Status.unloaded;
 
-    if (status !== 'loading' && status !== 'loaded') {
-      block.element.dataset.blockStatus = 'loading';
+    if (status === Status.unloaded) {
+      block.element.dataset.blockStatus = Status.loading;
 
-      const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+      try {
+        const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
 
-      if (blockModule.default) {
-        await blockModule.default(block.element);
+        if (blockModule.default) {
+          await blockModule.default(block.element);
+        }
+
+        block.element.dataset.blockStatus = Status.loaded;
+      } catch (error) {
+        block.element.dataset.blockStatus = Status.error;
+        console.error('An error occurred during module import:', error);
       }
+    }
+  }
 
-      block.element.dataset.blockStatus = 'loaded';
+  async loadBlockStyles(block: BlockMapping) {
+    try {
+      await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
+    } catch (error) {
+      console.error(`problem with block '${block.name}' loading styles`);
     }
   }
 
@@ -214,6 +241,7 @@ export class MainService {
 
     for (const block of sectionsBlocks) {
       await this.loadBlockModules(block);
+      await this.loadBlockStyles(block);
     }
 
     this.showSection(section);
