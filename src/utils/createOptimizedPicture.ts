@@ -16,7 +16,9 @@ interface CreateOptimizedPictureArgs {
   breakpoints?: Array<Record<string, string>>;
 }
 
-export function createOptimizedPicture(args: CreateOptimizedPictureArgs): HTMLPictureElement {
+export function createOptimizedPicture(args: CreateOptimizedPictureArgs): HTMLPictureElement | undefined {
+  if (args.src === '' || args.src.startsWith('/default-meta-image.png')) return undefined;
+
   const {
     src,
     alt,

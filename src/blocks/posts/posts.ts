@@ -7,7 +7,7 @@ interface PostArgs {
   postUrl: string;
   headline?: string;
   text?: string;
-  picture: HTMLPictureElement;
+  picture?: HTMLPictureElement;
   buttontext?: string;
 }
 
@@ -24,12 +24,16 @@ const renderText = (text?: string) => {
   return html`<p>${text}</p>`;
 };
 
+const renderPicture = (postUrl: string, picture?: HTMLPictureElement) => {
+  if (!picture) return nothing;
+  return html`<a href="${postUrl}" class="image">${picture}</a>`;
+};
+
 const postTemplate = (args: PostArgs) => {
   const { postUrl, headline, text, picture, buttontext } = args;
   return html`
     <article>
-      <a href="${postUrl}" class="image">${picture}</a>
-      ${renderHeadline(headline)} ${renderText(text)}
+      ${renderPicture(postUrl, picture)} ${renderHeadline(headline)} ${renderText(text)}
       <ul class="actions">
         <li><a href="${postUrl}" class="button">${buttontext || 'Goto Post'}</a></li>
       </ul>

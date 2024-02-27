@@ -14,5 +14,5 @@ interface CreateOptimizedPictureArgs {
     eager?: boolean;
     breakpoints?: Array<Record<string, string>>;
 }
-export declare function createOptimizedPicture(args: CreateOptimizedPictureArgs): HTMLPictureElement;
+export declare function createOptimizedPicture(args: CreateOptimizedPictureArgs): HTMLPictureElement | undefined;
 export {};
