@@ -4,6 +4,7 @@ import FetchService from '../../services/fetch.service.ts';
 import { SheetsResponse } from '../../shared.types.ts';
 import { isSidekickLibraryActive } from '../../utils/extractSidekickLibraryId.ts';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
+import './posts.scss';
 
 interface PostArgs {
   postUrl: string | undefined;
@@ -57,7 +58,13 @@ export default async function (block: HTMLElement) {
   const siteMapPostEntries = queryIndex.data.filter((item) => item.path.startsWith('/posts'));
 
   const postsPreview = await Promise.all(
-    siteMapPostEntries.map(async (post) => await FetchService.fetchText(`${post.path}.plain.html`))
+    siteMapPostEntries.map((post) =>
+      FetchService.fetchText(`${post.path}.plain.html`, {
+        cacheOptions: {
+          cacheType: 'runtime',
+        },
+      })
+    )
   );
 
   const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
@@ -70,8 +77,8 @@ export default async function (block: HTMLElement) {
       picture: createOptimizedPicture({
         src: siteMapPostEntries[index].image,
         alt: siteMapPostEntries[index].imagealt,
-        width: '323',
-        height: '199',
+        width: 323,
+        height: 199,
       }),
     };
   });
