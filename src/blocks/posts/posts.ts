@@ -68,8 +68,8 @@ export default async function (block: HTMLElement) {
       picture: createOptimizedPicture({
         src: siteMapPostEntries[index].image,
         alt: siteMapPostEntries[index].imagealt,
-        width: '323',
-        height: '199',
+        width: 323,
+        height: 199,
       }),
     };
   });
