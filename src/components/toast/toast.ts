@@ -19,6 +19,10 @@ export class Toast extends LitElement {
     this.remove();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+  }
+
   render() {
     if (!this.message) return;
     return html`<div class="toast">${this.message}</div>`;

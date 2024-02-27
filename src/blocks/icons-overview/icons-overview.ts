@@ -1,17 +1,21 @@
 import { html, render } from 'lit';
 import { renderIcon } from '../../components/icon/icon.template.ts';
-import { renderToast } from '../../components/toast/toast.template.ts';
+import { createToast } from '../../components/toast/toast.template.ts';
+
+const renderIconLabel = (icon: string) => {
+  return html`<span class="icon-label">${icon}</span>`;
+};
 
 const renderIconContainer = (icon: string, message: string, duration: number) => {
   return html`
     <button class="icon-container" @click="${() => copyNameToClipboard(icon, message, duration)}">
-      ${renderIcon(icon)}
+      ${renderIcon(icon)} ${renderIconLabel(icon)}
     </button>
   `;
 };
 
 const showToast = (message: string, duration: number) => {
-  render(renderToast(message, duration), document.body);
+  render(createToast(message, duration), document.body);
 };
 const copyNameToClipboard = async (name: string, message: string, duration: number) => {
   await navigator.clipboard.writeText(name);
