@@ -1,15 +1,25 @@
 import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
+import { generateBlockEntries } from './vite.helpers';
+import { config } from './config.ts';
 
 const { resolve } = require('path');
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// @ts-ignore:next-line
+// @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
+  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath } = config;
+  const blocksEntries = generateBlockEntries();
+
   return {
     css: {
       devSourcemap: true,
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import 'src/styles/sass/libs/_index.scss';`,
+        },
+      },
     },
     build: {
       sourcemap: true,
@@ -23,13 +33,11 @@ export default defineConfig(({ command, mode }) => {
         cache: false,
         preserveEntrySignatures: 'strict',
         input: {
-          styles: resolve(__dirname, 'src/styles/sass/main.scss'),
-          fonts: resolve(__dirname, 'src/styles/sass/fonts.scss'),
-          main: resolve(__dirname, 'src/main.ts'),
-          counter: resolve(__dirname, 'src/blocks/counter/counter.ts'),
-          banner: resolve(__dirname, 'src/blocks/banner/banner.ts'),
-          features: resolve(__dirname, 'src/blocks/features/features.ts'),
-          posts: resolve(__dirname, 'src/blocks/posts/posts.ts'),
+          main: resolve(__dirname, mainTsPath),
+          styles: resolve(__dirname, mainScssPath),
+          fonts: resolve(__dirname, fontsScssPath),
+          lazyStyles: resolve(__dirname, lazyStylesScssPath),
+          ...blocksEntries,
         },
         output: {
           dir: 'dist',

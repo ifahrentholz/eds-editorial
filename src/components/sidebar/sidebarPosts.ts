@@ -57,7 +57,7 @@ export class SidebarPosts extends LitElement {
   private renderPost(siteMapEntry: SiteMapEntry) {
     return html` <article>
       <a href="${siteMapEntry.path}" class="image">
-        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imagealt, width: '336', height: '224' })}
+        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imagealt, width: 336, height: 224 })}
       </a>
       <p>${siteMapEntry.description}</p>
     </article>`;
