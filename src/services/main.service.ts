@@ -12,6 +12,13 @@ interface LcpCandidate extends HTMLElement {
   complete: boolean;
 }
 
+class Status {
+  static unloaded = 'unloaded';
+  static loading = 'loading';
+  static loaded = 'loaded';
+  static error = 'error';
+}
+
 export class MainService {
   private lcpBlocks = ['banner'];
 
@@ -128,18 +135,23 @@ export class MainService {
   }
 
   private async loadBlockModules(block: BlockMapping) {
-    const status = block.element.dataset.blockStatus;
+    const status = block.element.dataset.blockStatus ?? Status.unloaded;
 
-    if (status !== 'loading' && status !== 'loaded') {
-      block.element.dataset.blockStatus = 'loading';
+    if (status === Status.unloaded) {
+      block.element.dataset.blockStatus = Status.loading;
 
-      const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+      try {
+        const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
 
-      if (blockModule.default) {
-        await blockModule.default(block.element);
+        if (blockModule.default) {
+          await blockModule.default(block.element);
+        }
+
+        block.element.dataset.blockStatus = Status.loaded;
+      } catch (error) {
+        block.element.dataset.blockStatus = Status.error;
+        console.error('An error occurred during module import:', error);
       }
-
-      block.element.dataset.blockStatus = 'loaded';
     }
   }
 
