@@ -4,6 +4,7 @@ export declare class Toast extends LitElement {
     duration: number;
     connectedCallback(): void;
     close(): void;
+    disconnectedCallback(): void;
     render(): import("lit-html").TemplateResult<1> | undefined;
     static styles: import("lit").CSSResult;
 }
