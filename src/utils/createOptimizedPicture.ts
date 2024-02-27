@@ -2,8 +2,8 @@
  * Represents a breakpoint configuration used in responsive web design.
  *
  * @interface BreakPoint
- * @property {string} [media] - The media query string defining the condition for this breakpoint.
- * @property {string} [width] - The width associated with this breakpoint.
+ * @property {number} [media] - The media query string defining the condition for this breakpoint.
+ * @property {number} [width] - The width associated with this breakpoint.
  *
  * @example
  * // Example usage:
@@ -14,7 +14,7 @@
  */
 interface BreakPoint {
   media?: string;
-  width?: string;
+  width?: number;
 }
 
 /**
@@ -23,16 +23,16 @@ interface BreakPoint {
  * @interface CreateOptimizedPictureArgs
  * @property {string} src - The URL of the image.
  * @property {string} alt - The alternative text for the image.
- * @property {string} width - The width of the image in CSS pixels.
- * @property {string} height - The height of the image in CSS pixels.
+ * @property {number} width - The width of the image in CSS pixels.
+ * @property {number} height - The height of the image in CSS pixels.
  * @property {boolean} [eager] - Whether to load the image immediately.
  * @property {BreakPoint[]} [breakpoints] - The breakpoints for responsive images.
  */
 interface CreateOptimizedPictureArgs {
   src: string;
   alt: string;
-  width: string;
-  height: string;
+  width: number;
+  height: number;
   eager?: boolean;
   breakpoints?: BreakPoint[];
 }
@@ -68,7 +68,7 @@ export function createOptimizedPicture(createOptimizedPictureArgs: CreateOptimiz
     eager = false,
     width,
     height,
-    breakpoints = [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
+    breakpoints = [{ media: '(min-width: 600px)', width: 200 }, { width: 750 }],
   } = createOptimizedPictureArgs;
   const url = new URL(src, window.location.href);
   const picture = document.createElement('picture');
@@ -76,7 +76,7 @@ export function createOptimizedPicture(createOptimizedPictureArgs: CreateOptimiz
   const ext = pathname.substring(pathname.lastIndexOf('.') + 1);
 
   // webp
-  breakpoints.forEach((breakpoint: Record<string, string>): void => {
+  breakpoints.forEach((breakpoint: BreakPoint): void => {
     const source = document.createElement('source');
     if (breakpoint.media) source.setAttribute('media', breakpoint.media);
     source.setAttribute('type', 'image/webp');
@@ -95,8 +95,8 @@ export function createOptimizedPicture(createOptimizedPictureArgs: CreateOptimiz
       const img = document.createElement('img');
       img.setAttribute('loading', eager ? 'eager' : 'lazy');
       img.setAttribute('alt', alt);
-      img.setAttribute('width', width);
-      img.setAttribute('height', height);
+      img.setAttribute('width', width.toString());
+      img.setAttribute('height', height.toString());
       picture.appendChild(img);
       img.setAttribute('src', `${pathname}?width=${breakpoint.width}&format=${ext}&optimize=medium`);
     }
