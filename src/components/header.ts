@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import FetchService from '../services/fetch.service.ts';
+import { renderIcon } from './icon/icon.template.ts';
 
 export interface HeaderResponseData {
   leftCol: LeftCol;
@@ -67,7 +68,7 @@ export class HeaderComponent extends LitElement {
           return html`
             <li>
               <a href="${item.socialLink}" class="icon brands" aria-label="${item.socialLabel}">
-                <icon-component class="header-icon" name="${item.socialIcon}"></icon-component>
+                ${renderIcon(item.socialIcon, 'header-icon')}
                 <span class="label">${item.socialLabel}</span>
               </a>
             </li>
