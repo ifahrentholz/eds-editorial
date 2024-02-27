@@ -68,7 +68,7 @@ export function createOptimizedPicture(createOptimizedPictureArgs: CreateOptimiz
     eager = false,
     width,
     height,
-    breakpoints = [{ media: '(min-width: 600px)', width: 200 }, { width: 750 }],
+    breakpoints = [{ media: '(min-width: 600px)', width: 2000 }, { width: 750 }],
   } = createOptimizedPictureArgs;
   const url = new URL(src, window.location.href);
   const picture = document.createElement('picture');
