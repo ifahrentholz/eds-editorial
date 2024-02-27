@@ -5,7 +5,7 @@
   "description": "EDS Editorial Website",
   "scripts": {
     "aemUp": "aem up",
-    "build": "tsc && vite build",
+    "build": "tsc && node generateIconTypes.js && vite build",
     "build:watch": "run-p tsc:watch vite:watch",
     "lint:js": "eslint 'src/**/!(*-toc).{js,json,ts}'",
     "lint:js:fix": "eslint --fix 'src/**/!(*-toc).{js,json,ts}'",
@@ -30,7 +30,6 @@
   "devDependencies": {
     "@babel/core": "7.23.7",
     "@babel/eslint-parser": "7.23.3",
-    "@types/node": "^20.11.7",
     "@typescript-eslint/eslint-plugin": "6.20.0",
     "@typescript-eslint/parser": "6.20.0",
     "chai": "5.0.0",
