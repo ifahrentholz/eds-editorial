@@ -1,4 +1,4 @@
-export type Icons =
+export type IconName =
   | 'README'
   | 'angle-down'
   | 'angle-left'

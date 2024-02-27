@@ -9,7 +9,7 @@ try {
   const iconFiles = fs.readdirSync(iconDir);
   const icons = iconFiles.map((file) => path.parse(file).name.replace(/[^a-zA-Z0-9-]/g, ''));
 
-  const typeDefinition = `export type Icons = \n'${icons.join("'  | \n'")}';\n`;
+  const typeDefinition = `export type IconName = \n'${icons.join("'  | \n'")}';\n`;
 
   fs.writeFileSync(typeFilePath, typeDefinition);
 

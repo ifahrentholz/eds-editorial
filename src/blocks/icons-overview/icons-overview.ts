@@ -1,12 +1,13 @@
 import { html, render } from 'lit';
 import { renderIcon } from '../../components/icon/icon.template.ts';
 import { createToast } from '../../components/toast/toast.template.ts';
+import { IconName } from '../../icons.types.ts';
 
 const renderIconLabel = (icon: string) => {
   return html`<span class="icon-label">${icon}</span>`;
 };
 
-const renderIconContainer = (icon: string, message: string, duration: number) => {
+const renderIconContainer = (icon: IconName, message: string, duration: number) => {
   return html`
     <button class="icon-container" @click="${() => copyNameToClipboard(icon, message, duration)}">
       ${renderIcon(icon)} ${renderIconLabel(icon)}
@@ -22,9 +23,9 @@ const copyNameToClipboard = async (name: string, message: string, duration: numb
   showToast(message, duration);
 };
 
-const template = (iconNames: string[], message: string, duration: number) => {
+const template = (iconNames: IconName[], message: string, duration: number) => {
   return html` <div class="icons-overview">
-    ${iconNames.map((icon) => renderIconContainer(icon, message, duration))}
+    ${iconNames.map((icon: IconName) => renderIconContainer(icon, message, duration))}
   </div>`;
 };
 
@@ -50,5 +51,5 @@ export default function decorate(block: HTMLElement) {
 
   block.innerHTML = '';
 
-  render(template(iconNames, message, duration), block);
+  render(template(iconNames as IconName[], message, duration), block);
 }
