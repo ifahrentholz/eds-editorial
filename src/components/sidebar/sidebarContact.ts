@@ -27,7 +27,9 @@ export class SidebarContact extends LitElement {
 
   async fetchContactsHtml() {
     const parser = new DOMParser();
-    const contactHtmlString = await FetchService.fetchText('contact.plain.html');
+    const contactHtmlString = await FetchService.fetchText('contact.plain.html', {
+      cacheOptions: { cacheType: 'runtime' },
+    });
     return parser.parseFromString(contactHtmlString, 'text/html');
   }
 

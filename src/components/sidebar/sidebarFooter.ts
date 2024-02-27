@@ -17,7 +17,9 @@ export class SidebarFooter extends LitElement {
   }
 
   async fetchFooterData() {
-    const response = await FetchService.fetchText('footer.plain.html');
+    const response = await FetchService.fetchText('footer.plain.html', {
+      cacheOptions: { cacheType: 'runtime' },
+    });
     const responseMarkup = document.createElement('div');
     responseMarkup.innerHTML = response;
     this.footerMarkup = responseMarkup.querySelector('p');

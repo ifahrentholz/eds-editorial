@@ -58,8 +58,8 @@ export class SidebarPosts extends LitElement {
     const picture = createOptimizedPicture({
       src: siteMapEntry.image,
       alt: siteMapEntry.imagealt,
-      width: '336',
-      height: '224',
+      width: 336,
+      height: 224,
     });
     if (!picture) return nothing;
     return html`<a href="${siteMapEntry.path}" class="image">${picture}</a>`;

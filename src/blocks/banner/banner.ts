@@ -1,5 +1,6 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import './banner.scss';
 
 interface TemplateArgs {
   headline?: string;
