@@ -2,6 +2,7 @@ import { html, render } from 'lit';
 import { renderIcon } from '../../components/icon/icon.template.ts';
 import { createToast } from '../../components/toast/toast.template.ts';
 import { IconName } from '../../icons.types.ts';
+import './icons-overview.scss';
 
 const renderIconLabel = (icon: string) => html`<span class="icon-label">${icon}</span>`;
 
