@@ -6,8 +6,7 @@ export default async function decorate(block: HTMLElement) {
   if (!formLink) return;
 
   const { pathname } = new URL(formLink);
-
   block.innerHTML = '';
-  block.style.removeProperty('display');
   render(html`<form-component pathname="${pathname}"></form-component>`, block);
+  block.style.display = 'block';
 }

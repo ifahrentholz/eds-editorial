@@ -6,6 +6,10 @@
 
 /* Form */
 
+.form.block {
+  display: none;
+}
+
 form {
   margin: 0 0 _size(element-margin) 0;
 }

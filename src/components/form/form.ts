@@ -55,11 +55,9 @@ export class Form extends LitElement {
   render() {
     if (!this.formData) return;
     return html`
-      <div>
-        <form method="post" data-action="${this.pathname.split('.json')[0]}" @submit="${this.submitForm}">
-          <div class="row gtr-uniform">${this.formData.map((element) => html`${renderField(element)}`)}</div>
-        </form>
-      </div>
+      <form method="post" data-action="${this.pathname.split('.json')[0]}" @submit="${this.submitForm}">
+        <div class="row gtr-uniform">${this.formData.map((element) => html`${renderField(element)}`)}</div>
+      </form>
     `;
   }
 
