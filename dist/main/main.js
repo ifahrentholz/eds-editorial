@@ -1,4 +1,4 @@
-import{T as l,s as p,x as i}from"../__chunks__/lit-element.XkUWx5ik.js";import{t as m}from"../__chunks__/property.0daVBkvz.js";import{f as k,_ as D}from"../__chunks__/icon.vh7VrxK3.js";import{e as j,o as M}from"../__chunks__/unsafe-html.U1vgpvJh.js";import{r as g,t as y}from"../__chunks__/toClassName.o2_BLIQs.js";import{F as v}from"../__chunks__/fetch.service.UlghuvpX.js";import{c as E}from"../__chunks__/createOptimizedPicture.9qJUeNvF.js";/**
+import{T as l,s as p,x as i}from"../__chunks__/lit-element.XkUWx5ik.js";import{t as m}from"../__chunks__/property.0daVBkvz.js";import{f as k,_ as D}from"../__chunks__/icon.vh7VrxK3.js";import{e as j,o as M}from"../__chunks__/unsafe-html.U1vgpvJh.js";import{r as g,t as y}from"../__chunks__/toClassName.o2_BLIQs.js";import{F as v}from"../__chunks__/fetch.service.MWvor5vW.js";import{c as E}from"../__chunks__/createOptimizedPicture.9qJUeNvF.js";/**
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
