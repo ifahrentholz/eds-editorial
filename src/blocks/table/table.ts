@@ -1,13 +1,9 @@
 import { html, render } from 'lit';
-
-interface TableCell {
-  text: string;
-  styles?: string;
-}
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
 interface TemplateArgs {
-  headers: TableCell[];
-  data: TableCell[][];
+  headers: string[];
+  data: string[][];
 }
 
 const template = (args: TemplateArgs) => {
@@ -17,14 +13,14 @@ const template = (args: TemplateArgs) => {
       <table>
         <thead>
           <tr>
-            ${headers.map((header) => html`<th style="${header.styles || ''}">${header.text}</th>`)}
+            ${headers.map((header) => html`<th>${unsafeHTML(header)}</th>`)}
           </tr>
         </thead>
         <tbody>
           ${data.map(
             (row) => html`
               <tr>
-                ${row.map((cell) => html`<td style="${cell.styles || ''}">${cell.text}</td>`)}
+                ${row.map((cell) => html`<td>${unsafeHTML(cell)}</td>`)}
               </tr>
             `
           )}
@@ -35,24 +31,14 @@ const template = (args: TemplateArgs) => {
 };
 
 export default function decorate(block: HTMLElement) {
-  const headers: TableCell[] = [];
-  const data: TableCell[][] = [];
+  const headers: string[] = [];
+  const data: string[][] = [];
 
   [...block.children].forEach((child, index) => {
     if (index === 0) {
-      headers.push(
-        ...Array.from(child.querySelectorAll('div')).map((cell) => ({
-          text: cell.textContent || cell.innerText,
-          styles: '',
-        }))
-      );
+      headers.push(...Array.from(child.querySelectorAll('div')).map((cell) => cell.innerHTML));
     } else {
-      data.push(
-        Array.from(child.querySelectorAll('div')).map((cell) => ({
-          text: cell.innerText,
-          styles: '',
-        }))
-      );
+      data.push(Array.from(child.querySelectorAll('div')).map((cell) => cell.innerHTML));
     }
   });
 
