@@ -1,1 +1,2 @@
-export declare const renderIcon: (icon: string, cssClasses?: string) => import("lit-html").TemplateResult<1>;
+import { IconName } from '../../icons.types.ts';
+export declare const renderIcon: (icon: IconName, cssClasses?: string) => import("lit-html").TemplateResult<1>;
