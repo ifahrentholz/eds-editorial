@@ -1,4 +1,4 @@
-import{T as l,s as p,x as i}from"../__chunks__/lit-element.XkUWx5ik.js";import{n as k,f as D,t as m,_ as j}from"../__chunks__/icon.jjSd6ARB.js";import{e as E,o as M}from"../__chunks__/unsafe-html.U1vgpvJh.js";import{F as g,c as I}from"../__chunks__/createOptimizedPicture.63-CY6ns.js";/**
+import{T as l,s as p,x as i}from"../__chunks__/lit-element.XkUWx5ik.js";import{n as k,f as D,t as m,_ as j}from"../__chunks__/icon.jjSd6ARB.js";import{e as E,o as M}from"../__chunks__/unsafe-html.U1vgpvJh.js";import{F as g,c as I}from"../__chunks__/createOptimizedPicture.m3G7L1Pf.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause

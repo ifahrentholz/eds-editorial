@@ -8,13 +8,14 @@ export interface FetchServiceOptions {
 declare class FetchService {
     private requestPipeline;
     private runtimeCache;
-    fetchJson<T>(url: string, options?: FetchServiceOptions): Promise<T>;
-    fetchText(url: string, options?: FetchServiceOptions): Promise<string>;
+    fetchJson<T>(endpoint: string, options?: FetchServiceOptions): Promise<T>;
+    fetchText(endpoint: string, options?: FetchServiceOptions): Promise<string>;
     private fetchData;
     private getResponseJSON;
     private getResponseText;
     private getCachedData;
     private setCachedData;
+    private getCodeBasePath;
 }
 declare const _default: FetchService;
 export default _default;
