@@ -14,12 +14,12 @@ class FetchService {
 
   private runtimeCache = new RuntimeCache();
 
-  public fetchJson<T>(url: string, options: FetchServiceOptions = {}): Promise<T> {
-    return this.fetchData(url, options, this.getResponseJSON<T>);
+  public fetchJson<T>(endpoint: string, options: FetchServiceOptions = {}): Promise<T> {
+    return this.fetchData(this.getCodeBasePath(endpoint), options, this.getResponseJSON<T>);
   }
 
-  public fetchText(url: string, options: FetchServiceOptions = {}): Promise<string> {
-    return this.fetchData(url, options, this.getResponseText);
+  public fetchText(endpoint: string, options: FetchServiceOptions = {}): Promise<string> {
+    return this.fetchData(this.getCodeBasePath(endpoint), options, this.getResponseText);
   }
 
   private async fetchData<T>(
@@ -68,6 +68,11 @@ class FetchService {
     if (cacheOptions?.cacheType === 'runtime') {
       this.runtimeCache.set(url, data);
     }
+  }
+
+  private getCodeBasePath(endpoint: string): string {
+    const decoratedUrl = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    return `${window.hlx.codeBasePath}${decoratedUrl}`;
   }
 }
 
