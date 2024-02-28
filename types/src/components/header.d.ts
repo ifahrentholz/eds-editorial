@@ -1,5 +1,4 @@
 import { LitElement, PropertyValueMap } from 'lit';
-import { IconName } from '../icons.types.ts';
 export interface HeaderResponseData {
     leftCol: LeftCol;
     rightCol: RightCol;
@@ -15,7 +14,7 @@ export interface RightCol {
     data: RightColData[];
 }
 export interface RightColData {
-    socialIcon: IconName;
+    socialIcon: string;
     socialLabel: string;
     socialLink: string;
 }

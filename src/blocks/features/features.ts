@@ -1,5 +1,6 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import './features.scss';
 
 interface Feature {
   icon: string;

@@ -1,4 +1,5 @@
 import { LitElement } from 'lit';
+import '../icon';
 interface SubMenuItem {
     path: string;
     navtitle: string;
