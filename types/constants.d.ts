@@ -1,1 +1,1 @@
-export declare const ICON_PATH = "/public/icons";
+export declare const ICONS_PATH = "/public/icons";
