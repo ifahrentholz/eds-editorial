@@ -1,5 +1,4 @@
 import { html } from 'lit';
-import { Toast } from './toast.ts';
 
 export const renderToast = (message: string, duration: number, cssClasses?: string) => {
   return html`<toast-component
@@ -9,7 +8,9 @@ export const renderToast = (message: string, duration: number, cssClasses?: stri
   ></toast-component>`;
 };
 
-export const createToast = (message: string, duration: number, cssClasses?: string) => {
+export const createToast = async (message: string, duration: number, cssClasses?: string) => {
+  const { Toast } = await import('./toast.ts');
+
   const toast = new Toast();
   toast.message = message;
   toast.duration = duration;

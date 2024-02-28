@@ -13,11 +13,12 @@ const renderIconContainer = (icon: IconName, message: string, duration: number) 
   `;
 };
 
-const showToast = (message: string, duration: number) => render(createToast(message, duration), document.body);
+const showToast = async (message: string, duration: number) =>
+  render(await createToast(message, duration), document.body);
 
 const copyNameToClipboard = async (name: string, message: string, duration: number) => {
   await navigator.clipboard.writeText(name);
-  showToast(message, duration);
+  await showToast(message, duration);
 };
 
 const fetchIconNames = async (): Promise<IconName[]> => {
