@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 @customElement('toast-component')
 export class Toast extends LitElement {
   @property({ type: String })
-  message: string = 'Toast default message';
+  message: string = 'Your settings have been saved successfully!';
   @property({ type: Number })
   duration: number = 10;
 
