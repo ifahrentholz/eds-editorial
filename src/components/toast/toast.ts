@@ -16,7 +16,10 @@ export class Toast extends LitElement {
   }
 
   close() {
-    this.remove();
+    this.style.animation = 'fadeOut 0.3s ease-in-out forwards';
+    setTimeout(() => {
+      this.remove();
+    }, 305);
   }
 
   disconnectedCallback() {
@@ -33,7 +36,7 @@ export class Toast extends LitElement {
       position: fixed;
       top: 30vh;
       right: 50vw;
-      background-color: #ffffff;
+      background-color: white;
       transform: translateX(50%);
       display: flex;
       flex-direction: column;
@@ -43,6 +46,27 @@ export class Toast extends LitElement {
       padding: 8px 16px;
       border-radius: 4px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      transition: opacity 0.3s ease-in-out;
+      opacity: 0;
+      animation: fadeIn 0.3s ease-in-out forwards; /* Apply fade-in animation */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
     }
   `;
 }
