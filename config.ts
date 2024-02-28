@@ -1,4 +1,4 @@
-interface Config {
+export interface Config {
   mainTsPath: string;
   mainScssPath: string;
   fontsScssPath?: string;

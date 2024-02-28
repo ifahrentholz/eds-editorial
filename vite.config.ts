@@ -1,16 +1,26 @@
 import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
-import { generateBlockEntries } from './vite.helpers';
+import { generateBlockEntries, generateIconNameType } from './vite.helpers';
 import { config } from './config.ts';
-
-const { resolve } = require('path');
+import { resolve } from 'path';
+import { InputOption } from 'rollup';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 // @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
   const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath } = config;
+  generateIconNameType();
   const blocksEntries = generateBlockEntries();
+
+  const inputOptions: InputOption = {
+    main: resolve(__dirname, mainTsPath),
+    styles: resolve(__dirname, mainScssPath),
+    ...blocksEntries,
+  };
+
+  if (fontsScssPath) inputOptions.fonts = resolve(__dirname, fontsScssPath);
+  if (lazyStylesScssPath) inputOptions.lazyStyles = resolve(__dirname, lazyStylesScssPath);
 
   return {
     css: {
@@ -32,13 +42,7 @@ export default defineConfig(({ command, mode }) => {
       rollupOptions: {
         cache: false,
         preserveEntrySignatures: 'strict',
-        input: {
-          main: resolve(__dirname, mainTsPath),
-          styles: resolve(__dirname, mainScssPath),
-          fonts: resolve(__dirname, fontsScssPath),
-          lazyStyles: resolve(__dirname, lazyStylesScssPath),
-          ...blocksEntries,
-        },
+        input: inputOptions,
         output: {
           dir: 'dist',
           assetFileNames: () => {

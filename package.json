@@ -5,9 +5,8 @@
   "description": "EDS Editorial Website",
   "scripts": {
     "aemUp": "aem up",
-    "build": "tsc && npm run generate:iconNames && vite build",
+    "build": "tsc && vite build",
     "build:watch": "run-p tsc:watch vite:watch",
-    "generate:iconNames": "node generateIconTypes.js",
     "lint:js": "eslint 'src/**/!(*-toc).{js,json,ts}'",
     "lint:js:fix": "eslint --fix 'src/**/!(*-toc).{js,json,ts}'",
     "lint:css": "stylelint src/**/*.scss",
