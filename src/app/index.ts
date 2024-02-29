@@ -1,4 +1,5 @@
 import { waitFor } from '@kluntje/js-utils/lib/dom-helpers';
+import setupHlxObj from './setupHlxObj';
 
 type LifecycleCallback = () => void | Promise<void>;
 
@@ -47,6 +48,7 @@ class App {
   private async init() {
     console.time('init execution time: ');
     await this.beforeInit();
+    setupHlxObj();
     await this.loadEager();
     await this.loadLazy();
     await this.loadDelayed();

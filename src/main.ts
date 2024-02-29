@@ -5,7 +5,7 @@ import './components/header.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
 import { MainService } from './services/main.service.ts';
-import App from './services/app.ts';
+import App from './app/index.ts';
 
 (async function () {
   const blockService = new BlockService();
@@ -14,6 +14,7 @@ import App from './services/app.ts';
   await main.init();
 
   console.time('APP execution time: ');
+
   new App({
     beforeInit: () => {
       console.log('beforeInit');
