@@ -1,7 +1,10 @@
+import { getMetadata } from '../utils/getMetadata';
+import { undefinedOnEmpty } from '../utils/undefinedOnEmpty';
+
 /*
- * this function sets the language of the document
+ * This function sets the language of the document
  */
 export function setDocLanguage() {
-  // TODO: support different languages here
-  document.documentElement.lang = 'en';
+  const lang = getMetadata('language');
+  document.documentElement.lang = undefinedOnEmpty(lang) || 'en';
 }
