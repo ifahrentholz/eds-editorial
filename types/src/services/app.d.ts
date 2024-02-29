@@ -20,7 +20,6 @@ declare class App {
     private afterLoadDelayed;
     constructor({ beforeInit, afterInit, beforeLoadEager, afterLoadEager, beforeLoadLazy, afterLoadLazy, beforeLoadDelayed, afterLoadDelayed, }?: LifecycleCallbacks);
     private init;
-    private setupHlxWindowObject;
     private loadEager;
     private loadLazy;
     private loadDelayed;
