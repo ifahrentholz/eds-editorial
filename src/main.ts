@@ -2,20 +2,10 @@
 
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
-import './services/fetch.service.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
 import { MainService } from './services/main.service.ts';
-
-// function preloadLcpImageCandidate() {
-//   const lcpCandidate = document.querySelector('main img') as HTMLImageElement | null;
-//   const linkTag = document.createElement('link');
-//   linkTag.rel = 'preload';
-//   linkTag.as = 'image';
-//   linkTag.href = lcpCandidate?.src || '';
-//   // linkTag.type = getLinkTypeFromImageExt(lcpCandidate?.src);
-//   document.head.appendChild(linkTag);
-// }
+import App from './services/app.ts';
 
 (async function () {
   // preloadLcpImageCandidate();
@@ -23,6 +13,33 @@ import { MainService } from './services/main.service.ts';
   const sectionService = new SectionService(blockService);
   const main = new MainService(sectionService, blockService);
   await main.init();
+
+  new App({
+    beforeInit: () => {
+      console.log('beforeInit');
+    },
+    afterInit: () => {
+      console.log('afterInit');
+    },
+    beforeLoadEager: () => {
+      console.log('beforeLoadEager');
+    },
+    afterLoadEager: () => {
+      console.log('afterLoadEager');
+    },
+    beforeLoadLazy: () => {
+      console.log('beforeLoadLazy');
+    },
+    afterLoadLazy: () => {
+      console.log('afterLoadLazy');
+    },
+    beforeLoadDelayed: () => {
+      console.log('beforeLoadDelayed');
+    },
+    afterLoadDelayed: () => {
+      console.log('afterLoadDelayed');
+    },
+  });
 })();
 
 declare global {
