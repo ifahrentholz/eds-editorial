@@ -9,6 +9,7 @@ interface LifecycleCallbacks {
   beforeInit?: LifecycleCallback;
   afterInit?: LifecycleCallback;
   beforeLoadEager?: LifecycleCallback;
+  loadEager?: LifecycleCallback;
   afterLoadEager?: LifecycleCallback;
   beforeLoadLazy?: LifecycleCallback;
   afterLoadLazy?: LifecycleCallback;
@@ -20,6 +21,7 @@ class HLX {
   private beforeInit: LifecycleCallback;
   private afterInit: LifecycleCallback;
   private beforeLoadEager: LifecycleCallback;
+  private loadEager: LifecycleCallback;
   private afterLoadEager: LifecycleCallback;
   private beforeLoadLazy: LifecycleCallback;
   private afterLoadLazy: LifecycleCallback;
@@ -30,6 +32,7 @@ class HLX {
     beforeInit = () => {},
     afterInit = () => {},
     beforeLoadEager = () => {},
+    loadEager = () => {},
     afterLoadEager = () => {},
     beforeLoadLazy = () => {},
     afterLoadLazy = () => {},
@@ -39,6 +42,7 @@ class HLX {
     this.beforeInit = beforeInit;
     this.afterInit = afterInit;
     this.beforeLoadEager = beforeLoadEager;
+    this.loadEager = loadEager;
     this.afterLoadEager = afterLoadEager;
     this.beforeLoadLazy = beforeLoadLazy;
     this.afterLoadLazy = afterLoadLazy;
@@ -50,20 +54,20 @@ class HLX {
   private async init() {
     console.time('init execution time: ');
     await this.beforeInit();
-    await this.loadEager();
+    await this._loadEager();
     await this.loadLazy();
     await this.loadDelayed();
     await this.afterInit();
     console.timeEnd('init execution time: ');
   }
 
-  private async loadEager() {
+  private async _loadEager() {
     console.time('loadEager execution time: ');
     await this.beforeLoadEager();
     setupHlxObj();
     decorateBodyTag();
     setDocLanguage();
-
+    await this.loadEager();
     await waitFor(300);
     await this.afterLoadEager();
     console.timeEnd('loadEager execution time: ');

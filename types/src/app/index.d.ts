@@ -3,6 +3,7 @@ interface LifecycleCallbacks {
     beforeInit?: LifecycleCallback;
     afterInit?: LifecycleCallback;
     beforeLoadEager?: LifecycleCallback;
+    loadEager?: LifecycleCallback;
     afterLoadEager?: LifecycleCallback;
     beforeLoadLazy?: LifecycleCallback;
     afterLoadLazy?: LifecycleCallback;
@@ -13,14 +14,15 @@ declare class HLX {
     private beforeInit;
     private afterInit;
     private beforeLoadEager;
+    private loadEager;
     private afterLoadEager;
     private beforeLoadLazy;
     private afterLoadLazy;
     private beforeLoadDelayed;
     private afterLoadDelayed;
-    constructor({ beforeInit, afterInit, beforeLoadEager, afterLoadEager, beforeLoadLazy, afterLoadLazy, beforeLoadDelayed, afterLoadDelayed, }?: LifecycleCallbacks);
+    constructor({ beforeInit, afterInit, beforeLoadEager, loadEager, afterLoadEager, beforeLoadLazy, afterLoadLazy, beforeLoadDelayed, afterLoadDelayed, }?: LifecycleCallbacks);
     private init;
-    private loadEager;
+    private _loadEager;
     private loadLazy;
     private loadDelayed;
 }
