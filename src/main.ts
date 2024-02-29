@@ -2,17 +2,17 @@
 
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
-// import { BlockService } from './services/block.service.ts';
-// import { SectionService } from './services/section.service.ts';
-// import { MainService } from './services/main.service.ts';
+import { BlockService } from './services/block.service.ts';
+import { SectionService } from './services/section.service.ts';
+import { MainService } from './services/main.service.ts';
 import App from './services/app.ts';
 
 (async function () {
-  // preloadLcpImageCandidate();
-  // const blockService = new BlockService();
-  // const sectionService = new SectionService(blockService);
-  // const main = new MainService(sectionService, blockService);
-  // await main.init();
+  const blockService = new BlockService();
+  const sectionService = new SectionService(blockService);
+  const main = new MainService(sectionService, blockService);
+  await main.init();
+
   console.time('APP execution time: ');
   new App({
     beforeInit: () => {
