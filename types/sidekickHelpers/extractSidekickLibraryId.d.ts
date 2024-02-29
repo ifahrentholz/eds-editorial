@@ -3,5 +3,4 @@ export type ConstructedElement = {
     text: string;
     href?: string;
 };
-export declare const isSidekickLibraryActive: () => boolean;
 export declare const extractSidekickLibraryId: (element: any) => ConstructedElement;

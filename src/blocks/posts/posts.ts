@@ -2,12 +2,12 @@ import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import FetchService from '../../services/fetch.service.ts';
 import { SheetsResponse } from '../../shared.types.ts';
-import { isSidekickLibraryActive } from '../../utils/extractSidekickLibraryId.ts';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { isSidekickLibraryActive } from '../../sidekickHelpers/isSidekickLibraryActive.ts';
 import './posts.scss';
 
 interface PostArgs {
-  postUrl: string | undefined;
+  postUrl?: string;
   headline?: string;
   text?: string;
   picture: HTMLPictureElement;
@@ -70,7 +70,7 @@ export default async function (block: HTMLElement) {
   const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
   const posts = postsPreviewHtml.map((doc, index) => {
     return {
-      postUrl: isSidekickLibraryActive ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
+      postUrl: isSidekickLibraryActive() ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: findFirstNonEmptyParagraph(doc),
       buttontext: siteMapPostEntries[index].buttontext,

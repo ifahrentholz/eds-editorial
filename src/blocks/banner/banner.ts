@@ -1,7 +1,7 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { ConstructedElement, extractSidekickLibraryId } from '../../utils/extractSidekickLibraryId';
+import { ConstructedElement, extractSidekickLibraryId } from '../../sidekickHelpers/extractSidekickLibraryId';
 import './banner.scss';
 
 interface TemplateArgs {
@@ -19,22 +19,25 @@ const template = (args: TemplateArgs) => {
       <div class="content">
         <header>
           <h1
-            data-library-id="${ifDefined(headline.id)}"
-            contenteditable="${ifDefined(headline.id ? true : undefined)}"
+            data-library-id="${ifDefined(headline.dataLibraryId)}"
+            contenteditable="${ifDefined(headline.dataLibraryId ? true : undefined)}"
           >
-            ${headline.text}
+            ${headline.innerHTML}
           </h1>
-          <p data-library-id="${ifDefined(subline.id)}" contenteditable="${ifDefined(headline.id ? true : undefined)}">
-            ${subline.text}
+          <p
+            data-library-id="${ifDefined(subline.dataLibraryId)}"
+            contenteditable="${ifDefined(subline.dataLibraryId ? true : undefined)}"
+          >
+            ${subline.innerHTML}
           </p>
         </header>
         ${texts?.map(
           (text) =>
             html`<p
-              data-library-id="${ifDefined(text.id)}"
-              contenteditable="${ifDefined(headline.id ? true : undefined)}"
+              data-library-id="${ifDefined(text.dataLibraryId)}"
+              contenteditable="${ifDefined(text.dataLibraryId ? true : undefined)}"
             >
-              ${text.text}
+              ${text.innerHTML}
             </p>`
         )}
         <ul class="actions">
@@ -44,9 +47,9 @@ const template = (args: TemplateArgs) => {
                 <a
                   href="${button.href}"
                   class="button big"
-                  data-library-id="${ifDefined(button.id)}"
-                  contenteditable="${ifDefined(headline.id ? true : undefined)}"
-                  >${button.text}</a
+                  data-library-id="${ifDefined(button.dataLibraryId)}"
+                  contenteditable="${ifDefined(button.dataLibraryId ? true : undefined)}"
+                  >${button.innerHTML}</a
                 >
               </li>`
           )}
