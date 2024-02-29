@@ -1,6 +1,7 @@
 import { waitFor } from '@kluntje/js-utils/lib/dom-helpers';
 import setupHlxObj from './setupHlxObj';
 import { decorateBodyTag } from './decorateBodyTag';
+import { setDocLanguage } from './setDocLanguage';
 
 type LifecycleCallback = () => void | Promise<void>;
 
@@ -49,8 +50,6 @@ class App {
   private async init() {
     console.time('init execution time: ');
     await this.beforeInit();
-    setupHlxObj();
-    decorateBodyTag();
     await this.loadEager();
     await this.loadLazy();
     await this.loadDelayed();
@@ -61,9 +60,9 @@ class App {
   private async loadEager() {
     console.time('loadEager execution time: ');
     await this.beforeLoadEager();
-
-    // TODO: how to support different languages here
-    document.documentElement.lang = 'en';
+    setupHlxObj();
+    decorateBodyTag();
+    setDocLanguage();
 
     await waitFor(300);
     await this.afterLoadEager();
