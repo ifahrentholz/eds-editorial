@@ -9,7 +9,7 @@ interface LifecycleCallbacks {
     beforeLoadDelayed?: LifecycleCallback;
     afterLoadDelayed?: LifecycleCallback;
 }
-declare class App {
+declare class HLX {
     private beforeInit;
     private afterInit;
     private beforeLoadEager;
@@ -24,4 +24,4 @@ declare class App {
     private loadLazy;
     private loadDelayed;
 }
-export default App;
+export default HLX;

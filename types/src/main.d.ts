@@ -1,5 +1,7 @@
 import './components/sidebar/sidebar.ts';
 import './components/header.ts';
+import HLX from './app/index.ts';
+export declare const App: HLX;
 declare global {
     interface Window {
         hlx: {
