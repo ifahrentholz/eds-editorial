@@ -166,7 +166,7 @@ export class MainService {
     try {
       await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
     } catch (error) {
-      console.error(`problem with block '${block.name}' loading styles`);
+      //do nothing
     }
   }
 

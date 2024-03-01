@@ -2,6 +2,8 @@ import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import FetchService from '../../services/fetch.service.ts';
+import { DebuggerService } from '@kluntje/services';
+import PlaceholderService from '../../services/placeholder.service.ts';
 
 interface SidebarContactTemplateArgs {
   headline: HTMLElement | null;
@@ -19,18 +21,31 @@ export class SidebarContact extends LitElement {
   @state()
   contactTemplateArgs: SidebarContactTemplateArgs;
 
+  @state()
+  error: string | null = null;
+
   async connectedCallback() {
     super.connectedCallback();
     const contactHtml = await this.fetchContactsHtml();
-    this.getContactTemplateArgs(contactHtml);
+    if (contactHtml !== null) {
+      this.getContactTemplateArgs(contactHtml);
+    }
   }
 
   async fetchContactsHtml() {
     const parser = new DOMParser();
-    const contactHtmlString = await FetchService.fetchText('contact.plain.html', {
-      cacheOptions: { cacheType: 'runtime' },
-    });
-    return parser.parseFromString(contactHtmlString, 'text/html');
+    try {
+      const contactHtmlString = await FetchService.fetchText('contact.plain.html', {
+        cacheOptions: { cacheType: 'runtime' },
+      });
+      this.error = null;
+      return parser.parseFromString(contactHtmlString, 'text/html');
+    } catch (error) {
+      DebuggerService.error('Error', error.message);
+      this.error = await PlaceholderService.getPlaceHolder('error');
+
+      return null;
+    }
   }
 
   renderHeader(headline: HTMLElement | null) {
@@ -46,6 +61,10 @@ export class SidebarContact extends LitElement {
   }
 
   render() {
+    if (this.error) {
+      return html`<div class="error">${this.error}</div>`;
+    }
+
     if (!this.contactTemplateArgs) return nothing;
 
     const { headline, text, contacts } = this.contactTemplateArgs;

@@ -1,13 +1,18 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
 import { SheetsResponse, Sitemap, SiteMapEntry } from '../../shared.types.ts';
 import FetchService from '../../services/fetch.service.ts';
+import { DebuggerService } from '@kluntje/services';
+import PlaceholderService from '../../services/placeholder.service.ts';
 
 @customElement('sidebar-posts')
 export class SidebarPosts extends LitElement {
   @state()
   private lastTreePosts: Sitemap;
+
+  @state()
+  error: string | null = null;
 
   constructor() {
     super();
@@ -25,7 +30,13 @@ export class SidebarPosts extends LitElement {
       <header class="major">
         <h2>Newest Posts</h2>
       </header>
-      <div class="mini-posts">${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}</div>
+      ${this.lastTreePosts.length === 0 && this.error === null
+        ? this.getPlaceholder('no posts')
+        : this.lastTreePosts.length === 0 && this.error !== null
+          ? html`<div class="error">${this.error}</div>`
+          : html`<div class="mini-posts">
+              ${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}
+            </div>`}
     `;
 
     //TODO: Add overview if more button is needed
@@ -34,6 +45,12 @@ export class SidebarPosts extends LitElement {
         <li><a href="#" class="button">More</a></li>
       </ul>
     */
+  }
+
+  // TODO: this string is not getting resolved correctly yet
+  async getPlaceholder(key: string): Promise<TemplateResult> {
+    const placeholder = await PlaceholderService.getPlaceHolder(key);
+    return html`<div>${placeholder}</div>`;
   }
 
   protected createRenderRoot(): HTMLElement | DocumentFragment {
@@ -64,7 +81,14 @@ export class SidebarPosts extends LitElement {
   }
 
   private async getPosts() {
-    const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
-    return queryIndex.data.filter((item) => item.path.includes('/posts'));
+    try {
+      this.error = null;
+      const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+      return queryIndex.data.filter((item) => item.path.includes('/posts'));
+    } catch (error) {
+      DebuggerService.error('Error', error);
+      this.error = await PlaceholderService.getPlaceHolder('error');
+      return [];
+    }
   }
 }
