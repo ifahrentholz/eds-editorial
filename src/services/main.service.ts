@@ -216,7 +216,7 @@ export class MainService {
       const blocks = this.collectBlocks(firstSection);
       const blockPromises = blocks.map(async (block) => {
         const hasLCPBlock = this.lcpBlocks.includes(block.name);
-        if (hasLCPBlock) await this.loadBlockModules(block);
+        if (hasLCPBlock) await Promise.all([this.loadBlockModules(block), this.loadBlockStyles(block)]);
       });
 
       await Promise.all(blockPromises);
@@ -241,14 +241,14 @@ export class MainService {
 
   private async loadBlock(section: HTMLElement) {
     const sectionsBlocks: BlockMapping[] = this.collectBlocks(section);
+
     if (!sectionsBlocks.length) {
       this.showSection(section);
       return;
     }
 
     for (const block of sectionsBlocks) {
-      await this.loadBlockModules(block);
-      await this.loadBlockStyles(block);
+      Promise.all([this.loadBlockModules(block), this.loadBlockStyles(block)]);
     }
 
     this.showSection(section);
