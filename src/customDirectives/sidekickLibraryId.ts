@@ -1,21 +1,27 @@
 import { Directive, directive } from 'lit/directive.js';
+import { AttributePart, nothing } from 'lit';
+import { SidekickElement } from '../sidekickHelpers/extractSidekickLibraryId';
 import { isSidekickLibraryActive } from '../sidekickHelpers/isSidekickLibraryActive';
-import { nothing } from 'lit';
-import { ConstructedElement } from '../sidekickHelpers/extractSidekickLibraryId';
-import { html, literal } from 'lit/static-html.js';
 
-// Define directive
 class SidekickLibraryId extends Directive {
-  render(element: ConstructedElement) {
-    if (isSidekickLibraryActive()) {
-      console.log('this:', element.htmlTag);
-      const idAttributeNameLiteral = literal`data-library-id`;
-      //const idAttributeValueLiteral = literal`${element.dataLibraryId}`;
-      return html`${idAttributeNameLiteral}`;
-    }
+  private part?: AttributePart;
 
+  update(part: AttributePart, props: unknown[]) {
+    this.part = part;
+    const SidekickElement = props[0] as SidekickElement;
+    return this.render(SidekickElement);
+  }
+
+  render(sidekickElement: SidekickElement) {
+    if (isSidekickLibraryActive() === false) return nothing;
+
+    const element = this.part?.element;
+    const { dataLibraryId, href } = sidekickElement;
+    if (dataLibraryId) element?.setAttribute('data-library-id', dataLibraryId);
+    if (dataLibraryId) element?.setAttribute('contenteditable', 'true');
+    if (href && element instanceof HTMLAnchorElement) element?.setAttribute('href', href);
     return nothing;
   }
 }
-// Create the directive function
+
 export const getSidekickLibraryId = directive(SidekickLibraryId);

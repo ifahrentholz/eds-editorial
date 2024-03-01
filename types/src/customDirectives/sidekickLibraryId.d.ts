@@ -1,8 +1,10 @@
 import { Directive } from 'lit/directive.js';
-import { nothing } from 'lit';
-import { ConstructedElement } from '../sidekickHelpers/extractSidekickLibraryId';
+import { AttributePart } from 'lit';
+import { SidekickElement } from '../sidekickHelpers/extractSidekickLibraryId';
 declare class SidekickLibraryId extends Directive {
-    render(element: ConstructedElement): import("lit-html").TemplateResult | typeof nothing;
+    private part?;
+    update(part: AttributePart, props: unknown[]): symbol;
+    render(sidekickElement: SidekickElement): symbol;
 }
-export declare const getSidekickLibraryId: (element: ConstructedElement) => import("lit-html/directive").DirectiveResult<typeof SidekickLibraryId>;
+export declare const getSidekickLibraryId: (sidekickElement: SidekickElement) => import("lit-html/directive").DirectiveResult<typeof SidekickLibraryId>;
 export {};
