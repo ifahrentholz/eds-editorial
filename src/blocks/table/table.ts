@@ -1,5 +1,6 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import './table.scss';
 
 interface TemplateArgs {
   headers: string[];
