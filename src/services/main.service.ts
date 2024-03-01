@@ -102,9 +102,12 @@ export class MainService {
   }
 
   private loadLazy = async () => {
-    const { lazyStylesScssPath, fontsScssPath } = config;
+    const { lazyStylesScssPath, sidekickLibraryStylesScssPath, fontsScssPath } = config;
     try {
       if (lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      if (sidekickLibraryStylesScssPath && isSidekickLibraryActive()) {
+        await this.loadCSS(`${window.hlx.codeBasePath}/dist/sidekickLibraryStyles/sidekickLibraryStyles.css`);
+      }
       if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
     } catch (error) {

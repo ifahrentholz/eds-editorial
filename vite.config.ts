@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import { generateBlockEntries } from './vite.helpers';
-import { config } from './config.ts';
+import { config } from './config';
 
 const { resolve } = require('path');
 
@@ -9,7 +9,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 // @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
-  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath } = config;
+  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath, sidekickLibraryStylesScssPath } = config;
   const blocksEntries = generateBlockEntries();
 
   return {
@@ -37,6 +37,7 @@ export default defineConfig(({ command, mode }) => {
           styles: resolve(__dirname, mainScssPath),
           fonts: resolve(__dirname, fontsScssPath),
           lazyStyles: resolve(__dirname, lazyStylesScssPath),
+          sidekickLibraryStyles: resolve(__dirname, sidekickLibraryStylesScssPath),
           ...blocksEntries,
         },
         output: {
