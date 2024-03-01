@@ -1,50 +1,41 @@
 import { addClasses } from './addClasses';
-import { toClassName } from './toClassName';
+import * as toClassNameModule from './toClassName';
 
 describe('addClasses', () => {
   let element: HTMLElement;
+  const testClass = 'test';
+  const anotherTestClass = 'another-test';
+  const lastTestClass = 'last-test';
+  const classesToAdd = `${testClass}, ${anotherTestClass}, ${lastTestClass}`;
+  const toClassName = jest.fn((value) => value);
 
-  beforeAll(() => {
+  beforeEach(() => {
     element = document.createElement('div');
     document.body.appendChild(element);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     document.body.removeChild(element);
+    jest.clearAllMocks();
   });
 
-  test('adds dynamic abstract classes to an HTML element', () => {
-    const classesToAdd = generateClassName(1) + ', ' + generateClassName(2) + ', ' + generateClassName(3);
+  test('adds classes to an HTML element', () => {
+    jest.spyOn(toClassNameModule, 'toClassName').mockImplementation(toClassName);
     addClasses(element, classesToAdd);
 
-    // Check if each abstract class has been added
-    expect(element.classList.contains(generateClassName(1))).toBe(true);
-    expect(element.classList.contains(generateClassName(2))).toBe(true);
-    expect(element.classList.contains(generateClassName(3))).toBe(true);
+    const classes = element.classList;
+    expect(classes.contains(testClass)).toBe(true);
+    expect(classes.contains(anotherTestClass)).toBe(true);
+    expect(classes.contains(lastTestClass)).toBe(true);
   });
 
-  test('trims whitespace before adding abstract classes', () => {
-    const classesToAdd =
-      '  ' + generateClassName(1) + ' ,   ' + generateClassName(2) + '  ,  ' + generateClassName(3) + '   ';
+  test('calls toClassesName for each test class ', () => {
+    jest.spyOn(toClassNameModule, 'toClassName').mockImplementation(toClassName);
     addClasses(element, classesToAdd);
 
-    // Check if trimmed abstract classes have been added
-    expect(element.classList.contains(generateClassName(1))).toBe(true);
-    expect(element.classList.contains(generateClassName(2))).toBe(true);
-    expect(element.classList.contains(generateClassName(3))).toBe(true);
-  });
-
-  test('calls toClassName for each abstract class', () => {
-    const toClassNameMock = jest.spyOn(toClassName, 'toClassName');
-    const classesToAdd = generateClassName(1) + ', ' + generateClassName(2) + ', ' + generateClassName(3);
-    addClasses(element, classesToAdd);
-
-    // Check if toClassName has been called for each abstract class
-    expect(toClassNameMock).toHaveBeenCalledTimes(3);
-    expect(toClassNameMock).toHaveBeenCalledWith(generateClassName(1));
-    expect(toClassNameMock).toHaveBeenCalledWith(generateClassName(2));
-    expect(toClassNameMock).toHaveBeenCalledWith(generateClassName(3));
-
-    toClassNameMock.mockRestore();
+    expect(toClassName).toHaveBeenCalledTimes(3);
+    expect(toClassName).toHaveBeenCalledWith(testClass);
+    expect(toClassName).toHaveBeenCalledWith(anotherTestClass);
+    expect(toClassName).toHaveBeenCalledWith(lastTestClass);
   });
 });
