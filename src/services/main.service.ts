@@ -1,8 +1,10 @@
+import { isSidekickLibraryActive } from '../sidekickHelpers/isSidekickLibraryActive';
 import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 import { config } from '../../config.ts';
+import { getLocation } from '../sidekickHelpers/getLocation.ts';
 
 type BlockMapping = {
   name: string;
@@ -41,7 +43,7 @@ export class MainService {
     window.hlx = window.hlx || {};
     window.hlx.RUM_MASK_URL = 'full';
     window.hlx.codeBasePath = '';
-    window.hlx.lighthouse = new URLSearchParams(window.location.search).get('lighthouse') === 'on';
+    window.hlx.lighthouse = new URLSearchParams(getLocation().search).get('lighthouse') === 'on';
 
     const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
     if (scriptEl) {
@@ -85,6 +87,8 @@ export class MainService {
   };
 
   private addSidebarContainer(main: HTMLElement) {
+    if (isSidekickLibraryActive()) return;
+
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
     window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
@@ -94,13 +98,16 @@ export class MainService {
 
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
-    main.innerHTML = `<div class="inner"><header-component id="header"></header-component>${children}</div>`;
+    main.innerHTML = `<div class="inner">${isSidekickLibraryActive() ? `` : `<header-component id="header"></header-component>`}${children}</div>`;
   }
 
   private loadLazy = async () => {
-    const { lazyStylesScssPath, fontsScssPath } = config;
+    const { lazyStylesScssPath, sidekickLibraryStylesScssPath, fontsScssPath } = config;
     try {
       if (lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      if (sidekickLibraryStylesScssPath && isSidekickLibraryActive()) {
+        await this.loadCSS(`${window.hlx.codeBasePath}/dist/sidekickLibraryStyles/sidekickLibraryStyles.css`);
+      }
       if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
     } catch (error) {
@@ -177,7 +184,7 @@ export class MainService {
   private async loadFonts() {
     await this.loadCSS(`${window.hlx.codeBasePath}/dist/fonts/fonts.css`);
     try {
-      if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
+      if (!getLocation().hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
     } catch (e) {
       // do nothing
     }
@@ -209,7 +216,7 @@ export class MainService {
       const blocks = this.collectBlocks(firstSection);
       const blockPromises = blocks.map(async (block) => {
         const hasLCPBlock = this.lcpBlocks.includes(block.name);
-        if (hasLCPBlock) await this.loadBlockModules(block);
+        if (hasLCPBlock) await Promise.all([this.loadBlockModules(block), this.loadBlockStyles(block)]);
       });
 
       await Promise.all(blockPromises);
@@ -234,14 +241,14 @@ export class MainService {
 
   private async loadBlock(section: HTMLElement) {
     const sectionsBlocks: BlockMapping[] = this.collectBlocks(section);
+
     if (!sectionsBlocks.length) {
       this.showSection(section);
       return;
     }
 
     for (const block of sectionsBlocks) {
-      await this.loadBlockModules(block);
-      await this.loadBlockStyles(block);
+      Promise.all([this.loadBlockModules(block), this.loadBlockStyles(block)]);
     }
 
     this.showSection(section);
