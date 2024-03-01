@@ -1,5 +1,6 @@
 import { html, render } from 'lit';
 import '../../components/form/form.ts';
+import './form.scss';
 
 export default async function decorate(block: HTMLElement) {
   const formLink = block.querySelector<HTMLElement>('a[href$=".json"]')?.innerText;
