@@ -25,7 +25,7 @@ const template = (args: TemplateArgs) => {
         <ul class="actions">
           ${buttons?.map(
             (button) =>
-              html`<li>
+              html` <li>
                 <a href="${button.href}" class="button big" ${getSidekickLibraryId(button)}>${button.innerHTML}</a>
               </li>`
           )}
