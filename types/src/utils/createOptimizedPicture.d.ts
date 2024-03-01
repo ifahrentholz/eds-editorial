@@ -27,7 +27,7 @@ interface BreakPoint {
  * @property {boolean} [eager] - Whether to load the image immediately.
  * @property {BreakPoint[]} [breakpoints] - The breakpoints for responsive images.
  */
-interface CreateOptimizedPictureArgs {
+export interface CreateOptimizedPictureArgs {
     src: string;
     alt: string;
     width: number;
