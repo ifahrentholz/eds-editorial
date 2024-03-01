@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import { generateBlockEntries } from './vite.helpers';
 import { config } from './config';
+import { config } from './config';
 
 const { resolve } = require('path');
 
