@@ -1,15 +1,15 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { SidekickElement, extractSidekickLibraryId } from '../../sidekickHelpers/extractSidekickLibraryId';
+import { getSidekickLibraryId } from '../../customDirectives/sidekickLibraryId';
 import './banner.scss';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { ConstructedElement, extractSidekickLibraryId } from '../../utils/extractSidekickLibraryId';
 
 interface TemplateArgs {
-  headline: ConstructedElement;
-  subline: ConstructedElement;
+  headline: SidekickElement;
+  subline: SidekickElement;
   picture?: HTMLPictureElement;
-  texts: ConstructedElement[];
-  buttons: ConstructedElement[];
+  texts: SidekickElement[];
+  buttons: SidekickElement[];
 }
 
 const template = (args: TemplateArgs) => {
@@ -18,36 +18,15 @@ const template = (args: TemplateArgs) => {
     <div id="banner">
       <div class="content">
         <header>
-          <h1
-            data-library-id="${ifDefined(headline.id)}"
-            contenteditable="${ifDefined(headline.id ? true : undefined)}"
-          >
-            ${headline.text}
-          </h1>
-          <p data-library-id="${ifDefined(subline.id)}" contenteditable="${ifDefined(headline.id ? true : undefined)}">
-            ${subline.text}
-          </p>
+          <h1 ${getSidekickLibraryId(headline)}>${headline.innerHTML}</h1>
+          <p ${getSidekickLibraryId(subline)}>${subline.innerHTML}</p>
         </header>
-        ${texts?.map(
-          (text) =>
-            html`<p
-              data-library-id="${ifDefined(text.id)}"
-              contenteditable="${ifDefined(headline.id ? true : undefined)}"
-            >
-              ${text.text}
-            </p>`
-        )}
+        ${texts?.map((text) => html`<p ${getSidekickLibraryId(text)}>${text.innerHTML}</p>`)}
         <ul class="actions">
           ${buttons?.map(
             (button) =>
-              html`<li>
-                <a
-                  href="${button.href}"
-                  class="button big"
-                  data-library-id="${ifDefined(button.id)}"
-                  contenteditable="${ifDefined(headline.id ? true : undefined)}"
-                  >${button.text}</a
-                >
+              html` <li>
+                <a href="${button.href}" class="button big" ${getSidekickLibraryId(button)}>${button.innerHTML}</a>
               </li>`
           )}
         </ul>
