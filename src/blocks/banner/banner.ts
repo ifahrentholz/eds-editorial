@@ -1,7 +1,9 @@
-import { html, render } from 'lit';
+import { render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
 import { ConstructedElement, extractSidekickLibraryId } from '../../sidekickHelpers/extractSidekickLibraryId';
+import { getSidekickLibraryId } from '../../customDirectives/sidekickLibraryId';
+import { html, literal } from 'lit/static-html.js';
 import './banner.scss';
 
 interface TemplateArgs {
@@ -18,18 +20,8 @@ const template = (args: TemplateArgs) => {
     <div id="banner">
       <div class="content">
         <header>
-          <h1
-            data-library-id="${ifDefined(headline.dataLibraryId)}"
-            contenteditable="${ifDefined(headline.dataLibraryId ? true : undefined)}"
-          >
-            ${headline.innerHTML}
-          </h1>
-          <p
-            data-library-id="${ifDefined(subline.dataLibraryId)}"
-            contenteditable="${ifDefined(subline.dataLibraryId ? true : undefined)}"
-          >
-            ${subline.innerHTML}
-          </p>
+          <h1 ${getSidekickLibraryId(headline)}>${headline.innerHTML}</h1>
+          <p ${getSidekickLibraryId(subline)}>${subline.innerHTML}</p>
         </header>
         ${texts?.map(
           (text) =>

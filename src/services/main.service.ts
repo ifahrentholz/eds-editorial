@@ -105,6 +105,9 @@ export class MainService {
     const { lazyStylesScssPath, fontsScssPath } = config;
     try {
       if (lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      if (isSidekickLibraryActive()) {
+        await this.loadCSS(`${window.hlx.codeBasePath}/dist/sidekickLibOverrides/sidekickLibOverrides.css`);
+      }
       if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
     } catch (error) {
