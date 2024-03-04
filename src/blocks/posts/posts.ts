@@ -2,10 +2,12 @@ import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import FetchService from '../../services/fetch.service.ts';
 import { SheetsResponse } from '../../shared.types.ts';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { isSidekickLibraryActive } from '../../sidekickHelpers/isSidekickLibraryActive.ts';
 import './posts.scss';
 
 interface PostArgs {
-  postUrl: string;
+  postUrl?: string;
   headline?: string;
   text?: string;
   picture?: HTMLPictureElement;
@@ -25,9 +27,9 @@ const renderText = (text?: string) => {
   return html`<p>${text}</p>`;
 };
 
-const renderPicture = (postUrl: string, picture?: HTMLPictureElement) => {
+const renderPicture = (postUrl?: string, picture?: HTMLPictureElement) => {
   if (!picture) return nothing;
-  return html`<a href="${postUrl}" class="image">${picture}</a>`;
+  return html`<a href="${ifDefined(postUrl)}" class="image">${picture}</a>`;
 };
 
 const postTemplate = (args: PostArgs) => {
@@ -36,7 +38,7 @@ const postTemplate = (args: PostArgs) => {
     <article>
       ${renderPicture(postUrl, picture)} ${renderHeadline(headline)} ${renderText(text)}
       <ul class="actions">
-        <li><a href="${postUrl}" class="button">${buttontext || 'Goto Post'}</a></li>
+        <li><a href="${ifDefined(postUrl)}" class="button">${buttontext || 'Goto Post'}</a></li>
       </ul>
     </article>
   `;
@@ -57,7 +59,7 @@ export default async function (block: HTMLElement) {
 
   const parser = new DOMParser();
   const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
-  const siteMapPostEntries = queryIndex.data.filter((item) => item.path.includes('/posts'));
+  const siteMapPostEntries = queryIndex.data.filter((item) => item.path.startsWith('/posts'));
 
   const postsPreview = await Promise.all(
     siteMapPostEntries.map((post) =>
@@ -72,7 +74,7 @@ export default async function (block: HTMLElement) {
   const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
   const posts = postsPreviewHtml.map((doc, index) => {
     return {
-      postUrl: `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
+      postUrl: isSidekickLibraryActive() ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
       headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
       text: findFirstNonEmptyParagraph(doc),
       buttontext: siteMapPostEntries[index].buttontext,

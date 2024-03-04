@@ -3,6 +3,7 @@ interface Config {
   mainScssPath: string;
   fontsScssPath?: string;
   lazyStylesScssPath?: string;
+  sidekickLibraryStylesScssPath?: string;
 }
 
 export const config: Config = {
@@ -10,4 +11,5 @@ export const config: Config = {
   mainScssPath: 'src/styles/sass/main.scss',
   fontsScssPath: 'src/styles/sass/fonts.scss',
   lazyStylesScssPath: 'src/styles/sass/lazy-styles.scss',
+  sidekickLibraryStylesScssPath: 'src/styles/sass/sidekick-library-styles.scss',
 };

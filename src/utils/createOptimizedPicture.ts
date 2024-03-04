@@ -1,3 +1,5 @@
+import { getHref } from '../sidekickHelpers/getHref';
+
 /**
  * Represents a breakpoint configuration used in responsive web design.
  *
@@ -75,7 +77,7 @@ export function createOptimizedPicture(
     height,
     breakpoints = [{ media: '(min-width: 600px)', width: 2000 }, { width: 750 }],
   } = createOptimizedPictureArgs;
-  const url = new URL(src, window.location.href);
+  const url = new URL(src, getHref());
   const picture = document.createElement('picture');
   const { pathname } = url;
   const ext = pathname.substring(pathname.lastIndexOf('.') + 1);
