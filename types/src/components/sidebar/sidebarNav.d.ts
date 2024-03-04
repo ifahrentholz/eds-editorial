@@ -19,6 +19,8 @@ export declare class SidebarNav extends LitElement {
     private renderMenuItems;
     private getSubmenuName;
     private getNavTitle;
+    private filterNavigation;
+    private groupItemsByFirstLevelPath;
     groupByFirstLevelPath: () => Promise<MenuItem[]>;
 }
 export {};

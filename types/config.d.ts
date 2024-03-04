@@ -3,5 +3,6 @@ export interface Config {
     mainScssPath: string;
     fontsScssPath?: string;
     lazyStylesScssPath?: string;
+    sidekickLibraryStylesScssPath?: string;
 }
 export declare const config: Config;

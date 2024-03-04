@@ -9,9 +9,9 @@ const isProd = process.env.NODE_ENV === 'production';
 
 // @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
-  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath } = config;
-  generateIconNameType();
+  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath, sidekickLibraryStylesScssPath } = config;
   const blocksEntries = generateBlockEntries();
+  generateIconNameType();
 
   const inputOptions: InputOption = {
     main: resolve(__dirname, mainTsPath),
@@ -21,6 +21,9 @@ export default defineConfig(({ command, mode }) => {
 
   if (fontsScssPath) inputOptions.fonts = resolve(__dirname, fontsScssPath);
   if (lazyStylesScssPath) inputOptions.lazyStyles = resolve(__dirname, lazyStylesScssPath);
+  if (sidekickLibraryStylesScssPath) {
+    inputOptions.sidekickLibraryStyles = resolve(__dirname, sidekickLibraryStylesScssPath);
+  }
 
   return {
     css: {
