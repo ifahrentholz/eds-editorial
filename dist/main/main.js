@@ -1,4 +1,4 @@
-import{T as l,s as p,x as i}from"../__chunks__/lit-element.XkUWx5ik.js";import{t as m}from"../__chunks__/property.0daVBkvz.js";import{f as j,_ as E}from"../__chunks__/icon.vh7VrxK3.js";import{e as I,o as x}from"../__chunks__/unsafe-html.U1vgpvJh.js";import{r as y,t as S}from"../__chunks__/toClassName.o2_BLIQs.js";import{F as g}from"../__chunks__/fetch.service.MWvor5vW.js";import{c as R}from"../__chunks__/createOptimizedPicture.ZKRa4QzV.js";import{i as v}from"../__chunks__/isSidekickLibraryActive.iN4ARc8o.js";/**
+import{T as l,s as p,x as i}from"../__chunks__/lit-element.XkUWx5ik.js";import{t as m}from"../__chunks__/property.0daVBkvz.js";import{f as j,_ as E}from"../__chunks__/icon.vh7VrxK3.js";import{e as I,o as x}from"../__chunks__/unsafe-html.U1vgpvJh.js";import{r as y,t as S}from"../__chunks__/toClassName.o2_BLIQs.js";import{F as g}from"../__chunks__/fetch.service.MWvor5vW.js";import{c as R}from"../__chunks__/createOptimizedPicture.lBh_4LJd.js";import{i as v}from"../__chunks__/isSidekickLibraryActive.iN4ARc8o.js";/**
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause

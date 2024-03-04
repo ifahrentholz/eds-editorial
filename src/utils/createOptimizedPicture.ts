@@ -66,8 +66,7 @@ interface CreateOptimizedPictureArgs {
 export function createOptimizedPicture(
   createOptimizedPictureArgs: CreateOptimizedPictureArgs
 ): HTMLPictureElement | undefined {
-  if (createOptimizedPictureArgs.src === '' || createOptimizedPictureArgs.src.startsWith('/default-meta-image.png'))
-    return undefined;
+  if (createOptimizedPictureArgs.src === '') return undefined;
 
   const {
     src,
