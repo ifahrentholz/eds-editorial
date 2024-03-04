@@ -75,11 +75,18 @@ export class SidebarNav extends LitElement {
     return item.navtitle || item.title;
   }
 
-  groupByFirstLevelPath = async () => {
-    const groups = {};
-    const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+  private filterNavigation(queryIndex: SiteMapEntry[], filterValues: string[]): MenuItem[] {
+    return queryIndex
+      .filter((item) => filterValues.every((term) => !item.path.includes(term)))
+      .map((item) => ({
+        path: item.path,
+        navtitle: this.getNavTitle(item),
+      }));
+  }
 
-    queryIndex.data.forEach((item) => {
+  private groupItemsByFirstLevelPath(queryIndex: SiteMapEntry[]): Record<string, SiteMapEntry[]> {
+    const groups = {};
+    queryIndex.forEach((item) => {
       const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
       if (!groups[firstLevelPath]) {
         groups[firstLevelPath] = [];
@@ -89,8 +96,21 @@ export class SidebarNav extends LitElement {
         navtitle: this.getNavTitle(item),
       });
     });
+    return groups;
+  }
 
-    const groupedData = Object.values(groups);
+  groupByFirstLevelPath = async () => {
+    let queryIndex: SheetsResponse = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+    const filterValues: string[] = ['sidekick', 'sidekick-library', 'tools', 'development', 'dev-', '__'];
+
+    // filtering out all entries from blacklist from navigation
+    const filteredNavigation = this.filterNavigation(queryIndex.data, filterValues);
+
+    queryIndex.data = filteredNavigation as SiteMapEntry[];
+
+    const groupItems = this.groupItemsByFirstLevelPath(queryIndex.data);
+
+    const groupedData = Object.values(groupItems);
 
     return groupedData.map((group: MenuItem[]) => {
       if (group.length === 1) {
