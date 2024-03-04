@@ -6,6 +6,7 @@ export declare class SidebarPosts extends LitElement {
     render(): import("lit-html").TemplateResult<1> | undefined;
     protected createRenderRoot(): HTMLElement | DocumentFragment;
     private getLastThreePosts;
+    private renderPicture;
     private renderPost;
     private getPosts;
 }

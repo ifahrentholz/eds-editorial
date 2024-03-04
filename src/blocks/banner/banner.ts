@@ -52,7 +52,6 @@ export default function (block: HTMLElement) {
   img?.setAttribute('loading', 'eager');
 
   block.innerHTML = '';
-
   block.style.removeProperty('display');
   render(template({ headline, subline, texts, buttons, picture }), block);
 }

@@ -13,8 +13,8 @@
  * };
  */
 interface BreakPoint {
-    media?: string;
-    width?: number;
+  media?: string;
+  width?: number;
 }
 /**
  * Represents the arguments for creating an optimized picture element.
@@ -28,12 +28,12 @@ interface BreakPoint {
  * @property {BreakPoint[]} [breakpoints] - The breakpoints for responsive images.
  */
 interface CreateOptimizedPictureArgs {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-    eager?: boolean;
-    breakpoints?: BreakPoint[];
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  eager?: boolean;
+  breakpoints?: BreakPoint[];
 }
 /**
  * Creates an optimized HTML picture element with responsive image sources and a fallback image.
@@ -59,5 +59,7 @@ interface CreateOptimizedPictureArgs {
  * @remarks
  * The last breakpoint provided in the `breakpoints` array is used as the source for the fallback image.
  */
-export declare function createOptimizedPicture(createOptimizedPictureArgs: CreateOptimizedPictureArgs): HTMLPictureElement;
+export declare function createOptimizedPicture(
+  createOptimizedPictureArgs: CreateOptimizedPictureArgs
+): HTMLPictureElement;
 export {};
