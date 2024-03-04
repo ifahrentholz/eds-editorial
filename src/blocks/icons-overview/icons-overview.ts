@@ -27,8 +27,17 @@ const fetchIconNames = async (): Promise<IconName[]> => {
   return Object.keys(iconOverview).map((iconPath) => iconPath.replace(/^.*\/(.*?)\.svg$/, '$1')) as IconName[];
 };
 
-const template = (iconNames: IconName[], message: string, duration: number) =>
-  iconNames.map((icon: IconName) => renderIconContainer(icon, message, duration));
+const template = (iconNames: IconName[], message: string, duration: number) => {
+  return html`
+    <p>This is a list of all icons in the project. If you click on an icon its name will be copied to the clipboard.</p>
+    <pre>
+      <code> ${'<icon-component class="icon-component" name="my-icon-name"></icon-component>'} </code>
+    </pre>
+    <div class="icons-overview__container">
+      ${iconNames.map((icon: IconName) => renderIconContainer(icon, message, duration))}
+    </div>
+  `;
+};
 
 const getMessage = (block: HTMLElement) => {
   const text = block.children[0].children[0];
