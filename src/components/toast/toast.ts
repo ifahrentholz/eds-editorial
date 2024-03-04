@@ -6,7 +6,7 @@ export class Toast extends LitElement {
   @property({ type: String })
   message: string = 'Your settings have been saved successfully!';
   @property({ type: Number })
-  duration: number = 10;
+  duration: number = 3000;
 
   connectedCallback() {
     super.connectedCallback();
