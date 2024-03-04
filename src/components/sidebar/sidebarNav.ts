@@ -48,7 +48,6 @@ export class SidebarNav extends LitElement {
     return html`<span @click="${this.toggleSubmenu}" class="opener submenu">
         <span class="submenu__text">${item.navtitle} </span>
         ${renderIcon('chevron-down', 'submenu__icon')}
-        <icon-component class="submenu__icon" name="chevron-down"></icon-component>
       </span>
       <ul>
         ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
