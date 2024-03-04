@@ -1,9 +1,9 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
-import '../icon';
 import { SheetsResponse, SiteMapEntry } from '../../shared.types';
 import FetchService from '../../services/fetch.service.ts';
+import { renderIcon } from '../icon/icon.template.ts';
 
 interface SubMenuItem {
   path: string;
@@ -47,7 +47,7 @@ export class SidebarNav extends LitElement {
   private renderSubMenu(item) {
     return html`<span @click="${this.toggleSubmenu}" class="opener submenu">
         <span class="submenu__text">${item.navtitle} </span>
-        <icon-component class="submenu__icon" name="chevron-down"></icon-component>
+        ${renderIcon('chevron-down', 'submenu__icon')}
       </span>
       <ul>
         ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
