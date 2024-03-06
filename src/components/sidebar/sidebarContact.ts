@@ -34,14 +34,16 @@ export class SidebarContact extends LitElement {
 
   async fetchContactsHtml() {
     const parser = new DOMParser();
+    const endpoint = 'contact.plain.html';
+
     try {
-      const contactHtmlString = await FetchService.fetchText('contact.plain.html', {
+      const contactHtmlString = await FetchService.fetchText(endpoint, {
         cacheOptions: { cacheType: 'runtime' },
       });
       this.error = null;
       return parser.parseFromString(contactHtmlString, 'text/html');
     } catch (error) {
-      DebuggerService.error('Error', error.message);
+      DebuggerService.error(`SidebarContacts Component: Error while fetching ${endpoint}`, error);
       this.error = await PlaceholderService.getPlaceHolder('error');
 
       return null;
