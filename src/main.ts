@@ -27,17 +27,26 @@ export const App = new HLX({
   beforeLoadEager: () => {
     console.log('beforeLoadEager');
   },
+  loadEager: () => {
+    console.log('loadEager');
+  },
   afterLoadEager: () => {
     console.log('afterLoadEager');
   },
   beforeLoadLazy: () => {
     console.log('beforeLoadLazy');
   },
+  loadLazy: () => {
+    console.log('loadLazy');
+  },
   afterLoadLazy: () => {
     console.log('afterLoadLazy');
   },
   beforeLoadDelayed: () => {
     console.log('beforeLoadDelayed');
+  },
+  loadDelayed: () => {
+    console.log('loadDelayed');
   },
   afterLoadDelayed: () => {
     console.log('afterLoadDelayed');

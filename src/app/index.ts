@@ -12,8 +12,10 @@ interface LifecycleCallbacks {
   loadEager?: LifecycleCallback;
   afterLoadEager?: LifecycleCallback;
   beforeLoadLazy?: LifecycleCallback;
+  loadLazy?: LifecycleCallback;
   afterLoadLazy?: LifecycleCallback;
   beforeLoadDelayed?: LifecycleCallback;
+  loadDelayed?: LifecycleCallback;
   afterLoadDelayed?: LifecycleCallback;
 }
 
@@ -24,8 +26,10 @@ class HLX {
   private loadEager: LifecycleCallback;
   private afterLoadEager: LifecycleCallback;
   private beforeLoadLazy: LifecycleCallback;
+  private loadLazy: LifecycleCallback;
   private afterLoadLazy: LifecycleCallback;
   private beforeLoadDelayed: LifecycleCallback;
+  private loadDelayed: LifecycleCallback;
   private afterLoadDelayed: LifecycleCallback;
 
   constructor({
@@ -35,8 +39,10 @@ class HLX {
     loadEager = () => {},
     afterLoadEager = () => {},
     beforeLoadLazy = () => {},
+    loadLazy = () => {},
     afterLoadLazy = () => {},
     beforeLoadDelayed = () => {},
+    loadDelayed = () => {},
     afterLoadDelayed = () => {},
   }: LifecycleCallbacks = {}) {
     this.beforeInit = beforeInit;
@@ -45,8 +51,10 @@ class HLX {
     this.loadEager = loadEager;
     this.afterLoadEager = afterLoadEager;
     this.beforeLoadLazy = beforeLoadLazy;
+    this.loadLazy = loadLazy;
     this.afterLoadLazy = afterLoadLazy;
     this.beforeLoadDelayed = beforeLoadDelayed;
+    this.loadDelayed = loadDelayed;
     this.afterLoadDelayed = afterLoadDelayed;
     this.init();
   }
@@ -55,35 +63,37 @@ class HLX {
     console.time('init execution time: ');
     await this.beforeInit();
     await this._loadEager();
-    await this.loadLazy();
-    await this.loadDelayed();
+    await this._loadLazy();
+    await this._loadDelayed();
     await this.afterInit();
     console.timeEnd('init execution time: ');
   }
 
   private async _loadEager() {
-    console.time('loadEager execution time: ');
     await this.beforeLoadEager();
+    console.time('loadEager execution time: ');
     //setupHlxObj();
     decorateBodyTag();
     setDocLanguage();
     await this.loadEager();
     await waitFor(300);
-    await this.afterLoadEager();
     console.timeEnd('loadEager execution time: ');
+    await this.afterLoadEager();
   }
 
-  private async loadLazy() {
-    console.time('loadLazy execution time: ');
+  private async _loadLazy() {
     await this.beforeLoadLazy();
+    console.time('loadLazy execution time: ');
+    await this.loadLazy();
     await waitFor(300);
-    await this.afterLoadLazy();
     console.timeEnd('loadLazy execution time: ');
+    await this.afterLoadLazy();
   }
 
-  private async loadDelayed() {
+  private async _loadDelayed() {
     console.time('loadDelayed execution time: ');
     await this.beforeLoadDelayed();
+    await this.loadDelayed();
     await waitFor(300);
     await this.afterLoadDelayed();
     console.timeEnd('loadDelayed execution time: ');

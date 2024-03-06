@@ -6,8 +6,10 @@ interface LifecycleCallbacks {
     loadEager?: LifecycleCallback;
     afterLoadEager?: LifecycleCallback;
     beforeLoadLazy?: LifecycleCallback;
+    loadLazy?: LifecycleCallback;
     afterLoadLazy?: LifecycleCallback;
     beforeLoadDelayed?: LifecycleCallback;
+    loadDelayed?: LifecycleCallback;
     afterLoadDelayed?: LifecycleCallback;
 }
 declare class HLX {
@@ -17,13 +19,15 @@ declare class HLX {
     private loadEager;
     private afterLoadEager;
     private beforeLoadLazy;
+    private loadLazy;
     private afterLoadLazy;
     private beforeLoadDelayed;
+    private loadDelayed;
     private afterLoadDelayed;
-    constructor({ beforeInit, afterInit, beforeLoadEager, loadEager, afterLoadEager, beforeLoadLazy, afterLoadLazy, beforeLoadDelayed, afterLoadDelayed, }?: LifecycleCallbacks);
+    constructor({ beforeInit, afterInit, beforeLoadEager, loadEager, afterLoadEager, beforeLoadLazy, loadLazy, afterLoadLazy, beforeLoadDelayed, loadDelayed, afterLoadDelayed, }?: LifecycleCallbacks);
     private init;
     private _loadEager;
-    private loadLazy;
-    private loadDelayed;
+    private _loadLazy;
+    private _loadDelayed;
 }
 export default HLX;
