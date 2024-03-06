@@ -64,7 +64,7 @@ class HLX {
   private async _loadEager() {
     console.time('loadEager execution time: ');
     await this.beforeLoadEager();
-    setupHlxObj();
+    //setupHlxObj();
     decorateBodyTag();
     setDocLanguage();
     await this.loadEager();
