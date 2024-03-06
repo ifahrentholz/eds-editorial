@@ -62,13 +62,18 @@ export default async function (block: HTMLElement) {
     const siteMapPostEntries = queryIndex.data.filter((item) => item.path.includes('/posts'));
 
     const postsPreview = await Promise.all(
-      siteMapPostEntries.map((post) =>
-        FetchService.fetchText(`${post.path}.plain.html`, {
-          cacheOptions: {
-            cacheType: 'runtime',
-          },
-        })
-      )
+      siteMapPostEntries.map((post) => {
+        try {
+          return FetchService.fetchText(`${post.path}.plain.html`, {
+            cacheOptions: {
+              cacheType: 'runtime',
+            },
+          });
+        } catch (error) {
+          DebuggerService.error(`Post Block: Error while fetching ${post.path}.plain.html`, error);
+          return;
+        }
+      })
     );
 
     const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
@@ -90,7 +95,8 @@ export default async function (block: HTMLElement) {
     block.style.removeProperty('display');
     render(template(posts), block);
   } catch (error) {
-    DebuggerService.error('Error');
+    DebuggerService.error('Post Block: Error while fetching posts.', error);
+
     const response = await PlaceholderService.getPlaceHolder('error');
     const placeholderBlock = document.createElement('div');
     render(html`<article style="width: 100%"><p>${response}</p></article>`, placeholderBlock);
