@@ -1,5 +1,5 @@
 import { waitFor } from '@kluntje/js-utils/lib/dom-helpers';
-import setupHlxObj from './setupHlxObj';
+//import setupHlxObj from './setupHlxObj';
 import { decorateBodyTag } from './decorateBodyTag';
 import { setDocLanguage } from './setDocLanguage';
 
