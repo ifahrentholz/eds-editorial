@@ -22,8 +22,10 @@ export class SidebarFooter extends LitElement {
   }
 
   async fetchFooterData() {
+    const endpoint = 'footer.plain.html';
+
     try {
-      const response = await FetchService.fetchText('footer.plain.html', {
+      const response = await FetchService.fetchText(endpoint, {
         cacheOptions: { cacheType: 'runtime' },
       });
       this.error = null;
@@ -32,7 +34,7 @@ export class SidebarFooter extends LitElement {
       this.footerMarkup = responseMarkup.querySelector('p');
       if (this.footerMarkup) this.footerMarkup.classList.add('copyright');
     } catch (error) {
-      DebuggerService.error('Error', error.message);
+      DebuggerService.error(`SidebarFooter Component: Error while fetching ${endpoint}`, error);
       this.error = await PlaceholderService.getPlaceHolder('error');
     }
   }
