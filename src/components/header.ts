@@ -59,7 +59,7 @@ export class HeaderComponent extends LitElement {
       this.headerData = { leftCol: response.leftCol.data[0], rightCol: response.rightCol.data };
       this.error = null;
     } catch (error) {
-      DebuggerService.error('Error', error);
+      DebuggerService.error('Header Component: Error while fetching header.json', error);
       this.error = await PlaceholderService.getPlaceHolder('error');
     }
   }
