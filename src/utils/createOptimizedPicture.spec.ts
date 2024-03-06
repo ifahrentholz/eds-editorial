@@ -16,7 +16,7 @@ describe('createOptimizedPicture', () => {
         { media: '(min-width: 1200px)', width: 1600 },
       ],
     };
-    const pictureElement = createOptimizedPicture(args);
+    const pictureElement = createOptimizedPicture(args)!;
     const sources = pictureElement.querySelectorAll('source');
     // Since image tag itself should not be counted
     expect(sources.length).toBe(args.breakpoints!.length * 2 - 1);
@@ -27,7 +27,7 @@ describe('createOptimizedPicture', () => {
       ...baseArgs,
       breakpoints: [{ width: 750 }],
     };
-    const pictureElement = createOptimizedPicture(args);
+    const pictureElement = createOptimizedPicture(args)!;
     const imgElement = pictureElement.querySelector('img');
     expect(imgElement).toBeTruthy();
     expect(imgElement!.getAttribute('alt')).toBe(args.alt);
@@ -44,7 +44,7 @@ describe('createOptimizedPicture', () => {
       ],
     };
 
-    const pictureElement = createOptimizedPicture(args);
+    const pictureElement = createOptimizedPicture(args)!;
     const sources = pictureElement.querySelectorAll('source');
     const medias = Array.from(sources).map((source) => source.getAttribute('media'));
 
@@ -59,7 +59,7 @@ describe('createOptimizedPicture', () => {
       breakpoints: [{ width: 800 }, { width: 1600 }],
     };
 
-    const pictureElement = createOptimizedPicture(args);
+    const pictureElement = createOptimizedPicture(args)!;
     const sources = pictureElement.querySelectorAll('source');
 
     args.breakpoints?.forEach((breakpoint, index) => {
@@ -74,7 +74,7 @@ describe('createOptimizedPicture', () => {
       ...baseArgs,
       breakpoints: [{ width: 800 }, { width: 1600 }],
     };
-    const pictureElement = createOptimizedPicture(args);
+    const pictureElement = createOptimizedPicture(args)!;
     const imgElement = pictureElement.querySelector('img');
     const lastBreakpoint = args.breakpoints!.slice(-1)[0];
     const expectedWidth = lastBreakpoint.width?.toString();
@@ -82,7 +82,7 @@ describe('createOptimizedPicture', () => {
   });
 
   test('sets loading attribute to lazy by default', () => {
-    const pictureElement = createOptimizedPicture(baseArgs);
+    const pictureElement = createOptimizedPicture(baseArgs)!;
     const imgElement = pictureElement.querySelector('img');
     expect(imgElement!.getAttribute('loading')).toBe('lazy');
   });
@@ -92,7 +92,7 @@ describe('createOptimizedPicture', () => {
       ...baseArgs,
       eager: true,
     };
-    const pictureElement = createOptimizedPicture(args);
+    const pictureElement = createOptimizedPicture(args)!;
     const imgElement = pictureElement.querySelector('img');
     expect(imgElement!.getAttribute('loading')).toBe('eager');
   });
