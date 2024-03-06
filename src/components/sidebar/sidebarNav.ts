@@ -96,8 +96,10 @@ export class SidebarNav extends LitElement {
 
   groupByFirstLevelPath = async () => {
     const groups = {};
+    const endpoint = '/query-index.json';
+
     try {
-      const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+      const queryIndex = await FetchService.fetchJson<SheetsResponse>(endpoint);
       this.error = null;
 
       queryIndex.data.forEach((item) => {
@@ -125,7 +127,7 @@ export class SidebarNav extends LitElement {
         };
       });
     } catch (error) {
-      DebuggerService.error('Error', error.message);
+      DebuggerService.error(`SidebarNav Component: Error while fetching ${endpoint}`, error);
       this.error = await PlaceholderService.getPlaceHolder('error');
       return [];
     }
