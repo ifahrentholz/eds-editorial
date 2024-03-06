@@ -63,7 +63,11 @@ export interface CreateOptimizedPictureArgs {
  * @remarks
  * The last breakpoint provided in the `breakpoints` array is used as the source for the fallback image.
  */
-export function createOptimizedPicture(createOptimizedPictureArgs: CreateOptimizedPictureArgs): HTMLPictureElement {
+export function createOptimizedPicture(
+  createOptimizedPictureArgs: CreateOptimizedPictureArgs
+): HTMLPictureElement | undefined {
+  if (createOptimizedPictureArgs.src === '') return undefined;
+
   const {
     src,
     alt,
