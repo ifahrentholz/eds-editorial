@@ -1,5 +1,5 @@
 import { waitFor } from '@kluntje/js-utils/lib/dom-helpers';
-//import setupHlxObj from './setupHlxObj';
+import setupHlxObj from './setupHlxObj';
 import { decorateBodyTag } from './decorateBodyTag';
 import { setDocLanguage } from './setDocLanguage';
 
@@ -31,6 +31,7 @@ class HLX {
   private beforeLoadDelayed: LifecycleCallback;
   private loadDelayed: LifecycleCallback;
   private afterLoadDelayed: LifecycleCallback;
+  private initializedPromise: Promise<void>;
 
   constructor({
     beforeInit = () => {},
@@ -56,23 +57,28 @@ class HLX {
     this.beforeLoadDelayed = beforeLoadDelayed;
     this.loadDelayed = loadDelayed;
     this.afterLoadDelayed = afterLoadDelayed;
-    this.init();
+    this.initializedPromise = this.init();
   }
 
   private async init() {
-    console.time('init execution time: ');
-    await this.beforeInit();
-    await this._loadEager();
-    await this._loadLazy();
-    await this._loadDelayed();
-    await this.afterInit();
-    console.timeEnd('init execution time: ');
+    try {
+      console.time('init execution time: ');
+      await this.beforeInit();
+      await this._loadEager();
+      await this._loadLazy();
+      await this._loadDelayed();
+      await this.afterInit();
+      console.timeEnd('init execution time: ');
+    } catch (error) {
+      console.error('Error initializing HLX:', error);
+      throw error;
+    }
   }
 
   private async _loadEager() {
     await this.beforeLoadEager();
     console.time('loadEager execution time: ');
-    //setupHlxObj();
+    setupHlxObj();
     decorateBodyTag();
     setDocLanguage();
     await this.loadEager();
@@ -97,6 +103,10 @@ class HLX {
     await waitFor(300);
     await this.afterLoadDelayed();
     console.timeEnd('loadDelayed execution time: ');
+  }
+
+  public async initialized(): Promise<void> {
+    return this.initializedPromise;
   }
 }
 

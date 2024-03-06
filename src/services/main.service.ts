@@ -32,6 +32,7 @@ export class MainService {
   ) {}
 
   init = async () => {
+    console.log('MainService init');
     this.setup();
     await this.loadEager();
     await this.loadLazy();
@@ -41,20 +42,19 @@ export class MainService {
    * Setup block utils.
    */
   private setup() {
-    window.hlx = window.hlx || {};
-    window.hlx.RUM_MASK_URL = 'full';
-    window.hlx.codeBasePath = '';
-    window.hlx.lighthouse = new URLSearchParams(getLocation().search).get('lighthouse') === 'on';
-
-    const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
-    if (scriptEl) {
-      try {
-        [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    }
+    // window.hlx = window.hlx || {};
+    // window.hlx.RUM_MASK_URL = 'full';
+    // window.hlx.codeBasePath = '';
+    // window.hlx.lighthouse = new URLSearchParams(getLocation().search).get('lighthouse') === 'on';
+    // const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
+    // if (scriptEl) {
+    //   try {
+    //     [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
+    //   } catch (error) {
+    //     // eslint-disable-next-line no-console
+    //     console.log(error);
+    //   }
+    // }
   }
 
   private loadEager = async () => {

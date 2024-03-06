@@ -8,13 +8,6 @@ import { SectionService } from './services/section.service.ts';
 import { MainService } from './services/main.service.ts';
 import HLX from './app/index.ts';
 
-(async function () {
-  const blockService = new BlockService();
-  const sectionService = new SectionService(blockService);
-  const main = new MainService(sectionService, blockService);
-  await main.init();
-})();
-
 console.time('APP execution time: ');
 
 export const App = new HLX({
@@ -54,6 +47,16 @@ export const App = new HLX({
 });
 
 console.timeEnd('APP execution time: ');
+(async function () {
+  try {
+    await App.initialized();
+
+    const blockService = new BlockService();
+    const sectionService = new SectionService(blockService);
+    const main = new MainService(sectionService, blockService);
+    await main.init();
+  } catch (error) {}
+})();
 
 declare global {
   interface Window {

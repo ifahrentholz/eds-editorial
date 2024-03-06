@@ -24,10 +24,12 @@ declare class HLX {
     private beforeLoadDelayed;
     private loadDelayed;
     private afterLoadDelayed;
+    private initializedPromise;
     constructor({ beforeInit, afterInit, beforeLoadEager, loadEager, afterLoadEager, beforeLoadLazy, loadLazy, afterLoadLazy, beforeLoadDelayed, loadDelayed, afterLoadDelayed, }?: LifecycleCallbacks);
     private init;
     private _loadEager;
     private _loadLazy;
     private _loadDelayed;
+    initialized(): Promise<void>;
 }
 export default HLX;
