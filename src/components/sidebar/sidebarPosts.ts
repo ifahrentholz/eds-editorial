@@ -85,7 +85,7 @@ export class SidebarPosts extends LitElement {
 
     try {
       this.error = null;
-      const queryIndex = await FetchService.fetchJson<SheetsResponse>(endpoint);
+      const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>(endpoint);
       return queryIndex.data.filter((item) => item.path.includes('/posts'));
     } catch (error) {
       DebuggerService.error(`SidebarPost Component: Error while fetching ${endpoint}`, error);

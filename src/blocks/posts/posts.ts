@@ -1,7 +1,7 @@
 import { html, nothing, render } from 'lit';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import FetchService from '../../services/fetch.service.ts';
-import { SheetsResponse } from '../../shared.types.ts';
+import { SheetsResponse, SiteMapEntry } from '../../shared.types.ts';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
 import { isSidekickLibraryActive } from '../../sidekickHelpers/isSidekickLibraryActive.ts';
 import './posts.scss';
@@ -42,8 +42,11 @@ const postTemplate = (args: PostArgs) => {
   `;
 };
 
-const template = (posts: PostArgs[]) => {
-  if (posts.length === 0) return html` <article>${PlaceholderService.getPlaceHolder('no posts')}</article> `;
+const template = async (posts: PostArgs[]) => {
+  if (posts.length === 0) {
+    const placeholder = await PlaceholderService.getPlaceHolder('no posts');
+    return html` <article>${placeholder}</article> `;
+  }
   return posts.map((post) => postTemplate(post));
 };
 
@@ -53,53 +56,59 @@ const findFirstNonEmptyParagraph = (doc: Document): string | undefined => {
   return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText;
 };
 
+function fetchPost(post: SiteMapEntry) {
+  try {
+    return FetchService.fetchText(`${post.path}.plain.html`, {
+      cacheOptions: {
+        cacheType: 'runtime',
+      },
+    });
+  } catch (error) {
+    DebuggerService.error(`Post Block: Error while fetching ${post.path}.plain.html`, error);
+    return;
+  }
+}
+
+function createPostEntry(siteMapPostEntries: SiteMapEntry[], index: number, doc: Document) {
+  return {
+    postUrl: isSidekickLibraryActive() ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
+    headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
+    text: findFirstNonEmptyParagraph(doc),
+    buttontext: siteMapPostEntries[index].buttontext,
+    picture: createOptimizedPicture({
+      src: siteMapPostEntries[index].image,
+      alt: siteMapPostEntries[index].imagealt,
+      width: 323,
+      height: 199,
+    }),
+  };
+}
+
 export default async function (block: HTMLElement) {
   block.innerHTML = '';
 
   const parser = new DOMParser();
   try {
-    const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+    const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>('/query-index.json');
     const siteMapPostEntries = queryIndex.data.filter((item) => item.path.includes('/posts'));
-
-    const postsPreview = await Promise.all(
-      siteMapPostEntries.map((post) => {
-        try {
-          return FetchService.fetchText(`${post.path}.plain.html`, {
-            cacheOptions: {
-              cacheType: 'runtime',
-            },
-          });
-        } catch (error) {
-          DebuggerService.error(`Post Block: Error while fetching ${post.path}.plain.html`, error);
-          return;
-        }
-      })
-    );
-
-    const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
-    const posts = postsPreviewHtml.map((doc, index) => {
-      return {
-        postUrl: isSidekickLibraryActive() ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
-        headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
-        text: findFirstNonEmptyParagraph(doc),
-        buttontext: siteMapPostEntries[index].buttontext,
-        picture: createOptimizedPicture({
-          src: siteMapPostEntries[index].image,
-          alt: siteMapPostEntries[index].imagealt,
-          width: 323,
-          height: 199,
-        }),
-      };
-    });
+    const postsPreview: (string | undefined)[] = await Promise.all(siteMapPostEntries.map((post) => fetchPost(post)));
+    const filteredPostPreview: string[] = postsPreview.filter((preview) => preview !== undefined) as string[];
+    const postsPreviewHtml = filteredPostPreview.map((res) => parser.parseFromString(res, 'text/html'));
+    const posts = postsPreviewHtml.map((doc, index) => createPostEntry(siteMapPostEntries, index, doc));
 
     block.style.removeProperty('display');
-    render(template(posts), block);
+
+    const postsTemplate = await template(posts);
+
+    render(postsTemplate, block);
   } catch (error) {
     DebuggerService.error('Post Block: Error while fetching posts.', error);
 
     const response = await PlaceholderService.getPlaceHolder('error');
     const placeholderBlock = document.createElement('div');
-    render(html`<article style="width: 100%"><p>${response}</p></article>`, placeholderBlock);
+    const errorBlock = html`<article style="width: 100%"><p>${response}</p></article>`;
+    render(errorBlock, placeholderBlock);
+
     block.innerHTML = '';
     block.appendChild(placeholderBlock);
   }

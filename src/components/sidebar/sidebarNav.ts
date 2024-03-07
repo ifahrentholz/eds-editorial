@@ -99,7 +99,7 @@ export class SidebarNav extends LitElement {
     const endpoint = '/query-index.json';
 
     try {
-      const queryIndex = await FetchService.fetchJson<SheetsResponse>(endpoint);
+      const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>(endpoint);
       this.error = null;
 
       queryIndex.data.forEach((item) => {
