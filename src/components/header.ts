@@ -3,6 +3,8 @@ import { customElement, state } from 'lit/decorators.js';
 import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import FetchService from '../services/fetch.service.ts';
+import { renderIcon } from './icon/icon.template.ts';
+import { IconName } from '../icons.types.ts';
 import { DebuggerService } from '@kluntje/services';
 import PlaceholderService from '../services/placeholder.service.ts';
 
@@ -25,7 +27,7 @@ export interface RightCol {
 }
 
 export interface RightColData {
-  socialIcon: string;
+  socialIcon: IconName;
   socialLabel: string;
   socialLink: string;
 }
@@ -79,7 +81,7 @@ export class HeaderComponent extends LitElement {
           return html`
             <li>
               <a href="${item.socialLink}" class="icon brands" aria-label="${item.socialLabel}">
-                <icon-component class="header-icon" name="${item.socialIcon}"></icon-component>
+                ${renderIcon(item.socialIcon, 'header-icon')}
                 <span class="label">${item.socialLabel}</span>
               </a>
             </li>

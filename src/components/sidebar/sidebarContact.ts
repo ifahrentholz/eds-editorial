@@ -2,6 +2,8 @@ import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import FetchService from '../../services/fetch.service.ts';
+import { renderIcon } from '../icon/icon.template.ts';
+import { IconName } from '../../icons.types.ts';
 import { DebuggerService } from '@kluntje/services';
 import PlaceholderService from '../../services/placeholder.service.ts';
 
@@ -27,9 +29,7 @@ export class SidebarContact extends LitElement {
   async connectedCallback() {
     super.connectedCallback();
     const contactHtml = await this.fetchContactsHtml();
-    if (contactHtml !== null) {
-      this.getContactTemplateArgs(contactHtml);
-    }
+    if (contactHtml !== null) this.getContactTemplateArgs(contactHtml);
   }
 
   async fetchContactsHtml() {
@@ -120,7 +120,7 @@ export class SidebarContact extends LitElement {
 
   private renderIcon(icon: HTMLElement | null) {
     if (!icon) return nothing;
-    return html`<icon-component class="icon-component" name="${icon.innerHTML}"></icon-component>`;
+    return renderIcon(icon.innerHTML as IconName);
   }
 
   private renderContactMarkup(markup: HTMLElement | null) {

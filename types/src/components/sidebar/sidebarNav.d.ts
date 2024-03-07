@@ -1,5 +1,4 @@
 import { LitElement } from 'lit';
-import '../icon';
 interface SubMenuItem {
     path: string;
     navtitle: string;
@@ -23,6 +22,8 @@ export declare class SidebarNav extends LitElement {
     private renderMenuItems;
     private getSubmenuName;
     private getNavTitle;
-    groupByFirstLevelPath: () => Promise<MenuItem[]>;
+    private filterNavigation;
+    private groupItemsByFirstLevelPath;
+    private groupByFirstLevelPath;
 }
 export {};

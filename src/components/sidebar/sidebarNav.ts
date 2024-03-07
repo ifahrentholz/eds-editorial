@@ -1,9 +1,9 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
-import '../icon';
 import { SheetsResponse, SiteMapEntry } from '../../shared.types';
 import FetchService from '../../services/fetch.service.ts';
+import { renderIcon } from '../icon/icon.template.ts';
 import { DebuggerService } from '@kluntje/services';
 import PlaceholderService from '../../services/placeholder.service.ts';
 
@@ -62,7 +62,7 @@ export class SidebarNav extends LitElement {
   private renderSubMenu(item) {
     return html`<span @click="${this.toggleSubmenu}" class="opener submenu">
         <span class="submenu__text">${item.navtitle} </span>
-        <icon-component class="submenu__icon" name="chevron-down"></icon-component>
+        ${renderIcon('chevron-down', 'submenu__icon')}
       </span>
       <ul>
         ${item.children.map((child) => html` <li><a href="${child.path}">${child.navtitle}</a></li>`)}
@@ -85,35 +85,51 @@ export class SidebarNav extends LitElement {
     </ul>`;
   }
 
-  private getSubmenuName = (entry: SiteMapEntry) => {
+  private getSubmenuName = (entry: MenuItem) => {
     return entry.path.split('/')[1];
   };
 
-  private getNavTitle(item: SiteMapEntry) {
+  private getNavTitle(item: MenuItem | SiteMapEntry) {
     if (item.path === '/') return 'Homepage';
-    return item.navtitle || item.title;
+    return item['navtitle'] || item['title'];
   }
 
-  groupByFirstLevelPath = async () => {
+  private filterNavigation(queryIndex: SiteMapEntry[], filterValues: string[]): MenuItem[] {
+    return queryIndex
+      .filter((item) => filterValues.every((term) => !item.path.includes(term)))
+      .map((item) => ({
+        path: item.path,
+        navtitle: this.getNavTitle(item),
+      }));
+  }
+
+  private groupItemsByFirstLevelPath(siteMapEntries: MenuItem[]): Record<string, SiteMapEntry[]> {
     const groups = {};
+    siteMapEntries.forEach((item) => {
+      const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
+      if (!groups[firstLevelPath]) {
+        groups[firstLevelPath] = [];
+      }
+      groups[firstLevelPath].push({
+        path: item.path,
+        navtitle: this.getNavTitle(item),
+      });
+    });
+    return groups;
+  }
+
+  private async groupByFirstLevelPath() {
     const endpoint = '/query-index.json';
+    const filterValues: string[] = ['sidekick', 'sidekick-library', 'tools', 'development', 'dev-', '__'];
 
     try {
       const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>(endpoint);
+
       this.error = null;
 
-      queryIndex.data.forEach((item) => {
-        const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
-        if (!groups[firstLevelPath]) {
-          groups[firstLevelPath] = [];
-        }
-        groups[firstLevelPath].push({
-          path: item.path,
-          navtitle: this.getNavTitle(item),
-        });
-      });
-
-      const groupedData = Object.values(groups);
+      const filteredNavigation = this.filterNavigation(queryIndex.data, filterValues);
+      const groupItems = this.groupItemsByFirstLevelPath(filteredNavigation);
+      const groupedData = Object.values(groupItems);
 
       return groupedData.map((group: MenuItem[]) => {
         if (group.length === 1) {
@@ -131,5 +147,5 @@ export class SidebarNav extends LitElement {
       this.error = await PlaceholderService.getPlaceHolder('error');
       return [];
     }
-  };
+  }
 }
