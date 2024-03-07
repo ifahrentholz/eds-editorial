@@ -5,6 +5,7 @@ import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 import { config } from '../../config.ts';
 import { getLocation } from '../sidekickHelpers/getLocation.ts';
+import { DebuggerService } from '@kluntje/services';
 
 type BlockMapping = {
   name: string;
@@ -50,8 +51,7 @@ export class MainService {
       try {
         [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        DebuggerService.error('MainService: Error initializing codeBasePath.', error);
       }
     }
   }
@@ -111,7 +111,7 @@ export class MainService {
       if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
     } catch (error) {
-      console.error('Load lazy error: ', error);
+      DebuggerService.error('MainService: Load lazy error: ', error);
     }
   };
 
@@ -164,7 +164,7 @@ export class MainService {
         block.element.dataset.blockStatus = Status.loaded;
       } catch (error) {
         block.element.dataset.blockStatus = Status.error;
-        console.error('An error occurred during module import:', error);
+        DebuggerService.error('MainService: An error occurred during module import:', error);
       }
     }
   }
