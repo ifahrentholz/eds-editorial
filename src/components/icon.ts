@@ -1,7 +1,8 @@
-import { LitElement, css, html } from 'lit';
+import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { until } from 'lit/directives/until.js';
+import { DebuggerService } from '@kluntje/services';
 
 const modules = import.meta.glob('/src/icons/*.svg', { as: 'raw' });
 
@@ -13,7 +14,9 @@ export class Icon extends LitElement {
   async getSvg(name: string) {
     const key = modules[`/src/icons/${name}.svg`];
     const iconMarkupFunc = key !== undefined ? key : modules[`/src/icons/cross.svg`];
-    const iconMarkup = await iconMarkupFunc().catch((e: Error) => console.error(`SVG icon: ${e.message}`));
+    const iconMarkup = await iconMarkupFunc().catch((e: Error) =>
+      DebuggerService.error(`Icon Component: SVG icon: ${e.message}`, e)
+    );
     return unsafeSVG(iconMarkup as string);
   }
 
