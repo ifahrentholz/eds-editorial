@@ -6,8 +6,8 @@ describe('replaceBySpecifier', () => {
   let htmlTag: string;
 
   beforeAll(() => {
-    input = 'This is a test string with some test keywords.';
-    specifier = 'test';
+    input = 'This is a ::: string with some ::: keywords.';
+    specifier = ':::';
     htmlTag = 'strong';
   });
 
@@ -17,8 +17,14 @@ describe('replaceBySpecifier', () => {
     expect(result).toBe(expectedOutput);
   });
 
+  test('replaces occurrences of a specified specifier with an HTML tag', () => {
+    const expectedOutput = 'This is a <strong> string with some </strong> keywords.';
+    const result = replaceBySpecifier({ input, specifier, htmlTag });
+    expect(result).toBe(expectedOutput);
+  });
+
   test('replaces multiple occurrences of a specified specifier with an HTML tag', () => {
-    input += ' Another test string.';
+    input += ' Another ::: string.';
     const expectedOutput = 'This is a <strong> string with some </strong> keywords. Another <strong> string.</strong>';
     const result = replaceBySpecifier({ input, specifier, htmlTag });
     expect(result).toBe(expectedOutput);
