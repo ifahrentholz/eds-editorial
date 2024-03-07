@@ -1,3 +1,5 @@
+import { DebuggerService } from '@kluntje/services';
+
 class PlaceholderService {
   public async getPlaceHolder(key: string): Promise<string> {
     const url = '/placeholder.json';
@@ -12,7 +14,7 @@ class PlaceholderService {
       const errorObject = responseData.find((item) => item.Key === key);
       return errorObject.Text;
     } catch (error) {
-      console.error('Error fetching placeholder data:', error);
+      DebuggerService.error('PlaceholderService: Error fetching placeholder data:', error);
       throw error;
     }
   }
