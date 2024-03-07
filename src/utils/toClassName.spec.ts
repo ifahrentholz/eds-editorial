@@ -1,59 +1,45 @@
-import { toCamelCase } from './toCamelCase';
+import { toClassName } from './toClassName';
 
-describe('toCamelCase', () => {
-  test('converts kebab-case to camelCase', () => {
-    const input = 'background-color';
-    const expected = 'backgroundColor';
-    const result = toCamelCase(input);
+describe('toClassName', () => {
+  test('converts a string to lowercase and replaces non-alphanumeric characters with dashes', () => {
+    const inputString = 'Hello, World!';
+    const expected = 'hello-world';
+    const result = toClassName(inputString);
     expect(result).toBe(expected);
   });
 
-  test('converts PascalCase to camelCase', () => {
-    const input = 'SomeStringHere';
-    const expected = 'someStringHere';
-    const result = toCamelCase(input);
+  test('handles special characters and spaces correctly', () => {
+    const inputString = '!@#$%^&*()_+123 Hello, World!';
+    const expected = '123-hello-world';
+    const result = toClassName(inputString);
     expect(result).toBe(expected);
   });
 
-  test('converts snake_case to camelCase', () => {
-    const input = 'some_variable_name';
-    const expected = 'someVariableName';
-    const result = toCamelCase(input);
+  test('handles leading and trailing dashes correctly', () => {
+    const inputString = '  leading-and-trailing-dashes  ';
+    const expected = 'leading-and-trailing-dashes';
+    const result = toClassName(inputString);
+    expect(result).toBe(expected);
+  });
+
+  test('handles consecutive dashes correctly', () => {
+    const inputString = 'consecutive---dashes';
+    const expected = 'consecutive-dashes';
+    const result = toClassName(inputString);
     expect(result).toBe(expected);
   });
 
   test('handles empty string', () => {
-    const input = '';
+    const inputString = '';
     const expected = '';
-    const result = toCamelCase(input);
+    const result = toClassName(inputString);
     expect(result).toBe(expected);
   });
 
-  test('handles single character', () => {
-    const input = 'a';
-    const expected = 'a';
-    const result = toCamelCase(input);
-    expect(result).toBe(expected);
-  });
-
-  test('handles already camelCase string', () => {
-    const input = 'alreadyCamelCase';
-    const expected = 'alreadyCamelCase';
-    const result = toCamelCase(input);
-    expect(result).toBe(expected);
-  });
-
-  test('handles already camelCase string with numbers', () => {
-    const input = 'alreadyCamelCase123';
-    const expected = 'alreadyCamelCase123';
-    const result = toCamelCase(input);
-    expect(result).toBe(expected);
-  });
-
-  test('handles already camelCase string with underscore', () => {
-    const input = 'already_Camel_Case';
-    const expected = 'alreadyCamelCase';
-    const result = toCamelCase(input);
+  test('handles strings with only non-alphanumeric characters', () => {
+    const inputString = '!@#$%^&*()_+';
+    const expected = '';
+    const result = toClassName(inputString);
     expect(result).toBe(expected);
   });
 });
