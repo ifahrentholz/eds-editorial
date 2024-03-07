@@ -22,6 +22,13 @@ describe('toCamelCase', () => {
     expect(result).toBe(expected);
   });
 
+  test('converts PascalCase to camelCase', () => {
+    const input = 'SomeVariableName';
+    const expected = 'someVariableName';
+    const result = toCamelCase(input);
+    expect(result).toBe(expected);
+  });
+
   test('handles empty string', () => {
     const input = '';
     const expected = '';
@@ -37,7 +44,7 @@ describe('toCamelCase', () => {
   });
 
   test('handles already camelCase string with underscore', () => {
-    const input = 'already_Camel_Case';
+    const input = 'already_Camel Case-test';
     const expected = 'alreadyCamelCase';
     const result = toCamelCase(input);
     expect(result).toBe(expected);
