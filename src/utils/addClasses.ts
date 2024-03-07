@@ -12,7 +12,7 @@ import { toClassName } from './toClassName';
  * addClasses(element, classesToAdd);
  */
 export const addClasses = (element: HTMLElement, classes: string): void => {
-  classes.split(',').forEach((cssClass: string): void => {
+  classes.split('/').forEach((cssClass: string): void => {
     element.classList.add(toClassName(cssClass.trim()));
   });
 };
