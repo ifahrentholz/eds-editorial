@@ -110,7 +110,7 @@ export class Form extends LitElement {
   }
 
   handleSubmitError(form, error) {
-    console.error(error);
+    DebuggerService.error(`Form Component: Submit failed:${error}`);
     form.querySelector('button[type="submit"]').disabled = false;
   }
 
