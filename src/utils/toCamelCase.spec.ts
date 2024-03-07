@@ -44,8 +44,8 @@ describe('toCamelCase', () => {
   });
 
   test('handles already camelCase string with underscore', () => {
-    const input = 'already_Camel Case-test';
-    const expected = 'alreadyCamelCase';
+    const input = 'already_Camel-Case Test';
+    const expected = 'alreadyCamelCaseTest';
     const result = toCamelCase(input);
     expect(result).toBe(expected);
   });
