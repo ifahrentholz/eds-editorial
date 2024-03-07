@@ -14,30 +14,20 @@ export class SidebarPosts extends LitElement {
   @state()
   error: string | null = null;
 
-  constructor() {
-    super();
-  }
+  @state()
+  private noPostsPlaceholder: string;
 
   async connectedCallback() {
     super.connectedCallback();
     const posts = await this.getPosts();
     this.lastTreePosts = this.getLastThreePosts(posts);
+    this.noPostsPlaceholder = await PlaceholderService.getPlaceHolder('no posts');
   }
 
   render() {
     if (!this.lastTreePosts) return;
-    return html`
-      <header class="major">
-        <h2>Newest Posts</h2>
-      </header>
-      ${this.lastTreePosts.length === 0 && this.error === null
-        ? this.getPlaceholder('no posts')
-        : this.lastTreePosts.length === 0 && this.error !== null
-          ? html`<div class="error">${this.error}</div>`
-          : html`<div class="mini-posts">
-              ${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}
-            </div>`}
-    `;
+
+    return html` ${this.renderHeader()} ${this.renderPosts()} `;
 
     //TODO: Add overview if more button is needed
     /*
@@ -47,8 +37,7 @@ export class SidebarPosts extends LitElement {
     */
   }
 
-  // TODO: this string is not getting resolved correctly yet
-  async getPlaceholder(key: string): Promise<TemplateResult> {
+  async renderPlaceholder(key: string): Promise<TemplateResult> {
     const placeholder = await PlaceholderService.getPlaceHolder(key);
     return html`<div>${placeholder}</div>`;
   }
@@ -92,5 +81,20 @@ export class SidebarPosts extends LitElement {
       this.error = await PlaceholderService.getPlaceHolder('error');
       return [];
     }
+  }
+
+  private renderPosts() {
+    if (this.error) return html`<div class="error">${this.error}</div>`;
+    if (this.lastTreePosts.length === 0) return html`<div>${this.noPostsPlaceholder}</div>`;
+
+    return html`<div class="mini-posts">
+      ${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}
+    </div>`;
+  }
+
+  private renderHeader() {
+    return html` <header class="major">
+      <h2>Newest Posts</h2>
+    </header>`;
   }
 }
