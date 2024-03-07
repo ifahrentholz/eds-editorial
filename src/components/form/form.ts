@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import FetchService from '../../services/fetch.service.ts';
 import { FormField, FormFieldInput, FormFieldSelect, FormFieldType, renderField } from './form.template.ts';
+import { DebuggerService } from '@kluntje/services';
 
 type FormElement = {
   name: string;
@@ -47,9 +48,13 @@ export class Form extends LitElement {
   }
 
   async fetchFormData() {
-    const data: SheetsResponse = await FetchService.fetchJson(this.pathname);
-    const detailsData = data.data.map((item: FormElement) => this.parseFieldData(item));
-    this.formData = detailsData;
+    try {
+      const data: SheetsResponse = await FetchService.fetchJson(this.pathname);
+      const detailsData = data.data.map((item: FormElement) => this.parseFieldData(item));
+      this.formData = detailsData;
+    } catch (error) {
+      DebuggerService.error(`Form Block: Error while fetching Sheets Response from ${this.pathname}`, error);
+    }
   }
 
   render() {
@@ -105,7 +110,7 @@ export class Form extends LitElement {
   }
 
   handleSubmitError(form, error) {
-    console.error(error);
+    DebuggerService.error(`Form Component: Submit failed:${error}`);
     form.querySelector('button[type="submit"]').disabled = false;
   }
 
