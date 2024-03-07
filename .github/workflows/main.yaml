@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 20
       - run: npm ci && npm run build && npm run lint
-      - name: Run Jest tests
+      - name: Run unit tests
         run: npm run test:ci
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v18
