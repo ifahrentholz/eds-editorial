@@ -5,7 +5,7 @@
 
 import type { Config } from 'jest';
 
-const config: Config = {
+const jestConfig: Config = {
   preset: 'ts-jest',
   clearMocks: true,
   collectCoverage: true,
@@ -13,9 +13,9 @@ const config: Config = {
   coveragePathIgnorePatterns: ['/node_modules/'],
   coverageProvider: 'v8',
   coverageReporters: ['text'],
-  moduleFileExtensions: ['js', 'ts', 'tsx'],
+  moduleFileExtensions: ['js', 'ts'],
   roots: ['<rootDir>/src'],
   testEnvironment: '@happy-dom/jest-environment',
 };
 
-export default config;
+export default jestConfig;
