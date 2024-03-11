@@ -1,35 +1,20 @@
-type LifecycleCallback = () => void | Promise<void>;
-interface LifecycleCallbacks {
-    beforeInit?: LifecycleCallback;
-    afterInit?: LifecycleCallback;
-    beforeLoadEager?: LifecycleCallback;
-    loadEager?: LifecycleCallback;
-    afterLoadEager?: LifecycleCallback;
-    beforeLoadLazy?: LifecycleCallback;
-    loadLazy?: LifecycleCallback;
-    afterLoadLazy?: LifecycleCallback;
-    beforeLoadDelayed?: LifecycleCallback;
-    loadDelayed?: LifecycleCallback;
-    afterLoadDelayed?: LifecycleCallback;
-}
 declare class HLX {
-    private beforeInit;
-    private afterInit;
-    private beforeLoadEager;
-    private loadEager;
-    private afterLoadEager;
-    private beforeLoadLazy;
-    private loadLazy;
-    private afterLoadLazy;
-    private beforeLoadDelayed;
-    private loadDelayed;
-    private afterLoadDelayed;
+    private beforeEagerPromise;
+    private eagerPromise;
+    private beforeLazyPromise;
+    private lazyPromise;
+    private beforeDelayedPromise;
+    private delayedPromise;
     private initializedPromise;
-    constructor({ beforeInit, afterInit, beforeLoadEager, loadEager, afterLoadEager, beforeLoadLazy, loadLazy, afterLoadLazy, beforeLoadDelayed, loadDelayed, afterLoadDelayed, }?: LifecycleCallbacks);
+    constructor();
     private init;
-    private _loadEager;
-    private _loadLazy;
-    private _loadDelayed;
+    beforeLoadEager(): Promise<void>;
+    loadEager(): Promise<void>;
+    beforeLoadLazy(): Promise<void>;
+    loadLazy(): Promise<void>;
+    beforeLoadDelayed(): Promise<void>;
+    loadDelayed(): Promise<void>;
     initialized(): Promise<void>;
 }
-export default HLX;
+declare const _default: HLX;
+export default _default;
