@@ -1,7 +1,7 @@
 import { parse, resolve } from 'path';
 import { existsSync, readdirSync, writeFileSync } from 'fs';
 import { execSync } from 'child_process';
-import { config } from './config.ts';
+import { config } from './config';
 
 const getBlockEntry = (blockName: string, fileType: string): string | null => {
   const filePath = resolve(__dirname, `src/blocks/${blockName}/${blockName}.${fileType}`);
