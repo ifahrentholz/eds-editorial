@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
 import { SheetsResponse, Sitemap, SiteMapEntry } from '../../shared.types.ts';
@@ -54,11 +54,20 @@ export class SidebarPosts extends LitElement {
     return posts.slice(0, 3);
   }
 
+  private renderPicture(siteMapEntry: SiteMapEntry) {
+    const picture = createOptimizedPicture({
+      src: siteMapEntry.image,
+      alt: siteMapEntry.imagealt,
+      width: 336,
+      height: 224,
+    });
+    if (!picture) return nothing;
+    return html`<a href="${siteMapEntry.path}" class="image">${picture}</a>`;
+  }
+
   private renderPost(siteMapEntry: SiteMapEntry) {
     return html` <article>
-      <a href="${siteMapEntry.path}" class="image">
-        ${createOptimizedPicture({ src: siteMapEntry.image, alt: siteMapEntry.imagealt, width: 336, height: 224 })}
-      </a>
+      ${this.renderPicture(siteMapEntry)}
       <p>${siteMapEntry.description}</p>
     </article>`;
   }
