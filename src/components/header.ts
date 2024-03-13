@@ -3,6 +3,8 @@ import { customElement, state } from 'lit/decorators.js';
 import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import FetchService from '../services/fetch.service.ts';
+import { renderIcon } from './icon/icon.template.ts';
+import { IconName } from '../icons.types.ts';
 
 export interface HeaderResponseData {
   leftCol: LeftCol;
@@ -23,7 +25,7 @@ export interface RightCol {
 }
 
 export interface RightColData {
-  socialIcon: string;
+  socialIcon: IconName;
   socialLabel: string;
   socialLink: string;
 }
@@ -48,7 +50,9 @@ export class HeaderComponent extends LitElement {
 
   async fetchHeaderData() {
     try {
-      const response = await FetchService.fetchJson<HeaderResponseData>('header.json');
+      const response = await FetchService.fetchJson<HeaderResponseData>('header.json', {
+        cacheOptions: { cacheType: 'runtime' },
+      });
       this.headerData = { leftCol: response.leftCol.data[0], rightCol: response.rightCol.data };
     } catch (error) {
       console.error('HeaderComponent: ', error);
@@ -67,7 +71,7 @@ export class HeaderComponent extends LitElement {
           return html`
             <li>
               <a href="${item.socialLink}" class="icon brands" aria-label="${item.socialLabel}">
-                <icon-component class="header-icon" name="${item.socialIcon}"></icon-component>
+                ${renderIcon(item.socialIcon, 'header-icon')}
                 <span class="label">${item.socialLabel}</span>
               </a>
             </li>

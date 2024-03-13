@@ -1,15 +1,38 @@
 import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
-
-const { resolve } = require('path');
+import { generateBlockEntries, generateIconNameType } from './vite.helpers';
+import { config } from './config.ts';
+import { resolve } from 'path';
+import { InputOption } from 'rollup';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// @ts-ignore:next-line
+// @ts-ignore:next line
 export default defineConfig(({ command, mode }) => {
+  const { mainTsPath, mainScssPath, fontsScssPath, lazyStylesScssPath, sidekickLibraryStylesScssPath } = config;
+  const blocksEntries = generateBlockEntries();
+  generateIconNameType();
+
+  const inputOptions: InputOption = {
+    main: resolve(__dirname, mainTsPath),
+    styles: resolve(__dirname, mainScssPath),
+    ...blocksEntries,
+  };
+
+  if (fontsScssPath) inputOptions.fonts = resolve(__dirname, fontsScssPath);
+  if (lazyStylesScssPath) inputOptions.lazyStyles = resolve(__dirname, lazyStylesScssPath);
+  if (sidekickLibraryStylesScssPath) {
+    inputOptions.sidekickLibraryStyles = resolve(__dirname, sidekickLibraryStylesScssPath);
+  }
+
   return {
     css: {
       devSourcemap: true,
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import 'src/styles/sass/libs/_index.scss';`,
+        },
+      },
     },
     build: {
       sourcemap: true,
@@ -22,15 +45,7 @@ export default defineConfig(({ command, mode }) => {
       rollupOptions: {
         cache: false,
         preserveEntrySignatures: 'strict',
-        input: {
-          styles: resolve(__dirname, 'src/styles/sass/main.scss'),
-          fonts: resolve(__dirname, 'src/styles/sass/fonts.scss'),
-          main: resolve(__dirname, 'src/main.ts'),
-          counter: resolve(__dirname, 'src/blocks/counter/counter.ts'),
-          banner: resolve(__dirname, 'src/blocks/banner/banner.ts'),
-          features: resolve(__dirname, 'src/blocks/features/features.ts'),
-          posts: resolve(__dirname, 'src/blocks/posts/posts.ts'),
-        },
+        input: inputOptions,
         output: {
           dir: 'dist',
           assetFileNames: () => {
