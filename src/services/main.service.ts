@@ -166,6 +166,8 @@ export class MainService {
         block.element.dataset.blockStatus = Status.error;
         console.error('An error occurred during module import:', error);
       }
+
+      block.element.dataset.blockStatus = 'loaded';
     }
   }
 
@@ -241,7 +243,6 @@ export class MainService {
 
   private async loadBlock(section: HTMLElement) {
     const sectionsBlocks: BlockMapping[] = this.collectBlocks(section);
-
     if (!sectionsBlocks.length) {
       this.showSection(section);
       return;
