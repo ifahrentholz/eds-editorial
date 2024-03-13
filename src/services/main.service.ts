@@ -33,7 +33,7 @@ export class MainService {
   init = async () => {
     this.setup();
     await this.loadEager();
-    await this.loadLazy();
+    this.loadLazy();
   };
 
   /**
@@ -208,7 +208,7 @@ export class MainService {
   private async waitForLCP() {
     /* Js Chunks should be loaded
     Old logic only looks after the first block
-    New logic looks in the first section after lcp candidates, 
+    New logic looks in the first section after lcp candidates,
     since we show ech section depending on if its blocks and modules are loaded */
     const firstSection: HTMLElement | null = document.querySelector('.section');
 
