@@ -1,5 +1,6 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+
 import './features.scss';
 import { renderIcon } from '../../components/icon/icon.template';
 import { IconName } from '../../icons.types';
@@ -26,7 +27,7 @@ const template = (features: TemplateArgs) => {
 
 export default function (block: HTMLElement) {
   const rows = block.querySelectorAll(':scope > div');
-  let features: Feature[] = [];
+  const features: Feature[] = [];
   [...rows].forEach((row) => {
     const icon = row.children[0].innerHTML as IconName;
     const textBlock = row.children[1].innerHTML;

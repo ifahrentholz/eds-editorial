@@ -91,8 +91,11 @@ export class MainService {
 
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
-    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
-    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
+    if (window.innerWidth <= 1280) {
+      sidebarContainer.classList.remove('active');
+    } else {
+      sidebarContainer.classList.add('active');
+    }
     main.after(sidebarContainer);
   }
 
@@ -239,7 +242,7 @@ export class MainService {
     });
   }
 
-  private async loadBlock(section: HTMLElement) {
+  private loadBlock(section: HTMLElement) {
     const sectionsBlocks: BlockMapping[] = this.collectBlocks(section);
 
     if (!sectionsBlocks.length) {

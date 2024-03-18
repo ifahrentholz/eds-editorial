@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture.ts';
 import { SheetsResponse, Sitemap, SiteMapEntry } from '../../shared.types.ts';
 import FetchService from '../../services/fetch.service.ts';
@@ -8,10 +9,6 @@ import FetchService from '../../services/fetch.service.ts';
 export class SidebarPosts extends LitElement {
   @state()
   private lastTreePosts: Sitemap;
-
-  constructor() {
-    super();
-  }
 
   async connectedCallback() {
     super.connectedCallback();
@@ -28,7 +25,7 @@ export class SidebarPosts extends LitElement {
       <div class="mini-posts">${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}</div>
     `;
 
-    //TODO: Add overview if more button is needed
+    // TODO: Add overview if more button is needed
     /*
      <ul class="actions">
         <li><a href="#" class="button">More</a></li>

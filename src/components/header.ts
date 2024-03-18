@@ -1,7 +1,8 @@
 import { html, LitElement, PropertyValueMap } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { customElement, state } from 'lit/decorators.js';
+
+import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
 import FetchService from '../services/fetch.service.ts';
 import { renderIcon } from './icon/icon.template.ts';
 import { IconName } from '../icons.types.ts';

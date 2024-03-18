@@ -100,7 +100,7 @@ export class SidebarNav extends LitElement {
   }
 
   groupByFirstLevelPath = async () => {
-    let queryIndex: SheetsResponse = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+    const queryIndex: SheetsResponse = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
     const filterValues: string[] = ['sidekick', 'sidekick-library', 'tools', 'development', 'dev-', '__'];
 
     // filtering out all entries from blacklist from navigation

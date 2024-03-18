@@ -1,5 +1,6 @@
 import { Directive, directive } from 'lit/directive.js';
 import { AttributePart, nothing } from 'lit';
+
 import { SidekickElement } from '../sidekickHelpers/extractSidekickLibraryId';
 import { isSidekickLibraryActive } from '../sidekickHelpers/isSidekickLibraryActive';
 

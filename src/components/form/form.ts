@@ -1,5 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
+
 import FetchService from '../../services/fetch.service.ts';
 import { FormField, FormFieldInput, FormFieldSelect, FormFieldType, renderField } from './form.template.ts';
 
@@ -31,7 +32,7 @@ export class Form extends LitElement {
   formData: FormField[];
 
   @property({ type: String })
-  pathname: string = '';
+  pathname = '';
 
   @query('form')
   form: HTMLFormElement;

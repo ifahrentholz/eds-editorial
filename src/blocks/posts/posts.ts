@@ -1,9 +1,11 @@
 import { html, nothing, render } from 'lit';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+
 import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
 import FetchService from '../../services/fetch.service.ts';
 import { SheetsResponse } from '../../shared.types.ts';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
 import { isSidekickLibraryActive } from '../../sidekickHelpers/isSidekickLibraryActive.ts';
+
 import './posts.scss';
 
 interface PostArgs {

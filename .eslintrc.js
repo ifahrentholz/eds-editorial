@@ -42,6 +42,7 @@ module.exports = {
     '@typescript-eslint/unbound-method': 'off',
     'import/extensions': 'off',
     'no-console': 'off',
+    'no-warning-comments': 'off',
   },
   overrides: [
     {

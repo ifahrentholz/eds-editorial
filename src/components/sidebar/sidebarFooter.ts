@@ -1,5 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+
 import FetchService from '../../services/fetch.service.ts';
 
 @customElement('sidebar-footer')

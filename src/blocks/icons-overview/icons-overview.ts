@@ -1,10 +1,20 @@
 import { html, render } from 'lit';
+
 import { renderIcon } from '../../components/icon/icon.template.ts';
 import { createToast } from '../../components/toast/toast.template.ts';
 import { IconName } from '../../icons.types.ts';
 import './icons-overview.scss';
 
 const renderIconLabel = (icon: string) => html`<span class="icon-label">${icon}</span>`;
+
+const showToast = async (message: string, duration: number) => {
+  render(await createToast(message, duration), document.body);
+};
+
+const copyNameToClipboard = async (name: string, message: string, duration: number) => {
+  await navigator.clipboard.writeText(name);
+  await showToast(message, duration);
+};
 
 const renderIconContainer = (icon: IconName, message: string, duration: number) => {
   return html`
@@ -14,15 +24,7 @@ const renderIconContainer = (icon: IconName, message: string, duration: number) 
   `;
 };
 
-const showToast = async (message: string, duration: number) =>
-  render(await createToast(message, duration), document.body);
-
-const copyNameToClipboard = async (name: string, message: string, duration: number) => {
-  await navigator.clipboard.writeText(name);
-  await showToast(message, duration);
-};
-
-const fetchIconNames = async (): Promise<IconName[]> => {
+const fetchIconNames = (): IconName[] => {
   const iconOverview = import.meta.glob('/public/icons/*.svg');
   return Object.keys(iconOverview).map((iconPath) => iconPath.replace(/^.*\/(.*?)\.svg$/, '$1')) as IconName[];
 };
@@ -51,8 +53,8 @@ const getDuration = (block: HTMLElement) => {
   return Number(duration.innerHTML);
 };
 
-const renderIcons = async (block: HTMLElement) => {
-  const iconNames = await fetchIconNames();
+const renderIcons = (block: HTMLElement) => {
+  const iconNames = fetchIconNames();
   const message = getMessage(block);
   const duration = getDuration(block);
 
@@ -60,6 +62,6 @@ const renderIcons = async (block: HTMLElement) => {
   render(template(iconNames, message, duration), block);
 };
 
-export default async function decorate(block: HTMLElement) {
-  await renderIcons(block);
+export default function decorate(block: HTMLElement) {
+  renderIcons(block);
 }

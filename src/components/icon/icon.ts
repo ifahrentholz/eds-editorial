@@ -2,6 +2,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { until } from 'lit/directives/until.js';
+
 import { ICONS_PATH } from '../../constants.ts';
 
 // Vite runs on build time and finds all svg files in icons directory
@@ -11,7 +12,7 @@ const modules = import.meta.glob('/public/icons/*.svg', { as: 'raw' });
 @customElement('icon-component')
 export class Icon extends LitElement {
   @property({ type: String })
-  name: string = '';
+  name = '';
 
   async getSvg(name: string) {
     const key = modules[`${ICONS_PATH}/${name}.svg`];

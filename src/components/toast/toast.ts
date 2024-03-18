@@ -4,9 +4,9 @@ import { customElement, property } from 'lit/decorators.js';
 @customElement('toast-component')
 export class Toast extends LitElement {
   @property({ type: String })
-  message: string = 'Your settings have been saved successfully!';
+  message = 'Your settings have been saved successfully!';
   @property({ type: Number })
-  duration: number = 3000;
+  duration = 3000;
 
   connectedCallback() {
     super.connectedCallback();
