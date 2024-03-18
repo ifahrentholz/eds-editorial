@@ -1,4 +1,6 @@
+import { DirectiveResult } from 'lit/directive';
 import { isSidekickLibraryActive } from './isSidekickLibraryActive';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
 /**
  * Represents the constructed Element.
@@ -10,7 +12,7 @@ import { isSidekickLibraryActive } from './isSidekickLibraryActive';
  */
 export type SidekickElement = {
   dataLibraryId?: string;
-  innerHTML: string;
+  innerHTML: DirectiveResult | string;
   href?: string;
 };
 
@@ -42,7 +44,7 @@ export const extractSidekickLibraryId = (element?: HTMLElement | HTMLAnchorEleme
   };
   if (!element) return constructedElement;
 
-  constructedElement.innerHTML = element.innerHTML;
+  constructedElement.innerHTML = unsafeHTML(element.innerHTML);
   if (element instanceof HTMLAnchorElement && element.href !== '') {
     constructedElement.href = element.href;
   }

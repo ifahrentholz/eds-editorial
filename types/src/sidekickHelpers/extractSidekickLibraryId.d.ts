@@ -1,3 +1,4 @@
+import { DirectiveResult } from 'lit/directive';
 /**
  * Represents the constructed Element.
  *
@@ -8,7 +9,7 @@
  */
 export type SidekickElement = {
     dataLibraryId?: string;
-    innerHTML: string;
+    innerHTML: DirectiveResult | string;
     href?: string;
 };
 /**
