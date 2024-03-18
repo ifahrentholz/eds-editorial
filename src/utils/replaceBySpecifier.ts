@@ -41,6 +41,7 @@ interface ReplaceBySpecifier {
   * // Output: 'Hello<span> world!</span>'
  */
 export function replaceBySpecifier({ input, specifier, htmlTag }: ReplaceBySpecifier): string {
+  if (specifier === '' || htmlTag === '') return input;
   return input
     .split(specifier)
     .map((part: string, index: number): string => (index % 2 === 1 ? `<${htmlTag}>${part}</${htmlTag}>` : part))
