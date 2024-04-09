@@ -50,7 +50,7 @@ Your project's description...
       git clone https://github.com/<owner>/<repo>
     ```
     - Set up Vite as bundler, SCSS, TypeScript, LitElement, ESLint, StyleLint und Prettier
-    - Change into project folder and start your local dev environment.
+    - Change into project folder and start your local dev environment. `npm start` initializes a build as well as runs the `aem up` command.
     ```
       cd <repo>
       npm start
