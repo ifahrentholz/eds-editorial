@@ -1,15 +1,31 @@
-# Your Project's Title...
+# Boilerplate for AEM Edge Delivery Services
 Your project's description...
 
 ## Environments
 - Preview: [https://main--eds-editorial--ifahrentholz.hlx.page/](https://main--eds-editorial--ifahrentholz.hlx.page/)
 - Live: [https://main--eds-editorial--ifahrentholz.hlx.live/](https://main--eds-editorial--ifahrentholz.hlx.live/)
 
-## Installation
+## Getting started
 
-```sh
-npm i
-```
+### Prerequisites
+
+- GitHub account
+- Google or Sharepoint account
+
+* npm
+  ```sh
+  npm i
+  ```
+
+### Installation
+
+1. Create your repository using the Boilerplate GitHub repository as a template.
+    https://github.com/divae/boilerplate
+
+2. Install the AEM Code Sync GitHub App on your repository by visiting this link: 
+    https://github.com/apps/aem-code-sync/installations/new
+
+    Select `Only select Repositories` (not `All Repositories`).
 
 ## Linting
 
