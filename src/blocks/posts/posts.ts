@@ -1,10 +1,10 @@
 import { html, nothing, render } from 'lit';
-import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
+import { createOptimizedPicture } from 'Utils/createOptimizedPicture.ts';
 import FetchService from '../../services/fetch.service.ts';
-import { SheetsResponse } from '../../shared.types.ts';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { isSidekickLibraryActive } from '../../sidekickHelpers/isSidekickLibraryActive.ts';
 import './posts.scss';
+import { SheetsResponse } from 'Types/sheetResponse.types.ts';
+import { isSidekickLibraryActive } from 'Helpers/sidekick/isSidekickLibraryActive.ts';
 
 interface PostArgs {
   postUrl?: string;
