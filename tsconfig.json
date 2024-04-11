@@ -29,11 +29,11 @@
       "Helpers/*": ["./src/helpers/*"],
       "Constants/*": ["./src/constants/*"],
       "Types/*": ["./src/types/*"],
-      "Utils/*": ["./src/utils/*"],
+      "Utils/*": ["./src/utils/*"]
     }
   },
   "include": [
-    "blocks/**/*.ts",
+    "./*.ts",
     "scripts/**/*.ts",
     "src/**/*.ts",
     "src/**/*.json"
