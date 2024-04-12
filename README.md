@@ -1,5 +1,5 @@
 # Boilerplate for AEM Edge Delivery Services
-Your project's description...
+This is our Edge Delivery Services boilerplate.
 
 ## Table of Contents
 - [Environments](#environments)
@@ -7,12 +7,11 @@ Your project's description...
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Linting](#linting)
+- [Documentation](#documentation)
 
 ## Environments
 - Preview: [https://main--eds-editorial--ifahrentholz.hlx.page/](https://main--eds-editorial--ifahrentholz.hlx.page/)
 - Live: [https://main--eds-editorial--ifahrentholz.hlx.live/](https://main--eds-editorial--ifahrentholz.hlx.live/)
-
-## Getting started
 
 ### Prerequisites
 
@@ -62,3 +61,7 @@ Your project's description...
 ```sh
 npm run lint
 ```
+
+## Documentation
+
+For more information, please refer to the <a href="https://github.com/ifahrentholz/eds-editorial/wiki">documentation</a>.
