@@ -2,7 +2,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { until } from 'lit/directives/until.js';
-import { ICONS_PATH } from '../../constants.ts';
+import { ICONS_PATH } from 'Constants/paths.ts';
 
 // Vite runs on build time and finds all svg files in icons directory
 // Since import.meta.glob only accepts literals ICON_PATH cant be used

@@ -34,6 +34,18 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
+    resolve: {
+      alias: {
+        Blocks: resolve(__dirname, 'src/blocks'),
+        Components: resolve(__dirname, 'src/components'),
+        Directives: resolve(__dirname, 'src/directives'),
+        Services: resolve(__dirname, 'src/services'),
+        Helpers: resolve(__dirname, 'src/helpers'),
+        Constants: resolve(__dirname, 'src/constants'),
+        Types: resolve(__dirname, 'src/types'),
+        Utils: resolve(__dirname, 'src/utils'),
+      },
+    },
     build: {
       sourcemap: true,
       minify: true,

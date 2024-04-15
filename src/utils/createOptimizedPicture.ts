@@ -1,4 +1,4 @@
-import { getHref } from '../sidekickHelpers/getHref';
+import { getHref } from 'Helpers/sidekick/getHref.ts';
 
 /**
  * Represents a breakpoint configuration used in responsive web design.
