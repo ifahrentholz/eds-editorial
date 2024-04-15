@@ -4,6 +4,12 @@ import { SidekickElement } from 'Helpers/sidekick/extractSidekickLibraryId';
 /**
  * Represents a directive for managing a sidekick library id.
  * @extends Directive
+ *
+ * @example
+ * <header>
+ *  <h1 ${getSidekickLibraryId(headline)}>${headline.innerHTML}</h1>
+ *  <p ${getSidekickLibraryId(subline)}>${subline.innerHTML}</p>
+ * </header>
  */
 declare class SidekickLibraryId extends Directive {
     private part?;

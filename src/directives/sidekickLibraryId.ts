@@ -6,6 +6,12 @@ import { isSidekickLibraryActive } from 'Helpers/sidekick//isSidekickLibraryActi
 /**
  * Represents a directive for managing a sidekick library id.
  * @extends Directive
+ * 
+ * @example
+ * <header>
+ *  <h1 ${getSidekickLibraryId(headline)}>${headline.innerHTML}</h1>
+ *  <p ${getSidekickLibraryId(subline)}>${subline.innerHTML}</p>
+ * </header>
  */
 class SidekickLibraryId extends Directive {
   private part?: AttributePart;
