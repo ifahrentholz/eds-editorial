@@ -1,6 +1,10 @@
 import { Directive } from 'lit/directive.js';
 import { AttributePart } from 'lit';
 import { SidekickElement } from '../sidekickHelpers/extractSidekickLibraryId';
+/**
+ * Represents a directive for managing a sidekick library id.
+ * @extends Directive
+ */
 declare class SidekickLibraryId extends Directive {
     private part?;
     /**
