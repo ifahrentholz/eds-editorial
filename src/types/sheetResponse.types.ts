@@ -1,8 +1,6 @@
-import { SiteMapEntry } from './siteMap.types.ts';
-
-export interface SheetsResponse {
+export interface SheetsResponse<T> {
   type: string;
-  data: SiteMapEntry[];
+  data: T[];
   offset: number;
   total: number;
 }
