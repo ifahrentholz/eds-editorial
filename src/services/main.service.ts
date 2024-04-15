@@ -24,7 +24,7 @@ class Status {
 }
 
 export class MainService {
-  private lcpBlocks = ['banner'];
+  private lcpBlocks = ['hello-world'];
 
   constructor(
     private sectionService: SectionService,
@@ -64,9 +64,7 @@ export class MainService {
     const main = document.querySelector('main');
     if (main) {
       main.setAttribute('id', 'main');
-      this.addSidebarContainer(main);
       this.sectionService.init(main);
-      this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
 
       // TODO: Performance adjustment
@@ -86,21 +84,6 @@ export class MainService {
       }
     }
   };
-
-  private addSidebarContainer(main: HTMLElement) {
-    if (isSidekickLibraryActive()) return;
-
-    const sidebarContainer = document.createElement('sidebar-component');
-    sidebarContainer.setAttribute('id', 'sidebar');
-    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
-    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
-    main.after(sidebarContainer);
-  }
-
-  private addInnerContainer(main: HTMLElement) {
-    const children = main.innerHTML;
-    main.innerHTML = `<div class="inner">${isSidekickLibraryActive() ? `` : `<header-component id="header"></header-component>`}${children}</div>`;
-  }
 
   private loadLazy = async () => {
     const { lazyStylesScssPath, sidekickLibraryStylesScssPath, fontsScssPath } = config;
