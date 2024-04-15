@@ -1,4 +1,3 @@
-import './components/icon/icon.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
 import { MainService } from './services/main.service.ts';

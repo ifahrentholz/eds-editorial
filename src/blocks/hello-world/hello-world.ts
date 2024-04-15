@@ -1,6 +1,13 @@
 import { html, render, TemplateResult } from 'lit';
 
 /**
+ * These are the imported components for the block.
+ * They need to be imported so that Vite will bundle them as chunks that can be loaded.
+ * Otherwise, the component will not be loaded with the block.
+ */
+import './../../components/icon/icon.ts';
+
+/**
  * These are the imported styles for the block.
  * They need to be imported so that Vite will bundle them as chunks that can be loaded.
  * Otherwise, the styles would not be built into the dist directory.
