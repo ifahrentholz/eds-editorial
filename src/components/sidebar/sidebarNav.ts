@@ -1,9 +1,10 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
-import { SheetsResponse, SiteMapEntry } from '../../shared.types';
 import FetchService from '../../services/fetch.service.ts';
 import { renderIcon } from '../icon/icon.template.ts';
+import { SiteMapEntry } from 'Types/siteMap.types.ts';
+import { SheetsResponse } from 'Types/sheetResponse.types.ts';
 
 interface SubMenuItem {
   path: string;
