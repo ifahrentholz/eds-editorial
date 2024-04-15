@@ -1,7 +1,3 @@
-// const LCP_BLOCKS: string[] = []; // add your LCP blocks to the list
-
-import './components/sidebar/sidebar.ts';
-import './components/header.ts';
 import './components/icon/icon.ts';
 import { BlockService } from './services/block.service.ts';
 import { SectionService } from './services/section.service.ts';
