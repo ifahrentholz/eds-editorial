@@ -3,9 +3,9 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type { Config } from 'jest';
+import { JestConfigWithTsJest } from 'ts-jest';
 
-const jestConfig: Config = {
+const jestConfig: JestConfigWithTsJest = {
   preset: 'ts-jest',
   clearMocks: true,
   collectCoverage: true,
@@ -16,6 +16,15 @@ const jestConfig: Config = {
   moduleFileExtensions: ['js', 'ts'],
   roots: ['<rootDir>/src'],
   testEnvironment: '@happy-dom/jest-environment',
+  moduleNameMapper: {
+    '^Blocks/(.*)$': '<rootDir>/src/blocks/$1',
+    '^Components/(.*)$': '<rootDir>/src/components/$1',
+    '^Directives/(.*)$': '<rootDir>/src/directives/$1',
+    '^Services/(.*)$': '<rootDir>/src/services/$1',
+    '^Helpers/(.*)$': '<rootDir>/src/helpers/$1',
+    '^Constants/(.*)$': '<rootDir>/src/constants/$1',
+    '^Types/(.*)$': '<rootDir>/src/types/$1',
+  },
 };
 
 export default jestConfig;

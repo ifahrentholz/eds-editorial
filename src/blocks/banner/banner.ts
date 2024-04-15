@@ -1,8 +1,8 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { SidekickElement, extractSidekickLibraryId } from '../../sidekickHelpers/extractSidekickLibraryId';
-import { getSidekickLibraryId } from '../../customDirectives/sidekickLibraryId';
 import './banner.scss';
+import { extractSidekickLibraryId, SidekickElement } from 'Helpers/sidekick/extractSidekickLibraryId';
+import { getSidekickLibraryId } from 'Directives/sidekickLibraryId.ts';
 
 interface TemplateArgs {
   headline: SidekickElement;
