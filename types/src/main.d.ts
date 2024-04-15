@@ -1,6 +1,3 @@
-import './components/sidebar/sidebar.ts';
-import './components/header.ts';
-import './components/icon/icon.ts';
 declare global {
     interface Window {
         hlx: {
@@ -10,3 +7,4 @@ declare global {
         };
     }
 }
+export {};

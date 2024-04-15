@@ -15,8 +15,6 @@ export declare class MainService {
      */
     private setup;
     private loadEager;
-    private addSidebarContainer;
-    private addInnerContainer;
     private loadLazy;
     /**
      * Decorates the template and theme by adding classes to the body.
