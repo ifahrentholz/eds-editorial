@@ -29,9 +29,10 @@ export default defineConfig(({ command, mode }) => {
     css: {
       devSourcemap: true,
       preprocessorOptions: {
-        scss: {
-          additionalData: `@import 'src/styles/sass/libs/_index.scss';`,
-        },
+        // Path to mixins, variables, and other necessary files for transpiling SCSS: '../path/to/styles.scss'
+        //  scss: {
+        //    additionalData: `@import 'src/styles/<your file path>';`,
+        //  },
       },
     },
     build: {
