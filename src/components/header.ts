@@ -1,12 +1,12 @@
 import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
+import { replaceBySpecifier } from 'Utils/replaceBySpecifier.ts';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import FetchService from '../services/fetch.service.ts';
+import FetchService from 'Services/fetch.service.ts';
 import { renderIcon } from './icon/icon.template.ts';
-import { IconName } from '../icons.types.ts';
 import { DebuggerService } from '@kluntje/services';
-import PlaceholderService from '../services/placeholder.service.ts';
+import PlaceholderService from 'Services/placeholder.service.ts';
+import { IconName } from 'Types/icons.types.ts';
 
 export interface HeaderResponseData {
   leftCol: LeftCol;

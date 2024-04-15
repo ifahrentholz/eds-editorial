@@ -1,5 +1,5 @@
 import { LitElement, PropertyValueMap } from 'lit';
-import { IconName } from '../icons.types.ts';
+import { IconName } from 'Types/icons.types.ts';
 export interface HeaderResponseData {
     leftCol: LeftCol;
     rightCol: RightCol;

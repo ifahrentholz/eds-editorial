@@ -1,11 +1,11 @@
-import { isSidekickLibraryActive } from '../sidekickHelpers/isSidekickLibraryActive';
+import { isSidekickLibraryActive } from 'Helpers/sidekick/isSidekickLibraryActive';
 import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 import { config } from '../../config.ts';
-import { getLocation } from '../sidekickHelpers/getLocation.ts';
 import { DebuggerService } from '@kluntje/services';
+import { getLocation } from 'Helpers/sidekick/getLocation.ts';
 
 type BlockMapping = {
   name: string;
