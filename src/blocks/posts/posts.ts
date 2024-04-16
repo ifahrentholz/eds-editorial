@@ -94,7 +94,7 @@ export default async function (block: HTMLElement) {
   const parser = new DOMParser();
   try {
     const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>('/query-index.json');
-    const siteMapPostEntries = queryIndex.data.filter((item) => item.path.includes('/posts'));
+    const siteMapPostEntries = queryIndex.data.filter((item) => item.path.startsWith('/posts'));
     const postsPreview: (string | undefined)[] = await Promise.all(siteMapPostEntries.map((post) => fetchPost(post)));
     const filteredPostPreview: string[] = postsPreview.filter((preview) => preview !== undefined) as string[];
     const postsPreviewHtml = filteredPostPreview.map((res) => parser.parseFromString(res, 'text/html'));
