@@ -1,0 +1,92 @@
+body {
+    display: block !important;
+    flex-direction: column !important;
+}
+
+.i-page {
+    margin-left: 20%;
+    padding-top: 1px;
+}
+
+.i-page-content {
+    background: #F2F2F3;
+    margin: 16px 8px;
+    border-radius: 10px;
+    border-bottom: none;
+}
+
+.i-block {
+    padding: 20px;
+}
+
+.i-page__sidebar {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+    padding: 10px 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #F2F2F3;
+}
+
+.i-page__sidebar > * {
+    padding: 0 20px;
+}
+
+.i-search-input {
+    position: relative;
+}
+
+.i-search-input input {
+    height: 2.3em;
+    padding-left: 68px;
+    font-size: 18px;
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transition-duration: 0s;
+    opacity: 0.5;
+    transition: ease 125ms;
+}
+
+.search-input-icon {
+    position: absolute;
+    top: 48%;
+    left: 22px;
+    transform: translateY(-50%);
+    opacity: 0.5;
+    width: 16px;
+}
+
+.theme-sidebar-category-title {
+    color: #353535;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 2.5rem !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.i-sidebar-list-item {
+    display: block;
+}
+
+.i-sidebar-element {
+    font-size: 17px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.i-sidebar-element:hover {
+    text-decoration: underline;
+    font-size: 18px;
+    transition: 0.5s;
+    opacity: 1;
+}
