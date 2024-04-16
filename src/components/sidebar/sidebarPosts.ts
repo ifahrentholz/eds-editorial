@@ -1,7 +1,9 @@
 import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createOptimizedPicture } from 'Utils/createOptimizedPicture.ts';
-import FetchService from '../../services/fetch.service.ts';
+import FetchService from 'Services/fetch.service.ts';
+import { DebuggerService } from '@kluntje/services';
+import PlaceholderService from 'Services/placeholder.service.ts';
 import { Sitemap, SiteMapEntry } from 'Types/siteMap.types.ts';
 import { SheetsResponse } from 'Types/sheetResponse.types.ts';
 
@@ -10,24 +12,23 @@ export class SidebarPosts extends LitElement {
   @state()
   private lastTreePosts: Sitemap;
 
-  constructor() {
-    super();
-  }
+  @state()
+  error: string | null = null;
+
+  @state()
+  private noPostsPlaceholder: string;
 
   async connectedCallback() {
     super.connectedCallback();
     const posts = await this.getPosts();
     this.lastTreePosts = this.getLastThreePosts(posts);
+    this.noPostsPlaceholder = await PlaceholderService.getPlaceHolder('no posts');
   }
 
   render() {
     if (!this.lastTreePosts) return;
-    return html`
-      <header class="major">
-        <h2>Newest Posts</h2>
-      </header>
-      <div class="mini-posts">${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}</div>
-    `;
+
+    return html` ${this.renderHeader()} ${this.renderPosts()} `;
 
     //TODO: Add overview if more button is needed
     /*
@@ -74,7 +75,31 @@ export class SidebarPosts extends LitElement {
   }
 
   private async getPosts() {
-    const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
-    return queryIndex.data.filter((item) => item.path.startsWith('/posts'));
+    const endpoint = '/query-index.json';
+
+    try {
+      this.error = null;
+      const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>(endpoint);
+      return queryIndex.data.filter((item) => item.path.startsWith('/posts'));
+    } catch (error) {
+      DebuggerService.error(`SidebarPost Component: Error while fetching ${endpoint}`, error);
+      this.error = await PlaceholderService.getPlaceHolder('error');
+      return [];
+    }
+  }
+
+  private renderPosts() {
+    if (this.error) return html`<div class="error">${this.error}</div>`;
+    if (this.lastTreePosts.length === 0) return html`<div>${this.noPostsPlaceholder}</div>`;
+
+    return html`<div class="mini-posts">
+      ${this.lastTreePosts.map((siteMapEntry) => this.renderPost(siteMapEntry))}
+    </div>`;
+  }
+
+  private renderHeader() {
+    return html` <header class="major">
+      <h2>Newest Posts</h2>
+    </header>`;
   }
 }

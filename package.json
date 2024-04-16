@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@kluntje/js-utils": "0.7.2",
+    "@kluntje/services": "^0.6.6",
     "lit": "3.1.1"
   },
   "engines": {
