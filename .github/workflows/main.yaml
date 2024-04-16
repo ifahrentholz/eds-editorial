@@ -42,10 +42,11 @@ jobs:
         run: npm run test:ci
 
       - name: Check if dist directory has changed
-        run: git diff --quiet HEAD ${{ github.event.before }} -- ./dist || echo "dist_changed=true" >> "$GITHUB_ENV"
+        id: check-dist-changes
+        run: git diff --quiet HEAD ${{ github.event.before }} -- ./dist || echo "dist_changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Commit dist and types if dist changed
-        if: $dist_changed == 'true'
+      - name: Commit dist and types if changed
+        if: steps.check-dist-changes.outputs.dist_changed == 'true'
         run: |
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "eds-editorial-ci@diva-e.com"
