@@ -1,11 +1,12 @@
-import { isSidekickLibraryActive } from '../sidekickHelpers/isSidekickLibraryActive';
+import { isSidekickLibraryActive } from 'Helpers/sidekick/isSidekickLibraryActive';
 import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 import { config } from '../../config.ts';
-import { getLocation } from '../sidekickHelpers/getLocation.ts';
 import { getUrlForEndpoint } from '../app/utils/getUrlForEndpoint.ts';
+import { DebuggerService } from '@kluntje/services';
+import { getLocation } from 'Helpers/sidekick/getLocation.ts';
 
 type BlockMapping = {
   name: string;
@@ -42,19 +43,19 @@ export class MainService {
    * Setup block utils.
    */
   private setup() {
-    // window.hlx = window.hlx || {};
-    // window.hlx.RUM_MASK_URL = 'full';
-    // window.hlx.codeBasePath = '';
-    // window.hlx.lighthouse = new URLSearchParams(getLocation().search).get('lighthouse') === 'on';
-    // const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
-    // if (scriptEl) {
-    //   try {
-    //     [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
-    //   } catch (error) {
-    //     // eslint-disable-next-line no-console
-    //     console.log(error);
-    //   }
-    // }
+    window.hlx = window.hlx || {};
+    window.hlx.RUM_MASK_URL = 'full';
+    window.hlx.codeBasePath = '';
+    window.hlx.lighthouse = new URLSearchParams(getLocation().search).get('lighthouse') === 'on';
+
+    const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]') as HTMLScriptElement;
+    if (scriptEl) {
+      try {
+        [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
+      } catch (error) {
+        DebuggerService.error('MainService: Error initializing codeBasePath.', error);
+      }
+    }
   }
 
   private loadEager = async () => {
@@ -112,7 +113,7 @@ export class MainService {
       if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
     } catch (error) {
-      console.error('Load lazy error: ', error);
+      DebuggerService.error('MainService: Load lazy error: ', error);
     }
   };
 
@@ -178,7 +179,7 @@ export class MainService {
         block.element.dataset.blockStatus = Status.loaded;
       } catch (error) {
         block.element.dataset.blockStatus = Status.error;
-        console.error('An error occurred during module import:', error);
+        DebuggerService.error('MainService: An error occurred during module import:', error);
       }
     }
   }
@@ -187,7 +188,7 @@ export class MainService {
     try {
       await this.loadCSS(`dist/${block.name}/${block.name}.css`);
     } catch (error) {
-      console.error(`problem with block '${block.name}' loading styles`);
+      //do nothing
     }
   }
 

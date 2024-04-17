@@ -1,9 +1,12 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
-import { SheetsResponse, SiteMapEntry } from '../../shared.types';
-import FetchService from '../../services/fetch.service.ts';
+import FetchService from 'Services/fetch.service.ts';
 import { renderIcon } from '../icon/icon.template.ts';
+import { DebuggerService } from '@kluntje/services';
+import PlaceholderService from 'Services/placeholder.service.ts';
+import { SiteMapEntry } from 'Types/siteMap.types.ts';
+import { SheetsResponse } from 'Types/sheetResponse.types.ts';
 
 interface SubMenuItem {
   path: string;
@@ -12,6 +15,7 @@ interface SubMenuItem {
 
 interface MenuItem {
   path: string;
+  error?: string;
   navtitle: string;
   children?: SubMenuItem[];
 }
@@ -21,6 +25,9 @@ export class SidebarNav extends LitElement {
   @state()
   items: MenuItem[];
 
+  @state()
+  error: string | null = null;
+
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
@@ -29,13 +36,22 @@ export class SidebarNav extends LitElement {
     this.items = await this.groupByFirstLevelPath();
   }
 
+  async getPlaceholder(key: string): Promise<any> {
+    const placeholder = await PlaceholderService.getPlaceHolder(key);
+    return placeholder;
+  }
+
   render() {
+    if (this.error) {
+      return html`<div class="error">${this.error}</div>`;
+    }
     if (!this.items) return;
+
     return html` <nav id="menu">
       <header class="major">
         <h2>Menu</h2>
       </header>
-      ${this.renderMenuItems()}
+      ${this.items.length === 0 ? this.getPlaceholder('no menu items') : this.renderMenuItems()}
     </nav>`;
   }
 
@@ -55,9 +71,13 @@ export class SidebarNav extends LitElement {
   }
 
   private renderMenuItem(item: MenuItem) {
-    return html` <li>
-      ${item.children !== undefined ? this.renderSubMenu(item) : html`<a href="${item.path}">${item.navtitle}</a>`}
-    </li>`;
+    if (item.error) {
+      return html`<p>${item.error}</p>`;
+    } else {
+      return html` <li>
+        ${item.children !== undefined ? this.renderSubMenu(item) : html`<a href="${item.path}">${item.navtitle}</a>`}
+      </li>`;
+    }
   }
 
   private renderMenuItems() {
@@ -66,13 +86,13 @@ export class SidebarNav extends LitElement {
     </ul>`;
   }
 
-  private getSubmenuName = (entry: SiteMapEntry) => {
+  private getSubmenuName = (entry: MenuItem) => {
     return entry.path.split('/')[1];
   };
 
-  private getNavTitle(item: SiteMapEntry) {
+  private getNavTitle(item: MenuItem | SiteMapEntry) {
     if (item.path === '/') return 'Homepage';
-    return item.navtitle || item.title;
+    return item['navtitle'] || item['title'];
   }
 
   private filterNavigation(queryIndex: SiteMapEntry[], filterValues: string[]): MenuItem[] {
@@ -84,9 +104,9 @@ export class SidebarNav extends LitElement {
       }));
   }
 
-  private groupItemsByFirstLevelPath(queryIndex: SiteMapEntry[]): Record<string, SiteMapEntry[]> {
+  private groupItemsByFirstLevelPath(siteMapEntries: MenuItem[]): Record<string, SiteMapEntry[]> {
     const groups = {};
-    queryIndex.forEach((item) => {
+    siteMapEntries.forEach((item) => {
       const firstLevelPath = this.getSubmenuName(item); // Extracting the first level of the path
       if (!groups[firstLevelPath]) {
         groups[firstLevelPath] = [];
@@ -99,29 +119,34 @@ export class SidebarNav extends LitElement {
     return groups;
   }
 
-  groupByFirstLevelPath = async () => {
-    let queryIndex: SheetsResponse = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
+  private async groupByFirstLevelPath() {
+    const endpoint = '/query-index.json';
     const filterValues: string[] = ['sidekick', 'sidekick-library', 'tools', 'development', 'dev-', '__'];
 
-    // filtering out all entries from blacklist from navigation
-    const filteredNavigation = this.filterNavigation(queryIndex.data, filterValues);
+    try {
+      const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>(endpoint);
 
-    queryIndex.data = filteredNavigation as SiteMapEntry[];
+      this.error = null;
 
-    const groupItems = this.groupItemsByFirstLevelPath(queryIndex.data);
+      const filteredNavigation = this.filterNavigation(queryIndex.data, filterValues);
+      const groupItems = this.groupItemsByFirstLevelPath(filteredNavigation);
+      const groupedData = Object.values(groupItems);
 
-    const groupedData = Object.values(groupItems);
+      return groupedData.map((group: MenuItem[]) => {
+        if (group.length === 1) {
+          return group[0];
+        }
 
-    return groupedData.map((group: MenuItem[]) => {
-      if (group.length === 1) {
-        return group[0];
-      }
-
-      return {
-        navtitle: group[0].path.split('/')[1],
-        path: group[0].path,
-        children: group,
-      };
-    });
-  };
+        return {
+          navtitle: group[0].path.split('/')[1],
+          path: group[0].path,
+          children: group,
+        };
+      });
+    } catch (error) {
+      DebuggerService.error(`SidebarNav Component: Error while fetching ${endpoint}`, error);
+      this.error = await PlaceholderService.getPlaceHolder('error');
+      return [];
+    }
+  }
 }

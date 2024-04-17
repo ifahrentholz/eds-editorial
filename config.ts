@@ -12,8 +12,8 @@ export const config: Config = {
   mainTsPath: './src/main.ts',
   mainScssPath: './src/styles/sass/main.scss',
   iconsDirPath: './public/icons',
-  iconsTypesPath: './src/icons.types.ts',
-  fontsScssPath: './src/styles/sass/fonts.scss',
-  lazyStylesScssPath: './src/styles/sass/lazy-styles.scss',
-  sidekickLibraryStylesScssPath: './src/styles/sass/sidekick-library-styles.scss',
+  iconsTypesPath: './src/types/icons.types.ts',
+  fontsScssPath: 'src/styles/sass/fonts.scss',
+  lazyStylesScssPath: 'src/styles/sass/lazy-styles.scss',
+  sidekickLibraryStylesScssPath: 'src/styles/sass/sidekick-library-styles.scss',
 };
