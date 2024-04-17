@@ -79,30 +79,27 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Setup git user
-        run: |
-          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-          git config --global user.email "eds-editorial-ci@diva-e.com"
-
-      - name: Add dist and types
-        run: |
-          git add -f ./dist
-          git add -f ./types
-
       - name: Check if dist directory has changed
         id: check-dist-changes
         run: |          
           before_commit="${{ github.event.before }}"
           
-          if git diff --exit-code; then
+          if git diff --no-ignore --exit-code; then
             echo "dist_changed=false" >> "$GITHUB_ENV"
             echo "No changes detected in the dist directory."
           else
             echo "dist_changed=true" >> "$GITHUB_ENV"
           fi
 
+      - name: Setup git user
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "eds-editorial-ci@diva-e.com"    
+
       - name: Commit dist and/or types if changed
         if: steps.check-dist-changes.outputs.dist_changed == 'true'
         run: |
+          git add -f ./dist
+          git add -f ./types
           git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
           git push
