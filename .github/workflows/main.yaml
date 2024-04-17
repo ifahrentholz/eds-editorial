@@ -93,8 +93,9 @@ jobs:
         id: check-dist-changes
         run: |          
           before_commit="${{ github.event.before }}"
-        
-          if git diff --quiet HEAD "$before_commit" -- ./dist; then
+          
+          if git diff --exit-code; then
+            echo "dist_changed=false" >> "$GITHUB_ENV"
             echo "No changes detected in the dist directory."
           else
             echo "dist_changed=true" >> "$GITHUB_ENV"
