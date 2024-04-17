@@ -1,9 +1,11 @@
 import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { replaceBySpecifier } from '../utils/replaceBySpecifier.ts';
+import { replaceBySpecifier } from 'Utils/replaceBySpecifier.ts';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import FetchService from '../services/fetch.service.ts';
+import FetchService from 'Services/fetch.service.ts';
 import { renderIcon } from './icon/icon.template.ts';
+import { DebuggerService } from '@kluntje/services';
+import PlaceholderService from 'Services/placeholder.service.ts';
 import { IconName } from 'Types/icons.types.ts';
 
 export interface HeaderResponseData {
@@ -40,6 +42,9 @@ export class HeaderComponent extends LitElement {
   @state()
   headerData: HeaderTemplateData;
 
+  @state()
+  error: string | null = null;
+
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
@@ -54,12 +59,17 @@ export class HeaderComponent extends LitElement {
         cacheOptions: { cacheType: 'runtime' },
       });
       this.headerData = { leftCol: response.leftCol.data[0], rightCol: response.rightCol.data };
+      this.error = null;
     } catch (error) {
-      console.error('HeaderComponent: ', error);
+      DebuggerService.error('Header Component: Error while fetching header.json', error);
+      this.error = await PlaceholderService.getPlaceHolder('error');
     }
   }
 
   render() {
+    if (this.error) {
+      return html`<div class="error">${this.error}</div>`;
+    }
     if (!this.headerData) return;
     const { leftCol, rightCol } = this.headerData;
     const logoText = replaceBySpecifier({ input: leftCol.logoText, htmlTag: 'strong', specifier: ':::' });

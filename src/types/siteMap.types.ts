@@ -10,3 +10,15 @@ export type SiteMapEntry = {
 };
 
 export type Sitemap = SiteMapEntry[];
+
+export interface SheetsResponse<T> {
+  type: string;
+  data: T[];
+  offset: number;
+  total: number;
+}
+
+export interface Placeholder {
+  Key: string;
+  Text: string;
+}
