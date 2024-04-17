@@ -25,7 +25,7 @@ docsDirectories.forEach(docsDirectory => {
     const directoryContents: string[] = [];
 
     // Get the title of the directory
-    const directoryTitle = path.dirname(docsDirectory) + '/' + path.basename(docsDirectory);;
+    const directoryTitle = path.dirname(docsDirectory) + '/' + path.basename(docsDirectory);
 
     // Create an array to hold the paths of the files
     const filePaths: string[] = [];
