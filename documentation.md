@@ -1,80 +1,16 @@
-<details><summary>src/helpers/sidekick</summary>
+# Documentation
+<details><summary>src/directives</summary>
 
-## :toolbox: Functions
+## :wrench: Constants
 
-- [isSidekickLibraryActive](#gear-issidekicklibraryactive)
-- [extractSidekickLibraryId](#gear-extractsidekicklibraryid)
-- [getHref](#gear-gethref)
-- [getLocation](#gear-getlocation)
-- [getOrigin](#gear-getorigin)
+- [getSidekickLibraryId](#gear-getsidekicklibraryid)
 
-### :gear: isSidekickLibraryActive
+### :gear: getSidekickLibraryId
 
-Verifies if the Sidekick Library Plugin is in use by checking if the page is running in an iframe with srcdoc
-and if the main element has the sidekick-library class.
-
-| Function | Type |
+| Constant | Type |
 | ---------- | ---------- |
-| `isSidekickLibraryActive` | `() => boolean` |
+| `getSidekickLibraryId` | `(sidekickElement: SidekickElement) => DirectiveResult<typeof SidekickLibraryId>` |
 
-### :gear: extractSidekickLibraryId
-
-Extracts the innerHTML, the href attribute (if defined) and
-the data-library-id attribute (if the Sidekick Library Plugin is active) of a given HTML element.
-
-| Function | Type |
-| ---------- | ---------- |
-| `extractSidekickLibraryId` | `(element?: HTMLElement or HTMLAnchorElement or null or undefined) => SidekickElement` |
-
-Parameters:
-
-* `element`: - The original HTMLElement or HTMLAnchorElement.
-
-
-### :gear: getHref
-
-Returns the true origin of the current page in the browser.
-If the page is running in an iframe with srcdoc, the ancestor origin + the path query param is returned.
-
-| Function | Type |
-| ---------- | ---------- |
-| `getHref` | `() => string` |
-
-### :gear: getLocation
-
-Returns the true origin of the current page in the browser.
-If the page is running in an iframe with srcdoc, the query param is returned.
-
-| Function | Type |
-| ---------- | ---------- |
-| `getLocation` | `() => Location` |
-
-### :gear: getOrigin
-
-Returns the true origin of the current page in the browser.
-If the page is running in an iframe with srcdoc, the ancestor origin is returned.
-
-| Function | Type |
-| ---------- | ---------- |
-| `getOrigin` | `() => string` |
-
-
-
-## :cocktail: Types
-
-- [SidekickElement](#gear-sidekickelement)
-
-### :gear: SidekickElement
-
-Represents the constructed Element.
-
-| Type | Type |
-| ---------- | ---------- |
-| `SidekickElement` | `{
-  dataLibraryId?: string;
-  innerHTML: string;
-  href?: string;
-}` |
 
 
 
@@ -259,18 +195,83 @@ Represents the arguments for creating an optimized picture element.
 
 </details>
 
-<details><summary>src/directives</summary>
+<details><summary>src/helpers/sidekick</summary>
 
-## :wrench: Constants
+## :toolbox: Functions
 
-- [getSidekickLibraryId](#gear-getsidekicklibraryid)
+- [isSidekickLibraryActive](#gear-issidekicklibraryactive)
+- [extractSidekickLibraryId](#gear-extractsidekicklibraryid)
+- [getHref](#gear-gethref)
+- [getLocation](#gear-getlocation)
+- [getOrigin](#gear-getorigin)
 
-### :gear: getSidekickLibraryId
+### :gear: isSidekickLibraryActive
 
-| Constant | Type |
+Verifies if the Sidekick Library Plugin is in use by checking if the page is running in an iframe with srcdoc
+and if the main element has the sidekick-library class.
+
+| Function | Type |
 | ---------- | ---------- |
-| `getSidekickLibraryId` | `(sidekickElement: SidekickElement) => DirectiveResult<typeof SidekickLibraryId>` |
+| `isSidekickLibraryActive` | `() => boolean` |
 
+### :gear: extractSidekickLibraryId
+
+Extracts the innerHTML, the href attribute (if defined) and
+the data-library-id attribute (if the Sidekick Library Plugin is active) of a given HTML element.
+
+| Function | Type |
+| ---------- | ---------- |
+| `extractSidekickLibraryId` | `(element?: HTMLElement or HTMLAnchorElement or null or undefined) => SidekickElement` |
+
+Parameters:
+
+* `element`: - The original HTMLElement or HTMLAnchorElement.
+
+
+### :gear: getHref
+
+Returns the true origin of the current page in the browser.
+If the page is running in an iframe with srcdoc, the ancestor origin + the path query param is returned.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getHref` | `() => string` |
+
+### :gear: getLocation
+
+Returns the true origin of the current page in the browser.
+If the page is running in an iframe with srcdoc, the query param is returned.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getLocation` | `() => Location` |
+
+### :gear: getOrigin
+
+Returns the true origin of the current page in the browser.
+If the page is running in an iframe with srcdoc, the ancestor origin is returned.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getOrigin` | `() => string` |
+
+
+
+## :cocktail: Types
+
+- [SidekickElement](#gear-sidekickelement)
+
+### :gear: SidekickElement
+
+Represents the constructed Element.
+
+| Type | Type |
+| ---------- | ---------- |
+| `SidekickElement` | `{
+  dataLibraryId?: string;
+  innerHTML: string;
+  href?: string;
+}` |
 
 
 

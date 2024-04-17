@@ -10,7 +10,7 @@ const outputFile = 'documentation.md';
 
 // If the output file already exists, clear its content
 if (fs.existsSync(outputFile)) {
-  fs.writeFileSync(outputFile, '');
+  fs.writeFileSync(outputFile, '# Documentation\n');
 }
 
 docsDirectories.forEach(docsDirectory => {
@@ -40,7 +40,6 @@ docsDirectories.forEach(docsDirectory => {
 
     // Generate the markdown for every file in the directory
     let directoryMarkdown = documentationToMarkdown({entries: directoryDocumentation, options: { emoji: undefined }});
-    // directoryMarkdown = directoryMarkdown.replace(/:.*:/g, '');
 
     // Add the wrapped markup to the array
     directoryContents.push(`<details><summary>${directoryTitle}</summary>\n\n${directoryMarkdown}\n\n</details>\n\n`);
