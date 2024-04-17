@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="/dist/styles/styles.css">
+    <link rel="stylesheet" href="../__template__/assets/css/main.css" />
+    <title>Styleguide</title>
+</head>
+<body>
+    <div class="ls-page">
+        <div class="ls-page-content">
+            <div class="ls-nav-select theme-mobile-nav">
+                <select class="form-control ">
+                    <option disabled="" selected="">Go to…</option>
+                    <optgroup label="Basics">
+                        <option value="bm-button">Button</option>
+                        <option value="colors">Colors</option>
+                        <option value="grid">Grid</option>
+                        <option value="icons">Icons</option>
+                        <option value="typography">Typography</option>
+                    </optgroup>
+                    <optgroup label="Elements">
+                        <option value="footnote">Image</option>
+                        <option value="gradient">Link</option>
+                        <option value="headline">Media</option>
+                        <option value="image">Footnote</option>
+                        <option value="link">Gradients</option>
+                    </optgroup>
+                    <optgroup label="Modules">
+                        <option value="banner">Banner</option>
+                        <option value="anchor-navigation">Features</option>
+                        <option value="animated-accordion-teaser">Posts</option>
+                        <option value="counter">Counter</option>
+                        <option value="form">Form</option>
+                        <option value="table">Table</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- Button container -->
+
+            <div class="theme-content-category">
+                <div class="i-library theme-content-element">
+                    <h1 class="display-4 theme-content-element-title">Button</h1>
+                    <div class="theme-content-element-description">
+                        <p>Button / Anchor element.</p>
+                        <p>Default button size is <strong>l</strong>.
+                            Default button type is <strong>secondary</strong>.</p>
+                        <p><strong>Button properties:</strong></p>
+                        <ul>
+                            <li><p>button-type: "primary" | "secondary"</p></li>
+                            <li><p>button-size: "s" | "l"</p></li>
+                            <li><p>button-class: string</p></li>
+                            <li><p>attributes: hash | string</p></li>
+                            <li><p>tag: "button" | "a"</p></li>
+                            <li><p>label: string</p></li>
+                        </ul>
+                        <div class="i-example">
+                            <h5 class="i-example__heading">Example</h5>
+                            <div class="i-example__body">
+                                <ul class="actions">
+                                    <li><a href="#" class="button primary">Default</a></li>
+                                    <li><a href="#" class="button">Default</a></li>
+                                </ul>
+                                <ul class="actions small">
+                                    <li><a href="#" class="button primary small">Small</a></li>
+                                    <li><a href="#" class="button small">Small</a></li>
+                                </ul>
+                                <div class="row">
+                                    <div class="col-6 col-12-small">
+                                        <ul class="actions stacked">
+                                            <li><a href="#" class="button primary">Default</a></li>
+                                            <li><a href="#" class="button">Default</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-6 col-12-small">
+                                        <ul class="actions stacked">
+                                            <li><a href="#" class="button primary small">Small</a></li>
+                                            <li><a href="#" class="button small">Small</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-6 col-12-small">
+                                        <ul class="actions stacked">
+                                            <li><a href="#" class="button primary fit">Default</a></li>
+                                            <li><a href="#" class="button fit">Default</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-6 col-12-small">
+                                        <ul class="actions stacked">
+                                            <li><a href="#" class="button primary small fit">Small</a></li>
+                                            <li><a href="#" class="button small fit">Small</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Colors container -->
+             <div class="theme-content-category">
+                <div class="i-library theme-content-element">
+                    <h1 class="display-4 theme-content-element-title">Colors</h1>
+                    <div class="theme-content-element-description">
+                        <p><strong>Colors used in this project.</strong></p>
+                        <div class="i-example">
+                            <div class ="bm-lsg-colors">
+                                <div class="bm-lsg-colors__group">
+                                    <h3 class="bm-lsg-colors__group-headline">Primary</h3>
+                                    <div class="bm-lsg-colors__colors">
+                                        <div class="bm-lsg-colors__color">
+                                        <div class="bm-lsg-colors__color-tile"  style="background: #394d45; "></div>
+                                        <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >living-green</p>
+                                        </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                        <div class="bm-lsg-colors__color-tile"  style="background: #637a77; /* --bm-primary-teal */"></div>
+                                        <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >teal</p>
+                                        </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                        <div class="bm-lsg-colors__color-tile"  style="background: #dcd8c0; /* --bm-primary-moss */"></div>
+                                        <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >moss</p>
+                                        </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                        <div class="bm-lsg-colors__color-tile" style="background: #e7cfb9; /* --bm-primary-blush */"></div>
+                                        <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >blush</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bm-lsg-colors__group">
+                                    <h3 class="bm-lsg-colors__group-headline">Neutral</h3>
+                                    <div class="bm-lsg-colors__colors">
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #fff;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >neutral-0</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #f7f7f7;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >neutral-10</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile" style="background: #ebeced;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >neutral-20</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #cfcfcf;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >neutral-30</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #a5a5a5;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >neutral-40</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #727272;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name"  >neutral-50</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #4f4f4f;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name"  >neutral-60</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile" style="background: #232323;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name"  >neutral-80</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #040404;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name"  >neutral-90</p>
+                                          </div>
+                                        </div>
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #000;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >neutral-100</p>
+                                          </div>
+                                        </div>
+                                        
+                                        <div class="bm-lsg-colors__color">
+                                          <div class="bm-lsg-colors__color-tile"  style="background: #040404;"></div>
+                                          <div class="bm-lsg-colors__color-description">
+                                            <p class="bm-lsg-colors__colors-name" >black</p>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Grid container -->
+
+
+             <div class="i-library theme-content-element">
+                <h1 class="display-4 theme-content-element-title">Grid</h1>
+                <div class="theme-content-element-description">
+                    <h3>Grid-Item-Container</h3>
+                    <p>Where <code>M</code> equals the Mediaquery/Breakpoint (ie. s - xxl) this rule is applied from and <code>W</code> equals the number of columns it will span (full width equals 12).</p>
+                    <table class="table"><thead><tr>
+                        <th><span style="color: #000;">Breakpoint</span></th>
+                        <th><span style="color: #000;">Viewport width</span></th>
+                        </tr>
+                        </thead><tbody><tr>
+                        <td>S</td>
+                        <td>0 - 767px</td>
+                        </tr>
+                        <tr>
+                        <td>M</td>
+                        <td>768px - 1023px</td>
+                        </tr>
+                        <tr>
+                        <td>L</td>
+                        <td>1024px - 1439px</td>
+                        </tr>
+                        <tr>
+                        <td>XL</td>
+                        <td>1440px - 1919px</td>
+                        </tr>
+                        <tr>
+                        <td>XLL</td>
+                        <td>1920px - 2559px</td>
+                        </tr>
+                        <tr>
+                        <td>MAX</td>
+                        <td>2560px and up</td>
+                        </tr>
+                        </tbody></table>
+                  
+                    </div>
+                </div>
+
+                  <!-- Icons container -->
+
+                  <div class="i-library theme-content-element">
+                    <h1 class="display-4 theme-content-element-title">Icons</h1>
+                    <div class="theme-content-element-description">
+                        <p><strong>This is a list of all icons used in project.</strong></p>
+                        <h2>Usage</h2>
+                        <div class="i-example">
+                            <h5 class="i-example__heading">Example</h5>
+                            <div class="i-example__body">
+                        <div class="bm-lsg-icon__container">
+
+                            <div class="bm-lsg-icon">
+                                <i href="#" class="icon brands fa-twitter "></i>
+                                <span class="">Twitter</span>
+                            </div>
+                            <div class="bm-lsg-icon">
+                                <i href="#" class="icon brands fa-facebook-f "></i>
+                                <span class="">Facebook</span>
+                            </div>
+                            <div class="bm-lsg-icon">
+                                <i href="#"  class="icon brands fa-instagram "></i>
+                                <span class="label">Instagram</span>
+                            </div>
+                            <div class="bm-lsg-icon">
+                                <i href="#" class="icon brands fa-github "></i>
+                                <span class="label">Github</span>
+                            </div>
+                            <div class="bm-lsg-icon">
+                                <i href="#" class="icon brands fa-dribbble "></i>
+                                <span class="label">Dribbble</span>
+                            </div>
+                            <div class="bm-lsg-icon">
+                                <i href="#" class="icon brands fa-tumblr "></i>
+                                <span class="label">Tumblr</span>
+                            </div>
+                        </ul>
+                            </div>
+                        </div>
+                      
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,63 +3,7 @@ body {
     flex-direction: column !important;
 }
 
-.i-page {
-    margin-left: 20%;
-    padding-top: 1px;
-}
-
-@media (max-width: 1024px) {
-    .i-page {
-        margin-left: 0;
-    }
-}
-
-.i-page-content {
-    margin: 16px 8px;
-    border-radius: 10px;
-    border-bottom: none;
-}
-
-.i-nav-select {
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    width: 100%;
-    min-height: 60px;
-    margin: 0;
-    padding: 10px 20px;
-    padding-right: 145px;
-    background: #F2F2F3;
-}
-
-.form-control {
-    cursor: pointer;
-    width: 100%;
-    padding: .5rem .75rem;
-    line-height: 1.25;
-    color: #495057;
-    background-image: none;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: .25rem;
-
-}
-
-.theme-mobile-nav {
-    display: none;
-}
-
-@media (max-width: 1024px) {
-    .theme-mobile-nav {
-        display: block;
-    }
-}
-
-.i-block {
-    padding: 20px;
-}
-
-.i-page__sidebar {
+.ls-page__sidebar {
     display: flex;
     flex-direction: column;
     align-content: flex-start;
@@ -77,20 +21,20 @@ body {
 }
 
 @media (max-width: 1024px) {
-    .i-page__sidebar {
+    .ls-page__sidebar {
         display: none;
     }
 }
 
-.i-page__sidebar > * {
+.ls-page__sidebar > * {
     padding: 0 20px;
 }
 
-.i-search-input {
+.ls-search-input {
     position: relative;
 }
 
-.i-search-input input {
+.ls-search-input input {
     height: 2.3em;
     padding-left: 68px;
     font-size: 18px;
@@ -113,21 +57,6 @@ body {
     width: 16px;
 }
 
-.default-banner{
-    margin: 16px 8px;
-    border-radius: 10px;
-    border-bottom: none;
-}
-.theme-content-category {
-    background:#F2F2F3;
-}
-
-@media (max-width: 1024px) {
-    .theme-content-category  {
-        margin-top: 62px; 
-    }
-}
-
 .theme-sidebar-category-title {
     color: #353535;
     font-size: 20px;
@@ -136,17 +65,17 @@ body {
     margin-bottom: 0.25rem !important;
 }
 
-.i-sidebar-list-item {
+.ls-sidebar-list-item {
     display: block;
 }
 
-.i-sidebar-element {
+.ls-sidebar-element {
     font-size: 17px;
     cursor: pointer;
     opacity: 0.7;
 }
 
-.i-sidebar-element:hover {
+.ls-sidebar-element:hover {
     text-decoration: underline;
     font-size: 18px;
     transition: 0.5s;
