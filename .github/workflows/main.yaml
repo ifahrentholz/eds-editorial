@@ -8,10 +8,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js version from .nvmrc
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -21,11 +21,12 @@ jobs:
           restore-keys: ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline
 
   lint:
     runs-on: ubuntu-latest
-    needs: install-and-cache-deps
+    needs:
+      - install-and-cache-deps
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -48,7 +49,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: [lint, test, install-and-cache-deps]
+    needs:
+      - lint
+      - test
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,7 +61,8 @@ jobs:
 
   commit-dist:
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+      - build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
