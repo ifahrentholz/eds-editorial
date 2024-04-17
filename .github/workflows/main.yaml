@@ -66,6 +66,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Cache NPM dependencies
         uses: actions/cache@v4
@@ -91,15 +93,11 @@ jobs:
         id: check-dist-changes
         run: |          
           before_commit="${{ github.event.before }}"
-          
-          if git rev-parse --verify "$before_commit"; then
-            if git diff --quiet HEAD "$before_commit" -- ./dist; then
-              echo "No changes detected in the dist directory."
-            else
-              echo "dist_changed=true" >> "$GITHUB_ENV"
-            fi
+        
+          if git diff --quiet HEAD "$before_commit" -- ./dist; then
+            echo "No changes detected in the dist directory."
           else
-            echo "Invalid commit SHA: $before_commit"
+            echo "dist_changed=true" >> "$GITHUB_ENV"
           fi
 
       - name: Commit dist and/or types if changed
