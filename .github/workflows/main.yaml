@@ -86,6 +86,7 @@ jobs:
 
       - name: Add dist
         run: |
+          pwd
           git add -f ./dist
 
       - name: Check if dist directory has changed
