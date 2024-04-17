@@ -88,7 +88,7 @@ jobs:
 
           if [ $? -ne 0 ]; then
             echo "Could not check diffs from the last commit"
-            echo "This cloud be caused by initial commit on this branch.
+            echo "This cloud be caused by initial commit on this branch."
           fi
 
       - name: Commit dist and types if changed
