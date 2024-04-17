@@ -79,27 +79,29 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Check if dist directory has changed
-        id: check-dist-changes
-        run: |          
-          before_commit="${{ github.event.before }}"
-          
-          if git diff --no-ignore --exit-code; then
-            echo "dist_changed=false" >> "$GITHUB_ENV"
-            echo "No changes detected in the dist directory."
-          else
-            echo "dist_changed=true" >> "$GITHUB_ENV"
-          fi
-
       - name: Setup git user
         run: |
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "eds-editorial-ci@diva-e.com"    
 
-      - name: Commit dist and/or types if changed
-        if: steps.check-dist-changes.outputs.dist_changed == 'true'
+      - name: Add dist
         run: |
           git add -f ./dist
-          git add -f ./types
+
+      - name: Check if dist directory has changed
+        id: check-dist-changes
+        run: |          
+          before_commit="${{ github.event.before }}"
+          
+          if git diff --quiet HEAD "$before_commit" -- ./dist; then
+            echo "No changes detected in the dist directory."
+          else
+            echo "dist_changed=true" >> "$GITHUB_ENV"
+          fi
+
+
+      - name: Commit and push dist
+        if: steps.check-dist-changes.outputs.dist_changed == 'true'
+        run: |
           git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
           git push
