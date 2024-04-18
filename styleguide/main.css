@@ -189,24 +189,6 @@
 
 /* typography */
 
-.stl-hero {
-    font-size: 80px;
-}
-
-.stl-hero {
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 120%;
-    text-transform: uppercase;
-}
-
-.stl-h1--light, .stl-h1--upper-light {
-    font-weight: 300;
-    font-style: normal;
-    line-height: 120%;
-}
-
-.stl-h1--semibold {
+.stl--bold {
     font-weight: 600;
 }
