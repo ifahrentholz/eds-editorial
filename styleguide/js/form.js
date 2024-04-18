@@ -2,11 +2,11 @@ import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
 export const formTemplate = () => {
   return html`
-    <div class="i-library theme-content-element" id="form">
-      <h1 class="display-4 theme-content-element-title">Form</h1>
+    <div class="ls-library theme-content-element" id="form">
+      <h1>Form</h1>
       <div class="theme-content-element-description">
-        <div class="i-example">
-          <h5 class="i-example__heading">Example</h5>
+        <div class="ls-example">
+          <h5 class="ls-example__heading">Example</h5>
           <div class="section form-container" data-section-status="initialized">
             <div class="form-wrapper" style="padding: 20px;">
               <div class="form block" data-block-name="form" data-block-status="loaded" style="display: block;">

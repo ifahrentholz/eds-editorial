@@ -2,12 +2,12 @@ import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
 export const tableTemplate = () => {
   return html`
-    <div class="i-library theme-content-element" id="table">
-      <h1 class="display-4 theme-content-element-title">Table</h1>
+    <div class="ls-library theme-content-element" id="table">
+      <h1>Table</h1>
       <div class="theme-content-element-description">
-        <div class="i-example">
-          <h5 class="i-example__heading">Example</h5>
-          <div class="i-example__body">
+        <div class="ls-example">
+          <h5 class="ls-example__heading">Example</h5>
+          <div class="ls-example__body">
             <div class="table-wrapper">
               <div class="table block" data-block-name="table" data-block-status="loaded">
                 <!---->

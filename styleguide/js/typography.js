@@ -2,19 +2,19 @@ import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
 export const typographyTemplate = () => {
   return html`
-    <div class="i-library theme-content-element" id="typography">
-      <h1 class="display-4 theme-content-element-title">Typography</h1>
+    <div class="ls-library theme-content-element" id="typography">
+      <h1>Typography</h1>
       <div class="theme-content-element-description">
-        <div class="i-example">
-          <h5 class="i-example__heading">Example</h5>
-          <div class="i-example__body">
+        <div class="ls-example">
+          <h5 class="ls-example__heading">Example</h5>
+          <div class="ls-example__body">
             <p>Link Text</p>
           </div>
         </div>
         <h2>STL Typography</h2>
-        <div class="i-example">
-          <h5 class="i-example__heading">Example</h5>
-          <div class="i-example__body">
+        <div class="ls-example">
+          <h5 class="ls-example__heading">Example</h5>
+          <div class="ls-example__body">
             <h1 class="stl-hero">HERO</h1>
             <h1 class="stl-h1--light">H1 light</h1>
             <h1 class="stl-h1--semibold">H1 semibold</h1>

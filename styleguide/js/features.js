@@ -2,12 +2,12 @@ import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
 export const featuresTemplate = () => {
   return html`
-    <div class="i-library theme-content-element" id="features">
-      <h1 class="display-4 theme-content-element-title">Features</h1>
+    <div class="ls-library theme-content-element" id="features">
+      <h1>Features</h1>
       <div class="theme-content-element-description">
-        <div class="i-example">
-          <h5 class="i-example__heading">Example</h5>
-          <div class="i-example__body">
+        <div class="ls-example">
+          <h5 class="ls-example__heading">Example</h5>
+          <div class="ls-example__body">
             <div class="section features-container" data-section-status="initialized" style="">
               <div class="default-content-wrapper"><h2 id="erat-lacinia">Erat lacinia</h2></div>
               <div class="features-wrapper">
