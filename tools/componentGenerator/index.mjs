@@ -1,4 +1,3 @@
-'use strict';
 import { program, Option } from 'commander';
 import path from 'node:path';
 import chalk from 'chalk';
