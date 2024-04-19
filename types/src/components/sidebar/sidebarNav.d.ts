@@ -24,10 +24,6 @@ export declare class SidebarNav extends LitElement {
     private getNavTitle;
     private filterNavigation;
     private groupItemsByFirstLevelPath;
-<<<<<<<< HEAD:types/components/sidebar/sidebarNav.d.ts
-    groupByFirstLevelPath: () => Promise<MenuItem[]>;
-========
     private groupByFirstLevelPath;
->>>>>>>> origin/develop:types/src/components/sidebar/sidebarNav.d.ts
 }
 export {};
