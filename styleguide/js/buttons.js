@@ -2,7 +2,7 @@ import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
 export const template = () => {
   return html`
-    <div class="theme-content-element-description">
+
       <p>Button / Anchor element.</p>
       <p>Default button size is <strong>l</strong>. Default button type is <strong>secondary</strong>.</p>
       <p><strong>Button properties:</strong></p>
@@ -14,9 +14,6 @@ export const template = () => {
         <li><p>tag: "button" | "a"</p></li>
         <li><p>label: string</p></li>
       </ul>
-      <div class="ls-example">
-        <h5 class="ls-example__heading">Example</h5>
-        <div class="ls-example__body">
           <ul class="actions">
             <li><a href="#" class="button primary">Default</a></li>
             <li><a href="#" class="button">Default</a></li>
@@ -52,7 +49,5 @@ export const template = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
   `;
 };

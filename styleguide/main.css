@@ -14,6 +14,7 @@
     margin: 16px 8px;
     border-radius: 10px;
     border-bottom: none;
+    max-height: 100vh;
 }
 
 .ls-nav-select {
@@ -74,11 +75,6 @@
     .theme-content-category  {
         margin-top: 62px; 
     }
-}
-
-.theme-content-element-description {
-    position: relative;
-    margin-top: 32px;
 }
 
 .ls-example {
@@ -191,4 +187,9 @@
 
 .stl--bold {
     font-weight: 600;
+}
+
+.iframe-container {
+    width: 100%;
+    min-height: 100vh;
 }
