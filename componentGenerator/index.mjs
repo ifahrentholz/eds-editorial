@@ -69,7 +69,6 @@ async function getConfig(configPath) {
  */
 async function enquiry(prompts, cliOptions = {}) {
   const answers = await inquirer.prompt(prompts, cliOptions);
-
   return answers;
 }
 
