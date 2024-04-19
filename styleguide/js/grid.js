@@ -1,9 +1,8 @@
 import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
-export const gridTemplate = () => {
+export const template = () => {
   return html`
     <div class="ls-library theme-content-element" id="grid">
-      <h1>Grid</h1>
       <div class="theme-content-element-description">
         <h3>Grid-Item-Container</h3>
         <p>
