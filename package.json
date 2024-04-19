@@ -13,6 +13,7 @@
     "lint:css:fix": "stylelint --fix src/**/*.scss",
     "lint": "npm run lint:js",
     "lint:fix": "npm run lint:js",
+    "new": "node componentGenerator/index.mjs",
     "start": "npm-run-all --parallel build:watch aemUp",
     "tsc:watch": "tsc -w",
     "vite": "vite",
@@ -67,7 +68,12 @@
   "dependencies": {
     "@kluntje/js-utils": "0.7.2",
     "@kluntje/services": "^0.6.6",
-    "lit": "3.1.1"
+    "lit": "3.1.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "figlet": "^1.7.0",
+    "inquirer": "^9.2.19",
+    "mkdirp": "^3.0.1"
   },
   "engines": {
     "node": ">=18",
