@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const COMPONENTS_DIR = 'src/components';
 const BLOCKS_DIR = 'src/blocks';
-const TEMPLATES_DIR = 'componentGenerator/templates';
+const TEMPLATES_DIR = 'tools/componentGenerator/templates';
 
 const COMPONENT_TYPES = {
   BLOCK: 'Block',

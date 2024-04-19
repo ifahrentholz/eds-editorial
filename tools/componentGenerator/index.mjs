@@ -6,7 +6,7 @@ import figlet from 'figlet';
 import inquirer from 'inquirer';
 import generateFiles from './generateFiles.mjs';
 
-const DEFAULT_CREATE_COMPONENT_CONFIG = 'componentGenerator/config.mjs';
+const DEFAULT_CREATE_COMPONENT_CONFIG = 'tools/componentGenerator/config.mjs';
 
 program
   .addOption(
