@@ -2,11 +2,10 @@
 coverage/*
 logs/*
 node_modules/*
-dist/*
-types/*
 
 helix-importer-ui
 .DS_Store
 *.bak
 .idea
+
 
