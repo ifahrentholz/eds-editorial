@@ -1,5 +1,9 @@
 import { LitElement, PropertyValueMap } from 'lit';
+<<<<<<<< HEAD:types/components/header.d.ts
 import { IconName } from '../icons.types.ts';
+========
+import { IconName } from 'Types/icons.types.ts';
+>>>>>>>> origin/develop:types/src/components/header.d.ts
 export interface HeaderResponseData {
     leftCol: LeftCol;
     rightCol: RightCol;
@@ -25,6 +29,7 @@ interface HeaderTemplateData {
 }
 export declare class HeaderComponent extends LitElement {
     headerData: HeaderTemplateData;
+    error: string | null;
     protected createRenderRoot(): HTMLElement | DocumentFragment;
     protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): Promise<void>;
     fetchHeaderData(): Promise<void>;
