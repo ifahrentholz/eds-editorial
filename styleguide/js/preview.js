@@ -15,8 +15,15 @@ import { tableTemplate } from './table.js';
 import { bannersTemplate } from './banners.js';
 import { navTemplate } from './nav.js';
 
+const getTemplate = () => {
+  const url = new URLSearchParams(window.origin);
+  const template = url.get('template');
+  return template;
+};
+
 const appTemplate = () => {
-  return html` ${footnoteTemplate()}`;
+  const componentTemplate = getTemplate();
+  return componentTemplate;
 };
 
 const app = document.getElementById('app');
