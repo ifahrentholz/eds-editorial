@@ -6,8 +6,7 @@ export const previewTemplate = (title, previewUrl) => {
       <h1>${title}</h1>
       <div class="theme-content-element-description">
         <div class="ls-example">
-          <h5 class="ls-example__heading">Example</h5>
-          <a href="${previewUrl}">preview</a>
+          <a class="ls-example__heading" href="${previewUrl}">Example</a>
           <div class="ls-example__body">
             <iframe src="${previewUrl}" frameborder="0"></iframe>
           </div>

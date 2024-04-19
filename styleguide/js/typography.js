@@ -1,6 +1,6 @@
 import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
-export const typographyTemplate = () => {
+export const template = () => {
   return html`
     <div class="ls-library theme-content-element" id="typography">
       <h1>Typography</h1>

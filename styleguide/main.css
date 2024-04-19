@@ -91,7 +91,7 @@
     padding: 12px 4px;
     color: #353535;
     margin: 0;
-    font-size: 0.8em;
+    border-bottom: none;
     font-weight: 500;
     text-transform: uppercase;
 }

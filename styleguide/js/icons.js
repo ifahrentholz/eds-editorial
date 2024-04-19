@@ -1,6 +1,6 @@
 import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
-export const iconsTemplate = () => {
+export const template = () => {
   return html`
     <div class="ls-library theme-content-element" id="icons">
       <h1>Icons</h1>
