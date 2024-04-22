@@ -1,3 +1,6 @@
+import { addClasses } from '../../utils/addClasses';
+import { getMetadata } from '../../utils/getMetadata';
+
 /**
  * Decorates the template and theme by adding classes to the body.
  * The classes are defined in the meta tags of the document.
@@ -9,4 +12,9 @@
  * @example
  * <body class="template-name theme-name">
  */
-export declare function decorateTemplateAndTheme(): void;
+export function decorateTemplateAndTheme() {
+  const template = getMetadata('template');
+  if (template) addClasses(document.body, template);
+  const theme = getMetadata('theme');
+  if (theme) addClasses(document.body, theme);
+}

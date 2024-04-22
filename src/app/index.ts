@@ -1,5 +1,6 @@
 import setupHlxObj from './tasks/setupHlxObj';
-import { decorateBodyTag } from './tasks/decorateBodyTag';
+import { decorateTemplateAndTheme } from './tasks/decorateTemplateAndTheme';
+import { decorateButtons } from './tasks/decorateButtons';
 import { setDocLanguage } from './tasks/setDocLanguage';
 
 class HLX {
@@ -123,9 +124,11 @@ class HLX {
     console.log(new Date().getTime(), 'loadEager');
 
     const defaultTask: Promise<void> = new Promise((resolve) => {
+      const main = document.querySelector('main');
       setupHlxObj();
-      decorateBodyTag();
+      decorateTemplateAndTheme();
       setDocLanguage();
+      decorateButtons(main);
       setTimeout(() => {
         resolve();
       }, 4500);
