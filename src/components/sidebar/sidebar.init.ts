@@ -15,6 +15,6 @@ const addSidebarContainer = () => {
 
 HLX.addLoadEagerTask(() => {
   addSidebarContainer();
-  console.log('BEFORE EAGER SIDEBAR TS');
+  console.log('LOAD EAGER SIDEBAR TS');
   return Promise.resolve();
 });

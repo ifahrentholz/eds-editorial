@@ -2,7 +2,13 @@ import { DebuggerService } from '@kluntje/services';
 import { BlockMapping } from '../app.types';
 import { getUrlForEndpoint } from '../utils/getUrlForEndpoint';
 
-export async function loadBlockModules(block: BlockMapping) {
+/*
+ * Load the es module for the block. The module should be named as the block name.
+ * @param block - The block to load the module for.
+ * @returns Promise<void>
+ */
+
+export async function loadBlockModules(block: BlockMapping): Promise<void> {
   const status = block.element.dataset.blockStatus ?? 'unloaded';
 
   if (status === 'unloaded') {

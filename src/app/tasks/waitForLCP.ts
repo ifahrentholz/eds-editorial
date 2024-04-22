@@ -5,6 +5,11 @@ import { config } from '../../../config';
 import { showSection } from './showSection';
 import { LcpCandidate } from '../app.types';
 
+/**
+ * Wait for the Largest Contentful Paint (LCP) candidate to be loaded.
+ * This function will load the modules and styles for the first section after the LCP candidate.
+ * @returns Promise<void>
+ */
 export async function waitForLCP() {
   const firstSection: HTMLElement | null = document.querySelector('.section');
   const { lcpBlocks } = config;

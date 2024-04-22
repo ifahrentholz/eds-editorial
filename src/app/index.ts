@@ -110,29 +110,25 @@ class HLX {
   }
 
   private async beforeLoadEager(): Promise<void> {
-    const dummyDelay: Promise<void> = new Promise((resolve) => {
-      // Business Logic
-      // Resolve
-      setTimeout(() => {
-        console.log(new Date().getTime(), 'beforeLoadEager');
-        resolve();
-      }, 5000);
+    const beforeLoadEagerTask: Promise<void> = new Promise((resolve) => {
+      setupHlxObj();
+      decorateTemplateAndTheme();
+      setDocLanguage();
+      resolve();
     });
 
-    await Promise.all([...this.beforeEagerCallbacks.map((cb) => cb()), dummyDelay]);
+    await Promise.all([...this.beforeEagerCallbacks.map((cb) => cb()), beforeLoadEagerTask]);
   }
 
   private async loadEagerPromise(): Promise<void> {
     const loadEagerTask: Promise<void> = new Promise(async (resolve) => {
       const main = document.querySelector('main');
-      setupHlxObj();
-      decorateTemplateAndTheme();
-      setDocLanguage();
       decorateButtons(main);
       setTimeout(() => {
         document.body.classList.add('show');
         resolve();
       }, 100);
+
       await waitForLCP();
 
       try {
@@ -149,15 +145,9 @@ class HLX {
   }
 
   private async beforeLoadLazyPromise(): Promise<void> {
-    const defaultTask: Promise<void> = new Promise((resolve) => {
-      // Business Logic
-      // Resolve
-      setTimeout(() => {
-        resolve();
-      }, 4000);
-    });
+    const beforeLoadLazyTask: Promise<void> = new Promise((resolve) => resolve());
 
-    await Promise.all([...this.beforeLoadLazyCallbacks.map((cb) => cb()), defaultTask]);
+    await Promise.all([...this.beforeLoadLazyCallbacks.map((cb) => cb()), beforeLoadLazyTask]);
   }
 
   private async loadLazyPromise(): Promise<void> {

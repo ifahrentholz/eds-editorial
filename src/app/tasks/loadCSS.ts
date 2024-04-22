@@ -1,5 +1,10 @@
 import { getUrlForEndpoint } from '../utils/getUrlForEndpoint';
 
+/**
+ * Load a CSS file if it is not already loaded append it to the head.
+ * @param endpoint - The endpoint of the CSS file.
+ * @returns Promise<boolean>
+ */
 export async function loadCSS(endpoint: string) {
   return new Promise((resolve, reject) => {
     const { href } = getUrlForEndpoint(endpoint);
