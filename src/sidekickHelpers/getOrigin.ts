@@ -1,3 +1,5 @@
+import { isSidekickLibraryActive } from './isSidekickLibraryActive';
+
 /**
  * Returns the true origin of the current page in the browser.
  * If the page is running in an iframe with srcdoc, the ancestor origin is returned.
@@ -9,4 +11,6 @@
  * @remarks
  * Needs to be used when the Sidekick Library Plugin is in use.
  */
-export declare function getOrigin(): string;
+export function getOrigin(): string {
+  return isSidekickLibraryActive() ? window.parent.location.origin : window.location.origin;
+}
