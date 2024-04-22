@@ -1,5 +1,5 @@
-import { getMetadata } from '../utils/getMetadata';
-import { undefinedOnEmpty } from '../utils/undefinedOnEmpty';
+import { getMetadata } from '../../utils/getMetadata';
+import { undefinedOnEmpty } from '../../utils/undefinedOnEmpty';
 
 /*
  * This function sets the language of the document

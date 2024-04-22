@@ -1,6 +1,6 @@
 // const LCP_BLOCKS: string[] = []; // add your LCP blocks to the list
 
-import './components/sidebar/sidebar.ts';
+import './components/sidebar/sidebar.init.ts';
 import './components/header.ts';
 import './components/icon/icon.ts';
 import { BlockService } from './services/block.service.ts';
@@ -48,41 +48,53 @@ import HLX from './app/index.ts';
 
 // export const App = HLX; // init -> loadEager (3s)
 
-HLX.initialized().then(() => {
-  console.log('INITIALIZED');
+// HLX.initialized().then(() => {
+//   console.log('INITIALIZED');
+// });
+
+// HLX.loadDelayed().then(() => {
+//   console.log('LOAD DELAYED 2');
+// });
+
+// HLX.loadDelayed().then(() => {
+//   console.log('LOAD DELAYED 3');
+// });
+
+// HLX.loadDelayed().then(() => {
+//   console.log('LOAD DELAYED 1');
+// });
+
+// HLX.beforeLoadEager().then(() => {
+//   console.log('BEFORE LOAD EAGER');
+// });
+
+HLX.addBeforeEagerTask(() => {
+  console.log('BEFORE EAGER MAIN TS');
+  return Promise.resolve();
 });
 
-HLX.loadDelayed().then(() => {
-  console.log('LOAD DELAYED 2');
+HLX.addLoadEagerTask(() => {
+  console.log('LOAD EAGER MAIN TS');
+  return Promise.resolve();
 });
 
-HLX.loadDelayed().then(() => {
-  console.log('LOAD DELAYED 3');
-});
+HLX.init();
 
-HLX.loadDelayed().then(() => {
-  console.log('LOAD DELAYED 1');
-});
+// HLX.loadEager().then(() => {
+//   console.log('LOAD EAGER');
+// });
 
-HLX.beforeLoadEager().then(() => {
-  console.log('BEFORE LOAD EAGER');
-});
+// HLX.loadLazy().then(() => {
+//   console.log('LOAD LAZY');
+// });
 
-HLX.loadEager().then(() => {
-  console.log('LOAD EAGER');
-});
+// HLX.beforeLoadDelayed().then(() => {
+//   console.log('BEFORE LOAD DELAYED');
+// });
 
-HLX.loadLazy().then(() => {
-  console.log('LOAD LAZY');
-});
-
-HLX.beforeLoadDelayed().then(() => {
-  console.log('BEFORE LOAD DELAYED');
-});
-
-HLX.beforeLoadLazy().then(() => {
-  console.log('BEFORE LOAD LAZY');
-});
+// HLX.beforeLoadLazy().then(() => {
+//   console.log('BEFORE LOAD LAZY');
+// });
 
 // eager, lazy, delayed
 

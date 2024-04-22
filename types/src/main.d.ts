@@ -1,4 +1,4 @@
-import './components/sidebar/sidebar.ts';
+import './components/sidebar/sidebar.init.ts';
 import './components/header.ts';
 import './components/icon/icon.ts';
 declare global {
