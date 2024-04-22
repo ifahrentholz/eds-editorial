@@ -2,6 +2,8 @@ import setupHlxObj from './tasks/setupHlxObj';
 import { decorateTemplateAndTheme } from './tasks/decorateTemplateAndTheme';
 import { decorateButtons } from './tasks/decorateButtons';
 import { setDocLanguage } from './tasks/setDocLanguage';
+import { waitForLCP } from './tasks/waitForLCP';
+import { loadFonts } from './tasks/loadFonts';
 
 class HLX {
   private beforeEagerCallbacks: Array<() => Promise<void>> = [];
@@ -121,25 +123,32 @@ class HLX {
   }
 
   private async loadEagerPromise(): Promise<void> {
-    console.log(new Date().getTime(), 'loadEager');
-
-    const defaultTask: Promise<void> = new Promise((resolve) => {
+    const loadEagerTask: Promise<void> = new Promise(async (resolve) => {
       const main = document.querySelector('main');
       setupHlxObj();
       decorateTemplateAndTheme();
       setDocLanguage();
       decorateButtons(main);
       setTimeout(() => {
+        document.body.classList.add('show');
         resolve();
-      }, 4500);
+      }, 100);
+      await waitForLCP();
+
+      try {
+        /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
+        if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
+          await loadFonts();
+        }
+      } catch (e) {
+        // do nothing
+      }
     });
 
-    await Promise.all([...this.loadEagerCallbacks.map((cb) => cb()), defaultTask]);
+    await Promise.all([...this.loadEagerCallbacks.map((cb) => cb()), loadEagerTask]);
   }
 
   private async beforeLoadLazyPromise(): Promise<void> {
-    console.log(new Date().getTime(), 'beforeLoadLazy');
-
     const defaultTask: Promise<void> = new Promise((resolve) => {
       // Business Logic
       // Resolve
@@ -152,8 +161,6 @@ class HLX {
   }
 
   private async loadLazyPromise(): Promise<void> {
-    console.log(new Date().getTime(), 'loadLazy');
-
     const defaultTask: Promise<void> = new Promise((resolve) => {
       // Business Logic
       // Resolve
@@ -166,11 +173,7 @@ class HLX {
   }
 
   private async beforeLoadDelayedPromise(): Promise<void> {
-    console.log(new Date().getTime(), 'beforeLoadDelayed');
-
     const defaultTask: Promise<void> = new Promise((resolve) => {
-      // Business Logic
-      // Resolve
       setTimeout(() => {
         resolve();
       }, 3000);
@@ -180,23 +183,17 @@ class HLX {
   }
 
   private async loadDelayedPromise(): Promise<void> {
-    console.log(new Date().getTime(), 'loadDelayed');
-
-    const defaultTask: Promise<void> = new Promise((resolve) => {
-      // laodDelayed scripts
+    const loadDelayedTask: Promise<void> = new Promise((resolve) => {
       setTimeout(() => {
         resolve();
-      }, 2000);
-      // Resolve
+      }, 3000);
     });
 
-    await Promise.all([...this.loadDelayedCallbacks.map((cb) => cb()), defaultTask]);
+    await Promise.all([...this.loadDelayedCallbacks.map((cb) => cb()), loadDelayedTask]);
   }
 
   private async getInitializedPromise(): Promise<void> {
-    console.log(new Date().getTime(), 'initialized');
-
-    const defaultTask: Promise<void> = new Promise((resolve) => {
+    const initializedTask: Promise<void> = new Promise((resolve) => {
       // Business Logic
       // Resolve
       setTimeout(() => {
@@ -204,7 +201,7 @@ class HLX {
       }, 1000);
     });
 
-    await Promise.all([...this.initializedCallbacks.map((cb) => cb()), defaultTask]);
+    await Promise.all([...this.initializedCallbacks.map((cb) => cb()), initializedTask]);
   }
 }
 
