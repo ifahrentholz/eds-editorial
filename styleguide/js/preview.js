@@ -1,5 +1,13 @@
 import { html, render } from 'https://unpkg.com/lit-html@0.7.1/lit-html.js';
 
+/* const styleguideDummyData = {
+  interface TemplateArgs {
+    headers: string[];
+    data: string [][];
+  }
+}
+*/
+
 const getTemplateName = () => {
   const url = new URLSearchParams(window.location.search);
   const templateName = url.get('template');

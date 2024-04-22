@@ -8,6 +8,10 @@ body {
   height: 100vh;
 }
 
+#app {
+  padding: 20px;
+}
+
 .nav-box {
   display: flex;
   flex-basis: 50%;
