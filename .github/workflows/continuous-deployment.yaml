@@ -1,0 +1,39 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main # Imported restrict commits and pushes to main directly, PR only
+
+jobs:
+  deploy-to-prod-stage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout dev repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          sparse-checkout: |
+            dist  
+
+      - name: Checkout prod repository
+        uses: actions/checkout@v4
+        with:
+          repository: LoomingEcho/eds-prod
+          path: eds-prod
+          ref: stage
+
+      - name: Remove dist from prod
+        run: rm -rf eds-prod/dist
+
+      - name: Copy dist from dev to prod stage
+        run: cp -r dist eds-prod/
+
+      - name: Commit and push to prod repository
+        run: |
+          cd eds-prod
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "eds-dev-cd@diva-e.com"  
+          git commit -m "Deploy dist"
+          git push

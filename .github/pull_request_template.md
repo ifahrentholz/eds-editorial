@@ -2,7 +2,14 @@ Please always provide the [GitHub issue(s)](../issues) your PR is for, as well a
 
 Fix #<gh-issue-id>
 
-Test URLs:
+**Branch Name:** <!-- ${{ github.head_ref }} -->
 
+**Test URLs:**
 - Before: https://develop--eds-dev--loomingecho.hlx.live/
-- After: https://<branch>--eds-dev--loomingecho.hlx.live/
+- After: https://${{ github.head_ref }}--eds-dev--loomingecho.hlx.live/
+
+**Checklist:**
+- [ ] Tests added/passed
+- [ ] Documentation updated
+- [ ] Code reviewed
+- [ ] Ready for merge
