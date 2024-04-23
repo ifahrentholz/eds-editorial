@@ -1,9 +1,9 @@
-import setupHlxObj from './tasks/setupHlxObj';
 import { decorateTemplateAndTheme } from './tasks/decorateTemplateAndTheme';
 import { decorateButtons } from './tasks/decorateButtons';
 import { setDocLanguage } from './tasks/setDocLanguage';
 import { waitForLCP } from './tasks/waitForLCP';
 import { loadFonts } from './tasks/loadFonts';
+import { initSampleRUM } from './tasks/initSampleRUM';
 
 class HLX {
   private beforeEagerCallbacks: Array<() => Promise<void>> = [];
@@ -111,7 +111,7 @@ class HLX {
 
   private async beforeLoadEager(): Promise<void> {
     const beforeLoadEagerTask: Promise<void> = new Promise((resolve) => {
-      setupHlxObj();
+      initSampleRUM();
       decorateTemplateAndTheme();
       setDocLanguage();
       resolve();
