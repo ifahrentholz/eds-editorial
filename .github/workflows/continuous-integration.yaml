@@ -81,7 +81,7 @@ jobs:
 
       - name: Setup git user
         run: |
-          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.name "$CI_COMMIT_AUTHOR"
           git config --global user.email "eds-dev-ci@diva-e.com"    
 
       - name: Add dist
@@ -93,7 +93,7 @@ jobs:
       - name: Check if dist directory has changed
         id: check-dist-changes
         run: |
-          before_commit="${{ github.event.before }}"
+          before_commit="$github.event.before"
           
           if git diff --quiet HEAD "$before_commit" -- ./dist; then
             echo "No changes detected in the dist directory."
@@ -104,5 +104,5 @@ jobs:
       - name: Commit and push dist
         if: steps.check-dist-changes.outputs.dist_changed == 'true'
         run: |
-          git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git commit -m "$CI_COMMIT_MESSAGE"
           git push

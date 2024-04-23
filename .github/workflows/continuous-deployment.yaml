@@ -33,7 +33,7 @@ jobs:
       - name: Commit and push to prod repository
         run: |
           cd eds-prod
-          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.name "CI_COMMIT_AUTHOR"
           git config --global user.email "eds-dev-cd@diva-e.com"  
           git commit -m "Deploy dist"
           git push
