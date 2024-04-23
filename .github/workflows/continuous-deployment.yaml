@@ -9,8 +9,6 @@ jobs:
   deploy-to-prod-stage:
     runs-on: ubuntu-latest
 
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
-
     steps:
       - name: Checkout dev repository
         uses: actions/checkout@v4
@@ -27,10 +25,10 @@ jobs:
           ref: stage
 
       - name: Remove dist from prod
-        run: rm -rf eds-prod/dist/*
+        run: rm -rf eds-prod/dist
 
       - name: Copy dist from dev to prod stage
-        run: cp -r dist eds-prod/dist
+        run: cp -r dist eds-prod/
 
       - name: Commit and push to prod repository
         run: |
