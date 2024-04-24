@@ -1,3 +1,4 @@
+import './components/icon/icon.ts';
 declare global {
     interface Window {
         hlx: {
@@ -7,4 +8,3 @@ declare global {
         };
     }
 }
-export {};

@@ -13,5 +13,13 @@ import { toClassName } from './toClassName';
  * console.log(camelCasedName); // Output: 'backgroundColor'
  */
 export function toCamelCase(name: string): string {
+  if (/^[a-z][A-Za-z0-9]*$/.test(name)) {
+    return name;
+  }
+
+  if (/^[A-Z][A-Za-z0-9]*$/.test(name)) {
+    return name.charAt(0).toLowerCase() + name.slice(1);
+  }
+
   return toClassName(name).replace(/-([a-z])/g, (g: string) => g[1].toUpperCase());
 }

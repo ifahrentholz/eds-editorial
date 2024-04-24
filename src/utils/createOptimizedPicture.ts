@@ -1,4 +1,4 @@
-import { getHref } from '../sidekickHelpers/getHref';
+import { getHref } from 'Helpers/sidekick/getHref.ts';
 
 /**
  * Represents a breakpoint configuration used in responsive web design.
@@ -30,7 +30,7 @@ interface BreakPoint {
  * @property {boolean} [eager] - Whether to load the image immediately.
  * @property {BreakPoint[]} [breakpoints] - The breakpoints for responsive images.
  */
-interface CreateOptimizedPictureArgs {
+export interface CreateOptimizedPictureArgs {
   src: string;
   alt: string;
   width: number;
