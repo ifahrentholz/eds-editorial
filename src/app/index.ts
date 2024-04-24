@@ -182,11 +182,9 @@ class HLX {
   }
 
   private async beforeLoadDelayedPromise(): Promise<void> {
-    const defaultTask: Promise<void> = new Promise((resolve) => {
-      resolve();
-    });
+    const beforeLoadDelayedTask: Promise<void> = new Promise((resolve) => resolve());
 
-    await Promise.all([...this.beforeLoadDelayedCallbacks.map((cb) => cb()), defaultTask]);
+    await Promise.all([...this.beforeLoadDelayedCallbacks.map((cb) => cb()), beforeLoadDelayedTask]);
   }
 
   private async loadDelayedPromise(): Promise<void> {
@@ -200,13 +198,7 @@ class HLX {
   }
 
   private async getInitializedPromise(): Promise<void> {
-    const initializedTask: Promise<void> = new Promise((resolve) => {
-      // Business Logic
-      // Resolve
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    });
+    const initializedTask: Promise<void> = new Promise((resolve) => resolve());
 
     await Promise.all([...this.initializedCallbacks.map((cb) => cb()), initializedTask]);
   }
