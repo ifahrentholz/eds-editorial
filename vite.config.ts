@@ -16,6 +16,7 @@ export default defineConfig(({ command, mode }) => {
   const inputOptions: InputOption = {
     main: resolve(__dirname, mainTsPath),
     styles: resolve(__dirname, mainScssPath),
+    styleguide: resolve(__dirname, 'src/styleguide/')
     ...blocksEntries,
   };
 
