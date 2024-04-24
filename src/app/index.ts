@@ -4,6 +4,11 @@ import { setDocLanguage } from './tasks/setDocLanguage';
 import { waitForLCP } from './tasks/waitForLCP';
 import { loadFonts } from './tasks/loadFonts';
 import { initSampleRUM } from './tasks/initSampleRUM';
+import { DebuggerService } from '@kluntje/services';
+import { loadCSS } from './tasks/loadCSS';
+import { isSidekickLibraryActive } from 'Helpers/sidekick/isSidekickLibraryActive';
+import { config } from '../../config';
+import { loadBlocks } from './tasks/loadBlocks';
 
 class HLX {
   private beforeEagerCallbacks: Array<() => Promise<void>> = [];
@@ -151,22 +156,34 @@ class HLX {
   }
 
   private async loadLazyPromise(): Promise<void> {
-    const defaultTask: Promise<void> = new Promise((resolve) => {
-      // Business Logic
-      // Resolve
-      setTimeout(() => {
-        resolve();
-      }, 3500);
+    const loadLazyTask: Promise<void> = new Promise(async (resolve) => {
+      try {
+        const {
+          lazyStylesScssPath,
+          sidekickLibraryStylesScssPath,
+          fontsScssPath,
+          lazyStylesCssPath,
+          sidekickLibraryStylesCssPath,
+        } = config;
+
+        if (lazyStylesScssPath && lazyStylesCssPath) await loadCSS(lazyStylesCssPath);
+        if (sidekickLibraryStylesScssPath && sidekickLibraryStylesCssPath && isSidekickLibraryActive()) {
+          await loadCSS(sidekickLibraryStylesCssPath);
+        }
+        if (fontsScssPath) await loadFonts();
+        await loadBlocks();
+      } catch (error) {
+        DebuggerService.error('Load lazy Task: ', error);
+      }
+      resolve();
     });
 
-    await Promise.all([...this.loadLazyCallbacks.map((cb) => cb()), defaultTask]);
+    await Promise.all([...this.loadLazyCallbacks.map((cb) => cb()), loadLazyTask]);
   }
 
   private async beforeLoadDelayedPromise(): Promise<void> {
     const defaultTask: Promise<void> = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 3000);
+      resolve();
     });
 
     await Promise.all([...this.beforeLoadDelayedCallbacks.map((cb) => cb()), defaultTask]);

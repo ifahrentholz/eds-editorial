@@ -6,7 +6,9 @@ export interface Config {
     fontsScssPath?: string;
     fontsCssPath?: string;
     lazyStylesScssPath?: string;
+    lazyStylesCssPath?: string;
     sidekickLibraryStylesScssPath?: string;
+    sidekickLibraryStylesCssPath?: string;
     lcpBlocks?: string[];
 }
 export declare const config: Config;
