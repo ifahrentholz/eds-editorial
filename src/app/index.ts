@@ -9,6 +9,9 @@ import { loadCSS } from './tasks/loadCSS';
 import { isSidekickLibraryActive } from 'Helpers/sidekick/isSidekickLibraryActive';
 import { config } from '../../config';
 import { loadBlocks } from './tasks/loadBlocks';
+import { transformSection } from './tasks/transformSections';
+import { decorateBlocks } from './tasks/decorateBlocks';
+import { sampleRUM } from './tasks/sampleRUM';
 
 class HLX {
   private beforeEagerCallbacks: Array<() => Promise<void>> = [];
@@ -127,8 +130,10 @@ class HLX {
 
   private async loadEagerPromise(): Promise<void> {
     const loadEagerTask: Promise<void> = new Promise(async (resolve) => {
-      const main = document.querySelector('main');
+      const main = document.querySelector('main') as HTMLElement;
       decorateButtons(main);
+      transformSection(main);
+      decorateBlocks(main);
       setTimeout(() => {
         document.body.classList.add('show');
         resolve();
@@ -166,12 +171,23 @@ class HLX {
           sidekickLibraryStylesCssPath,
         } = config;
 
+        await loadBlocks();
+
+        const { hash } = window.location;
+        const element = hash ? document.getElementById(hash.substring(1)) : false;
+        if (hash && element) element.scrollIntoView();
+
         if (lazyStylesScssPath && lazyStylesCssPath) await loadCSS(lazyStylesCssPath);
         if (sidekickLibraryStylesScssPath && sidekickLibraryStylesCssPath && isSidekickLibraryActive()) {
           await loadCSS(sidekickLibraryStylesCssPath);
         }
         if (fontsScssPath) await loadFonts();
-        await loadBlocks();
+        sampleRUM('lazy');
+        const main = document.querySelector('main') as HTMLElement;
+        // @ts-ignore
+        sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
+        // @ts-ignore
+        sampleRUM.observe(main.querySelectorAll('picture > img'));
       } catch (error) {
         DebuggerService.error('Load lazy Task: ', error);
       }

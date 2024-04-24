@@ -7,14 +7,11 @@ import { getUrlForEndpoint } from '../utils/getUrlForEndpoint';
  * @param block - The block to load the module for.
  * @returns Promise<void>
  */
-
 export async function loadBlockModules(block: BlockMapping): Promise<void> {
-  const status = block.element.dataset.blockStatus ?? 'unloaded';
-
-  if (status === 'unloaded') {
-    block.element.dataset.blockStatus = 'loading';
-
+  const status = block.element.dataset.blockStatus;
+  if (status !== 'loading' && status !== 'loaded') {
     try {
+      block.element.dataset.blockStatus = 'loading';
       const { href } = getUrlForEndpoint(`dist/${block.name}/${block.name}.js`);
       const blockModule = await import(href);
 

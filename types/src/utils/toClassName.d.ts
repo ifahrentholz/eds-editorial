@@ -5,7 +5,7 @@
  * @returns The converted CSS class name.
  *
  * @example
- * // Example usage:
+ * Example usage:
  * const inputString = 'Hello, World!';
  * const cssClassName = toClassName(inputString);
  * console.log(cssClassName); // Output: 'hello-world'

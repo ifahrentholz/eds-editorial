@@ -6,7 +6,7 @@
  * otherwise, returns the value itself.
  *
  * @example
- * // Example usage:
+ * Example usage:
  * const emptyValue = '';
  * const nonEmptyValue = 'Hello, World!';
  *
