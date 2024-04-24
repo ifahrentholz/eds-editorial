@@ -37,9 +37,9 @@
   "devDependencies": {
     "@babel/core": "7.23.7",
     "@babel/eslint-parser": "7.23.3",
-    "@types/node": "^20.11.21",
     "@happy-dom/jest-environment": "^13.6.2",
     "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.21",
     "@typescript-eslint/eslint-plugin": "6.20.0",
     "@typescript-eslint/parser": "6.20.0",
     "chai": "5.0.0",
@@ -59,14 +59,17 @@
     "stylelint-config-recommended-scss": "^14.0.0",
     "stylelint-prettier": "^5.0.0",
     "stylelint-scss": "^6.1.0",
-    "ts-node": "^10.9.2",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite": "5.0.12"
   },
   "dependencies": {
     "@kluntje/js-utils": "0.7.2",
     "@kluntje/services": "^0.6.6",
+    "child_process": "^1.0.2",
+    "commander": "^12.0.0",
+    "fs-extra": "^11.2.0",
     "lit": "3.1.1"
   },
   "engines": {
