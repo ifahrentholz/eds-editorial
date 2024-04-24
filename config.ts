@@ -23,5 +23,5 @@ export const config: Config = {
   lazyStylesCssPath: './dist/lazyStyles/lazyStyles.css',
   sidekickLibraryStylesScssPath: './src/styles/sass/sidekick-library-styles.scss',
   sidekickLibraryStylesCssPath: './dist/sidekickLibraryStyles/sidekickLibraryStyles.css',
-  lcpBlocks: ['banner'],
+  lcpBlocks: [],
 };
