@@ -67,10 +67,14 @@
   "dependencies": {
     "@kluntje/js-utils": "0.7.2",
     "@kluntje/services": "^0.6.6",
+    "chalk": "^2.4.2",
     "child_process": "^1.0.2",
     "commander": "^12.0.0",
+    "figlet": "^1.7.0",
     "fs-extra": "^11.2.0",
-    "lit": "3.1.1"
+    "inquirer": "^7.3.3",
+    "lit": "3.1.1",
+    "mkdirp": "^3.0.1"
   },
   "engines": {
     "node": ">=18",

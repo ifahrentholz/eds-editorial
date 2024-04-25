@@ -38,5 +38,5 @@
     "scripts/**/*.ts",
     "src/**/*.ts",
     "src/**/*.json"
-  ],
+, "cli.js"  ],
 }

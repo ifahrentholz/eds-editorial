@@ -1,45 +1,72 @@
 const fs = require('fs-extra');
 const { exec } = require('child_process');
+const chalk = require('chalk');
+const { Command } = require('commander');
+const figlet = require('figlet');
+const inquirer = require('inquirer');
+const mkdirp = require('mkdirp');
 
+const program = new Command();
+
+program.version('1.0.0');
+
+// hello command
+program
+  .command('hello <name>')
+  .description('Display a greeting message')
+  .action((name) => {
+    console.log(`Hello, ${name}!`);
+  });
+
+// ascii command
+program
+  .command('ascii <text>')
+  .description('Convert text to ascii')
+  .action((text) => {
+    console.log(figlet.textSync(text));
+  });
+
+program.parse(process.argv);
+
+// create new file
 function createFile(filename, content) {
   fs.writeFileSync(filename, content);
-  console.log(`Created new file: ${filename}`);
+  console.log(chalk.green(`new file: ${filename}`));
 }
-
 function handleCreateCommand(filename) {
   createFile(filename, 'type the contents of the file here');
 }
 
-// install command
 function handleInstallCommand() {
-  // Run the npm install command
   exec('npm install', (error, stdout, stderr) => {
     if (error) {
-      console.error(`Error when installing dependencies : ${error.message}`);
+      console.error(chalk.red(`Error: ${error.message}`));
       return;
     }
     if (stderr) {
-      console.error(`Error when installing dependencies: ${stderr}`);
+      console.error(chalk.red(`Error: ${stderr}`));
       return;
     }
-    console.log(`Dependencies have been successfully installed:\n${stdout}`);
+    console.log(chalk.green(`successfully installed:\n${stdout}`));
   });
 }
-// run command
+
+// run script
 function handleRunCommand(scriptName) {
-  // run script
   exec(`npm run ${scriptName}`, (error, stdout, stderr) => {
     if (error) {
-      console.error(`Error while running the script: ${error.message}`);
+      console.error(chalk.red(`Error: ${error.message}`));
       return;
     }
     if (stderr) {
-      console.error(`Error while running the script: ${stderr}`);
+      console.error(chalk.red(`Error script: ${stderr}`));
       return;
     }
-    console.log(`The script was successfully executed:\n${stdout}`);
+    console.log(chalk.green(`successfully executed:\n${stdout}`));
   });
 }
+
+// argument parsing
 const command = process.argv[2];
 
 if (command === 'create') {
@@ -51,6 +78,5 @@ if (command === 'create') {
   const scriptName = process.argv[3];
   handleRunCommand(scriptName);
 } else {
-  console.error('error');
+  console.error(chalk.red('Error:unknown command'));
 }
-
