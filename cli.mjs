@@ -1,10 +1,8 @@
-const fs = require('fs-extra');
-const { exec } = require('child_process');
-const chalk = require('chalk');
-const { Command } = require('commander');
-const figlet = require('figlet');
-const inquirer = require('inquirer');
-const mkdirp = require('mkdirp');
+import fs from 'fs-extra';
+import { exec } from 'child_process';
+import chalk from 'chalk';
+import { Command } from 'commander';
+import figlet from 'figlet';
 
 const program = new Command();
 
@@ -78,5 +76,5 @@ if (command === 'create') {
   const scriptName = process.argv[3];
   handleRunCommand(scriptName);
 } else {
-  console.error(chalk.red('Error:unknown command'));
+  console.error(chalk.red('Error: unknown command'));
 }
