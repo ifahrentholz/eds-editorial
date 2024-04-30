@@ -71,7 +71,7 @@ async function enquiry(prompts, cliOptions = {}) {
   const answers = await inquirer.prompt(prompts, cliOptions);
   return answers;
 }
-/// my new function 
+/// my new function
 function createTemplate(folderName) {
   try {
     const templateRepo = 'ifahrentholz/eds-editorial';
@@ -81,13 +81,6 @@ function createTemplate(folderName) {
     console.error('Error cloning template repository:', error);
   }
 }
-// create command
-program
-  .command('create <folderName>')
-  .description('Clone a template repository into a new folder')
-  .action(createTemplate);
-
-program.parse(process.argv);
 
 async function run() {
   printIntroText();
@@ -105,4 +98,11 @@ async function run() {
   process.exit = 0;
 }
 
-run();
+program
+  .command('clone <folderName>')
+  .description('Clone a template repository into a new folder')
+  .action(createTemplate);
+
+program.command('create').description('create new component/block').action(run);
+
+program.parse(process.argv);
