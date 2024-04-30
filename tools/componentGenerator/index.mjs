@@ -3,6 +3,7 @@ import path from 'node:path';
 import chalk from 'chalk';
 import figlet from 'figlet';
 import inquirer from 'inquirer';
+import { execSync } from 'child_process'; //  git clone command
 import generateFiles from './generateFiles.mjs';
 
 const DEFAULT_CREATE_COMPONENT_CONFIG = 'tools/componentGenerator/config.mjs';
@@ -70,6 +71,23 @@ async function enquiry(prompts, cliOptions = {}) {
   const answers = await inquirer.prompt(prompts, cliOptions);
   return answers;
 }
+/// my new function 
+function createTemplate(folderName) {
+  try {
+    const templateRepo = 'ifahrentholz/eds-editorial';
+    execSync(`git clone https://github.com/${templateRepo}.git ${folderName}`);
+    console.log(`Template repository cloned into ${folderName} folder.`);
+  } catch (error) {
+    console.error('Error cloning template repository:', error);
+  }
+}
+// create command
+program
+  .command('create <folderName>')
+  .description('Clone a template repository into a new folder')
+  .action(createTemplate);
+
+program.parse(process.argv);
 
 async function run() {
   printIntroText();
