@@ -14,6 +14,7 @@
     "lint": "npm run lint:js",
     "lint:fix": "npm run lint:js",
     "new": "node tools/componentGenerator/index.mjs",
+    "cloneTempRepo": "node tools/cloneTemplateRepository/index.mjs",
     "start": "npm-run-all --parallel build:watch aemUp",
     "tsc:watch": "tsc -w",
     "vite": "vite",
