@@ -2,15 +2,9 @@ import './components/sidebar/sidebar.init.ts';
 import './components/innerContainer/innerContainer.init.ts';
 import './components/header.ts';
 import './components/icon/icon.ts';
-import HLX from './app/index.ts';
+import { initHLXApp } from './app/init.ts';
 
-HLX.addBeforeEagerTask(() => {
-  const main = document.getElementsByTagName('main')[0];
-  main.setAttribute('id', 'main');
-  return Promise.resolve();
-});
-
-HLX.init();
+initHLXApp();
 
 declare global {
   interface Window {
