@@ -1,8 +1,9 @@
 import { html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { DebuggerService } from '@kluntje/services';
 
-import FetchService from '../../services/fetch.service.ts';
 import { FormField, FormFieldInput, FormFieldSelect, FormFieldType, renderField } from './form.template.ts';
+import FetchService from '../../services/fetch.service.ts';
 
 type FormElement = {
   name: string;
@@ -48,9 +49,13 @@ export class Form extends LitElement {
   }
 
   async fetchFormData() {
-    const data: SheetsResponse = await FetchService.fetchJson(this.pathname);
-    const detailsData = data.data.map((item: FormElement) => this.parseFieldData(item));
-    this.formData = detailsData;
+    try {
+      const data: SheetsResponse = await FetchService.fetchJson(this.pathname);
+      const detailsData = data.data.map((item: FormElement) => this.parseFieldData(item));
+      this.formData = detailsData;
+    } catch (error) {
+      DebuggerService.error(`Form Block: Error while fetching Sheets Response from ${this.pathname}`, error);
+    }
   }
 
   render() {
@@ -95,8 +100,9 @@ export class Form extends LitElement {
         if (field.type === 'radio') {
           if (field.checked) payload[field.name] = field.value;
         } else if (field.type === 'checkbox') {
-          if (field.checked)
+          if (field.checked) {
             payload[field.name] = payload[field.name] ? `${payload[field.name]},${field.value}` : field.value;
+          }
         } else {
           payload[field.name] = field.value;
         }
@@ -106,7 +112,7 @@ export class Form extends LitElement {
   }
 
   handleSubmitError(form, error) {
-    console.error(error);
+    DebuggerService.error(`Form Component: Submit failed:${error}`);
     form.querySelector('button[type="submit"]').disabled = false;
   }
 

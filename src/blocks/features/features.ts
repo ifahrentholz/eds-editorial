@@ -1,9 +1,8 @@
 import { html, render } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-
 import './features.scss';
-import { renderIcon } from '../../components/icon/icon.template';
-import { IconName } from '../../icons.types';
+import { renderIcon } from 'Components/icon/icon.template.ts';
+import { IconName } from 'Types/icons.types.ts';
 
 interface Feature {
   icon: IconName;

@@ -1,13 +1,14 @@
 import { html, nothing, render } from 'lit';
+import { createOptimizedPicture } from 'Utils/createOptimizedPicture.ts';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-
-import { createOptimizedPicture } from '../../utils/createOptimizedPicture';
-import FetchService from '../../services/fetch.service.ts';
-import { SheetsResponse } from '../../shared.types.ts';
-import { isSidekickLibraryActive } from '../../sidekickHelpers/isSidekickLibraryActive.ts';
-
 import './posts.scss';
+import PlaceholderService from 'Services/placeholder.service.ts';
+import { SheetsResponse } from 'Types/sheetResponse.types.ts';
+import { isSidekickLibraryActive } from 'Helpers/sidekick/isSidekickLibraryActive.ts';
+import { DebuggerService } from '@kluntje/services';
+import { SiteMapEntry } from 'Types/siteMap.types.ts';
 
+import FetchService from '../../services/fetch.service.ts';
 interface PostArgs {
   postUrl?: string;
   headline?: string;
@@ -46,7 +47,11 @@ const postTemplate = (args: PostArgs) => {
   `;
 };
 
-const template = (posts: PostArgs[]) => {
+const template = async (posts: PostArgs[]) => {
+  if (posts.length === 0) {
+    const placeholder = await PlaceholderService.getPlaceHolder('no posts');
+    return html` <article>${placeholder}</article> `;
+  }
   return posts.map((post) => postTemplate(post));
 };
 
@@ -56,39 +61,60 @@ const findFirstNonEmptyParagraph = (doc: Document): string | undefined => {
   return paragraphs.find((p) => p.innerText.trim().length > 0)?.innerText;
 };
 
+function fetchPost(post: SiteMapEntry) {
+  try {
+    return FetchService.fetchText(`${post.path}.plain.html`, {
+      cacheOptions: {
+        cacheType: 'runtime',
+      },
+    });
+  } catch (error) {
+    DebuggerService.error(`Post Block: Error while fetching ${post.path}.plain.html`, error);
+    return;
+  }
+}
+
+function createPostEntry(siteMapPostEntries: SiteMapEntry[], index: number, doc: Document) {
+  return {
+    postUrl: isSidekickLibraryActive() ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
+    headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
+    text: findFirstNonEmptyParagraph(doc),
+    buttontext: siteMapPostEntries[index].buttontext,
+    picture: createOptimizedPicture({
+      src: siteMapPostEntries[index].image,
+      alt: siteMapPostEntries[index].imagealt,
+      width: 323,
+      height: 199,
+    }),
+  };
+}
+
 export default async function (block: HTMLElement) {
   block.innerHTML = '';
 
   const parser = new DOMParser();
-  const queryIndex = await FetchService.fetchJson<SheetsResponse>('/query-index.json');
-  const siteMapPostEntries = queryIndex.data.filter((item) => item.path.startsWith('/posts'));
+  try {
+    const queryIndex = await FetchService.fetchJson<SheetsResponse<SiteMapEntry>>('/query-index.json');
+    const siteMapPostEntries = queryIndex.data.filter((item) => item.path.startsWith('/posts'));
+    const postsPreview: (string | undefined)[] = await Promise.all(siteMapPostEntries.map((post) => fetchPost(post)));
+    const filteredPostPreview: string[] = postsPreview.filter((preview) => preview !== undefined) as string[];
+    const postsPreviewHtml = filteredPostPreview.map((res) => parser.parseFromString(res, 'text/html'));
+    const posts = postsPreviewHtml.map((doc, index) => createPostEntry(siteMapPostEntries, index, doc));
 
-  const postsPreview = await Promise.all(
-    siteMapPostEntries.map((post) =>
-      FetchService.fetchText(`${post.path}.plain.html`, {
-        cacheOptions: {
-          cacheType: 'runtime',
-        },
-      })
-    )
-  );
+    block.style.removeProperty('display');
 
-  const postsPreviewHtml = postsPreview.map((res) => parser.parseFromString(res, 'text/html'));
-  const posts = postsPreviewHtml.map((doc, index) => {
-    return {
-      postUrl: isSidekickLibraryActive() ? undefined : `${window.hlx.codeBasePath}${siteMapPostEntries[index].path}`,
-      headline: doc.querySelector('h1')?.innerText || doc.querySelector('h2')?.innerText,
-      text: findFirstNonEmptyParagraph(doc),
-      buttontext: siteMapPostEntries[index].buttontext,
-      picture: createOptimizedPicture({
-        src: siteMapPostEntries[index].image,
-        alt: siteMapPostEntries[index].imagealt,
-        width: 323,
-        height: 199,
-      }),
-    };
-  });
+    const postsTemplate = await template(posts);
 
-  block.style.removeProperty('display');
-  render(template(posts), block);
+    render(postsTemplate, block);
+  } catch (error) {
+    DebuggerService.error('Post Block: Error while fetching posts.', error);
+
+    const response = await PlaceholderService.getPlaceHolder('error');
+    const placeholderBlock = document.createElement('div');
+    const errorBlock = html`<article style="width: 100%"><p>${response}</p></article>`;
+    render(errorBlock, placeholderBlock);
+
+    block.innerHTML = '';
+    block.appendChild(placeholderBlock);
+  }
 }

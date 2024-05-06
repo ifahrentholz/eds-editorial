@@ -1,7 +1,6 @@
 import { html, nothing } from 'lit';
+import { toClassName } from 'Utils/toClassName.ts';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-
-import { toClassName } from '../../utils/toClassName';
 
 export type FormFieldType =
   | 'headline'

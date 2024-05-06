@@ -1,10 +1,12 @@
-import { isSidekickLibraryActive } from '../sidekickHelpers/isSidekickLibraryActive';
+import { DebuggerService } from '@kluntje/services';
+import { isSidekickLibraryActive } from 'Helpers/sidekick/isSidekickLibraryActive';
+import { getLocation } from 'Helpers/sidekick/getLocation.ts';
+
 import { addClasses } from '../utils/addClasses';
 import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 import { config } from '../../config.ts';
-import { getLocation } from '../sidekickHelpers/getLocation.ts';
 
 type BlockMapping = {
   name: string;
@@ -50,8 +52,7 @@ export class MainService {
       try {
         [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        DebuggerService.error('MainService: Error initializing codeBasePath.', error);
       }
     }
   }
@@ -114,7 +115,7 @@ export class MainService {
       if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
     } catch (error) {
-      console.error('Load lazy error: ', error);
+      DebuggerService.error('MainService: Load lazy error: ', error);
     }
   };
 
@@ -167,7 +168,7 @@ export class MainService {
         block.element.dataset.blockStatus = Status.loaded;
       } catch (error) {
         block.element.dataset.blockStatus = Status.error;
-        console.error('An error occurred during module import:', error);
+        DebuggerService.error('MainService: An error occurred during module import:', error);
       }
     }
   }
@@ -176,7 +177,7 @@ export class MainService {
     try {
       await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
     } catch (error) {
-      console.error(`problem with block '${block.name}' loading styles`);
+      //do nothing
     }
   }
 
@@ -211,7 +212,7 @@ export class MainService {
   private async waitForLCP() {
     /* Js Chunks should be loaded
     Old logic only looks after the first block
-    New logic looks in the first section after lcp candidates, 
+    New logic looks in the first section after lcp candidates,
     since we show ech section depending on if its blocks and modules are loaded */
     const firstSection: HTMLElement | null = document.querySelector('.section');
 

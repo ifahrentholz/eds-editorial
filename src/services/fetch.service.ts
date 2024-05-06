@@ -1,3 +1,5 @@
+import { DebuggerService } from '@kluntje/services';
+
 import { RuntimeCache } from '../utils/RuntimeCache';
 
 export interface FetchServiceCacheOptions {
@@ -18,8 +20,8 @@ class FetchService {
     return this.fetchData(this.getCodeBasePath(endpoint), options, this.getResponseJSON<T>);
   }
 
-  public fetchText(endpoint: string, options: FetchServiceOptions = {}): Promise<string> {
-    return this.fetchData(this.getCodeBasePath(endpoint), options, this.getResponseText);
+  public async fetchText(endpoint: string, options: FetchServiceOptions = {}): Promise<string> {
+    return await this.fetchData(this.getCodeBasePath(endpoint), options, this.getResponseText);
   }
 
   private async fetchData<T>(
@@ -42,6 +44,14 @@ class FetchService {
     const responseData = await dataMapper(response);
 
     this.setCachedData(url, responseData, cacheOptions);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+
+      DebuggerService.error(`FetchService: Error fetching data from ${url}: ${errorText}`);
+
+      throw new Error(`Error fetching data from ${url}: ${errorText}`);
+    }
     return responseData;
   }
 
