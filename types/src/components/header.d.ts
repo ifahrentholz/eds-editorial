@@ -1,23 +1,23 @@
 import { LitElement, PropertyValueMap } from 'lit';
 import { IconName } from 'Types/icons.types.ts';
-export interface HeaderResponseData {
-    leftCol: LeftCol;
-    rightCol: RightCol;
+export interface RightColData {
+    socialIcon: IconName;
+    socialLabel: string;
+    socialLink: string;
 }
-export interface LeftCol {
-    data: LeftColData[];
+export interface RightCol {
+    data: RightColData[];
 }
 export interface LeftColData {
     logoText: string;
     logoLink: string;
 }
-export interface RightCol {
-    data: RightColData[];
+export interface LeftCol {
+    data: LeftColData[];
 }
-export interface RightColData {
-    socialIcon: IconName;
-    socialLabel: string;
-    socialLink: string;
+export interface HeaderResponseData {
+    leftCol: LeftCol;
+    rightCol: RightCol;
 }
 interface HeaderTemplateData {
     leftCol: LeftColData;

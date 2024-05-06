@@ -1,12 +1,12 @@
 import { LitElement, nothing } from 'lit';
+interface Contact {
+    icon: HTMLElement | null;
+    markup: HTMLElement | null;
+}
 interface SidebarContactTemplateArgs {
     headline: HTMLElement | null;
     text: HTMLElement | null;
     contacts: Contact[];
-}
-interface Contact {
-    icon: HTMLElement | null;
-    markup: HTMLElement | null;
 }
 export declare class SidebarContact extends LitElement {
     contactTemplateArgs: SidebarContactTemplateArgs;
