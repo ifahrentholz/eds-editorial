@@ -144,8 +144,8 @@ class HLX {
         if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
           await loadFonts();
         }
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        DebuggerService.error('index: could not load fonts', error);
       }
     });
 
@@ -187,7 +187,7 @@ class HLX {
         // @ts-ignore
         sampleRUM.observe(main.querySelectorAll('picture > img'));
       } catch (error) {
-        DebuggerService.error('Load lazy Task: ', error);
+        DebuggerService.error('LoadLazyTask: ', error);
       }
       resolve();
     });
