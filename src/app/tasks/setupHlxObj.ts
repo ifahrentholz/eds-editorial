@@ -1,4 +1,4 @@
-export default function setupHlxObj(mainScriptPath: string = 'dist/main/main.js') {
+export default function setupHlxObj(mainScriptPath: string = '/dist/main/main.js') {
   window.hlx = window.hlx || {};
   window.hlx.RUM_MASK_URL = 'full';
   window.hlx.codeBasePath = '';
