@@ -4,6 +4,7 @@ import { getMetadata } from '../utils/getMetadata';
 import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 import { config } from '../../config.ts';
+import { getUrlForEndpoint } from '../app/utils/getUrlForEndpoint.ts';
 import { DebuggerService } from '@kluntje/services';
 import { getLocation } from 'Helpers/sidekick/getLocation.ts';
 
@@ -32,6 +33,7 @@ export class MainService {
   ) {}
 
   init = async () => {
+    console.log('MainService init');
     this.setup();
     await this.loadEager();
     await this.loadLazy();
@@ -63,7 +65,7 @@ export class MainService {
     const main = document.querySelector('main');
     if (main) {
       main.setAttribute('id', 'main');
-      this.addSidebarContainer(main);
+      //this.addSidebarContainer(main);
       this.sectionService.init(main);
       this.addInnerContainer(main); // TODO refactor initializing
       this.blockService.decorateBlocks(main);
@@ -86,16 +88,6 @@ export class MainService {
     }
   };
 
-  private addSidebarContainer(main: HTMLElement) {
-    if (isSidekickLibraryActive()) return;
-
-    const sidebarContainer = document.createElement('sidebar-component');
-    sidebarContainer.setAttribute('id', 'sidebar');
-    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
-    window.innerWidth <= 1280 ? sidebarContainer.classList.remove('active') : sidebarContainer.classList.add('active');
-    main.after(sidebarContainer);
-  }
-
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
     main.innerHTML = `<div class="inner">${isSidekickLibraryActive() ? `` : `<header-component id="header"></header-component>`}${children}</div>`;
@@ -104,9 +96,9 @@ export class MainService {
   private loadLazy = async () => {
     const { lazyStylesScssPath, sidekickLibraryStylesScssPath, fontsScssPath } = config;
     try {
-      if (lazyStylesScssPath) await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`);
+      if (lazyStylesScssPath) await this.loadCSS('/dist/lazyStyles/lazyStyles.css');
       if (sidekickLibraryStylesScssPath && isSidekickLibraryActive()) {
-        await this.loadCSS(`${window.hlx.codeBasePath}/dist/sidekickLibraryStyles/sidekickLibraryStyles.css`);
+        await this.loadCSS('/dist/sidekickLibraryStyles/sidekickLibraryStyles.css');
       }
       if (fontsScssPath) await this.loadFonts();
       await this.loadBlocks();
@@ -115,6 +107,18 @@ export class MainService {
     }
   };
 
+  /**
+   * Decorates the template and theme by adding classes to the body.
+   * The classes are defined in the meta tags of the document.
+   * @private
+   * @memberof MainService
+   * @returns {void}
+   * @example
+   * <meta name="template" content="template-name">
+   * <meta name="theme" content="theme-name">
+   * @example
+   * <body class="template-name theme-name">
+   */
   private decorateTemplateAndTheme() {
     const template = getMetadata('template');
     if (template) addClasses(document.body, template);
@@ -155,7 +159,8 @@ export class MainService {
       block.element.dataset.blockStatus = Status.loading;
 
       try {
-        const blockModule = await import(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.js`);
+        const { href } = getUrlForEndpoint(`dist/${block.name}/${block.name}.js`);
+        const blockModule = await import(href);
 
         if (blockModule.default) {
           await blockModule.default(block.element);
@@ -171,7 +176,7 @@ export class MainService {
 
   async loadBlockStyles(block: BlockMapping) {
     try {
-      await this.loadCSS(`${window.hlx.codeBasePath}/dist/${block.name}/${block.name}.css`);
+      await this.loadCSS(`dist/${block.name}/${block.name}.css`);
     } catch (error) {
       //do nothing
     }
@@ -182,16 +187,19 @@ export class MainService {
   }
 
   private async loadFonts() {
-    await this.loadCSS(`${window.hlx.codeBasePath}/dist/fonts/fonts.css`);
+    await this.loadCSS('dist/fonts/fonts.css');
     try {
       if (!getLocation().hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
     } catch (e) {
+      console.error('Error setting fonts-loaded in session storage', e);
       // do nothing
     }
   }
 
-  private async loadCSS(href: string) {
+  private async loadCSS(endpoint: string) {
     return new Promise((resolve, reject) => {
+      const { href } = getUrlForEndpoint(endpoint);
+
       if (!document.querySelector(`head > link[href="${href}"]`)) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
