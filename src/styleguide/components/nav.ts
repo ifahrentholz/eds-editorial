@@ -39,56 +39,56 @@ export const navTemplate = () => {
           </div>
           <div class="theme-sidebar-category-title">Basics</div>
           <div>
-            <div class="ls-sidebar-list-item">
-              <span href="#buttons-container" class="ls-sidebar-element">Button</span>
+            <div class="ls-sidebar-list-item"><a href="#button">
+              <span href="#buttons-container" class="ls-sidebar-element">Button</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#colors-container" class="ls-sidebar-element">Colors</span>
+            <div class="ls-sidebar-list-item"><a href="#colors">
+              <span href="#colors-container" class="ls-sidebar-element">Colors</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#grid-container" class="ls-sidebar-element">Grid</span>
+            <div class="ls-sidebar-list-item"><a href="#grid">
+              <span href="#grid-container" class="ls-sidebar-element">Grid</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#icons-container" class="ls-sidebar-element">Icons</span>
+            <div class="ls-sidebar-list-item" ><a href="#icons">
+              <span href="#icons-container" class="ls-sidebar-element">Icons</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#typography-container" class="ls-sidebar-element">Typography</span>
+            <div class="ls-sidebar-list-item"><a href="#typhography">
+              <span href="#typography-container" class="ls-sidebar-element">Typography</span></a>
             </div>
           </div>
           <div class="theme-sidebar-category-title">Elements</div>
           <div>
-            <div class="ls-sidebar-list-item">
-              <span href="#image-container" class="ls-sidebar-element">Image</span>
+            <div class="ls-sidebar-list-item"><a href="#image">
+              <span href="#image-container" class="ls-sidebar-element">Image</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#link-container" class="ls-sidebar-element">Link</span>
+            <div class="ls-sidebar-list-item"><a href="#link">
+              <span href="#link-container" class="ls-sidebar-element">Link</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#media-container" class="ls-sidebar-element">Media</span>
+            <div class="ls-sidebar-list-item"><a href="#media">
+              <span href="#media-container" class="ls-sidebar-element">Media</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#footnote-container" class="ls-sidebar-element">Footnote</span>
+            <div class="ls-sidebar-list-item"><a href="#footnote">
+              <span href="#footnote-container" class="ls-sidebar-element">Footnote</span></a>
             </div>
           </div>
           <div class="theme-sidebar-category-title">Blocks</div>
           <div>
-            <div class="ls-sidebar-list-item">
-              <span href="#banners-container" class="ls-sidebar-element">Banner</span>
+            <div class="ls-sidebar-list-item"><a href="#banner">
+              <span href="#banners-container" class="ls-sidebar-element">Banner</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#features-container" class="ls-sidebar-element">Features</span>
+            <div class="ls-sidebar-list-item"><a href="#features">
+              <span href="#features-container" class="ls-sidebar-element">Features</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#posts-container" class="ls-sidebar-element">Posts</span>
+            <div class="ls-sidebar-list-item"><a href="#posts">
+              <span href="#posts-container" class="ls-sidebar-element">Posts</span></a>
             </div>
           </div>
           <div class="theme-sidebar-category-title">Components</div>
           <div>
-            <div class="ls-sidebar-list-item">
-              <span href="#form-container" class="ls-sidebar-element">Form</span>
+            <div class="ls-sidebar-list-item"><a href="#form">
+              <span href="#form-container" class="ls-sidebar-element">Form</span></a>
             </div>
-            <div class="ls-sidebar-list-item">
-              <span href="#table-container" class="ls-sidebar-element">Table</span>
+            <div class="ls-sidebar-list-item"><a href="#table">
+              <span href="#table-container" class="ls-sidebar-element">Table</span></a>
             </div>
           </div>
         </div>

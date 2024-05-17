@@ -73,6 +73,7 @@ body {
     font-size: 17px;
     cursor: pointer;
     opacity: 0.7;
+    color: black;
 }
 
 .ls-sidebar-element:hover {
