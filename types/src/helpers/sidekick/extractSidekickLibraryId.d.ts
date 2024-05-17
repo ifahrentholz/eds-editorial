@@ -8,7 +8,7 @@
  */
 export type SidekickElement = {
     dataLibraryId?: string;
-    innerHTML: string;
+    content: DocumentFragment;
     href?: string;
 };
 /**
@@ -19,12 +19,12 @@ export type SidekickElement = {
  * @returns {SidekickElement} - A constructed element object.
  *
  * @example
- * const button = extractSidekickLibraryId(document.querySelector('a'));
+ * const cta = extractSidekickLibraryId(document.querySelector('a'));
  * <a
- *  href="${button.href}"
- *  data-library-id="${ifDefined(button.id)}"
- *  contenteditable="${ifDefined(button.id ? true : undefined)}">
- *    ${button.text}
+ *  href="${cta.href}"
+ *  data-library-id="${ifDefined(cta.dataLibraryId)}"
+ *  contenteditable="${ifDefined(cta.dataLibraryId ? true : undefined)}">
+ *    ${cta.content}
  * </a>
  *
  * @remarks
