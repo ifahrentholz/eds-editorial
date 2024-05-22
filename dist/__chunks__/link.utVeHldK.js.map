@@ -1,0 +1,1 @@
+{"version":3,"file":"link.utVeHldK.js","sources":["../../src/styleguide/components/link.ts"],"sourcesContent":["import { html } from 'lit';\n\nexport const template = () => {\n  return html` <a href=\"#\">Link</a> `;\n};\n"],"names":["template","html"],"mappings":"8CAEO,MAAMA,EAAW,IACfC"}

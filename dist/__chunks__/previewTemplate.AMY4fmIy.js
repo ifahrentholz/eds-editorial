@@ -1,0 +1,2 @@
+import{x as s}from"./lit-element.XkUWx5ik.js";const l=(a,e)=>s`<div class="ls-library theme-content-element"><h1>${a}</h1><div class="theme-content-element-description"><div class="ls-example"><a class="ls-example__heading" href="${e}">Example</a><div class="ls-example__body" style="max-height:100vh"><iframe class="iframe-container" src="${e}" frameborder="0"></iframe></div></div></div></div>`;export{l as previewTemplate};
+//# sourceMappingURL=previewTemplate.AMY4fmIy.js.map

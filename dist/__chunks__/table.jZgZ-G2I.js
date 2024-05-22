@@ -1,0 +1,2 @@
+import{x as t}from"./lit-element.XkUWx5ik.js";const r=()=>t`<div class="table"><div class="table-wrapper"><table><thead><tr><th><strong>Cell Header</strong></th><th><strong>Cell Header 2</strong></th></tr></thead><tbody><tr><td>Content 1 <strong>strong</strong></td><td>Content 2</td></tr><tr><td><p><em>Content 3</em></p><p><strong>Content 4</strong></p><p>Content 5</p></td><td></td></tr></tbody></table></div></div>`;export{r as template};
+//# sourceMappingURL=table.jZgZ-G2I.js.map
