@@ -1,4 +1,6 @@
 import { render } from 'lit';
+import { BlockService } from '../../services/block.service';
+import { MainService } from '../../services/main.service';
 
 /* const styleguideDummyData = {
   interface TemplateArgs {
@@ -13,9 +15,18 @@ const getTemplateName = () => {
   const templateName = url.get('template');
   return templateName;
 };
-
-import(`../components/${getTemplateName()}.ts`).then((module) => {
+ 
+import(`../components/${getTemplateName()}.ts`).then(async (module) => {
   const { template } = module;
   const app = document.getElementById('app')!;
-  render(template(), app);
+  const markup = await template();
+  render(markup, app);
+  const blockService = new BlockService();
+  const sectionService = new SectionService(blockService);
+  const main = new MainService(sectionService, blockService);
+  new BlockService().decorateBlock(markup[0]);
+  main.loadBlockModules({
+    name: "banner",
+    element: markup[0],
+  });
 });
