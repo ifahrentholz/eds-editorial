@@ -73,7 +73,7 @@
 
 @media (max-width: 1024px) {
     .theme-content-category  {
-        margin-top: 62px; 
+        margin-top: 62px;
     }
 }
 
@@ -151,8 +151,7 @@
 .table td, .table th {
     padding: .75rem;
     vertical-align: top;
-    border-top: 1px solid #e9ecef;
-    
+    border-top: 1px solid #e9ecef; 
 }
 .table th {
     font-weight: bold;
@@ -192,4 +191,9 @@
 .iframe-container {
     width: 100%;
     min-height: 100vh;
+}
+/* the Library Manager table is only used by the sidekick library,
+   and doens't need to be shown in the styleguide */
+   .library-metadata {
+    display: none;
 }

@@ -5,6 +5,7 @@ import { BlockService } from './block.service';
 import { SectionService } from './section.service';
 import { config } from '../../config.ts';
 import { getLocation } from '../sidekickHelpers/getLocation.ts';
+import { isInStyleguide } from '../utils/isInStyleguide.ts';
 
 type BlockMapping = {
   name: string;
@@ -87,7 +88,7 @@ export class MainService {
   };
 
   private addSidebarContainer(main: HTMLElement) {
-    if (isSidekickLibraryActive()) return;
+    if (isSidekickLibraryActive() || isInStyleguide()) return;
 
     const sidebarContainer = document.createElement('sidebar-component');
     sidebarContainer.setAttribute('id', 'sidebar');
@@ -98,7 +99,7 @@ export class MainService {
 
   private addInnerContainer(main: HTMLElement) {
     const children = main.innerHTML;
-    main.innerHTML = `<div class="inner">${isSidekickLibraryActive() ? `` : `<header-component id="header"></header-component>`}${children}</div>`;
+    main.innerHTML = `<div class="inner">${isSidekickLibraryActive() || isInStyleguide() ? `` : `<header-component id="header"></header-component>`}${children}</div>`;
   }
 
   private loadLazy = async () => {
@@ -208,7 +209,7 @@ export class MainService {
   private async waitForLCP() {
     /* Js Chunks should be loaded
     Old logic only looks after the first block
-    New logic looks in the first section after lcp candidates, 
+    New logic looks in the first section after lcp candidates,
     since we show ech section depending on if its blocks and modules are loaded */
     const firstSection: HTMLElement | null = document.querySelector('.section');
 
