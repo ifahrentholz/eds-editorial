@@ -1,0 +1,1 @@
+{"version":3,"file":"posts.HJi8Vji7.js","sources":["../../src/styleguide/components/posts.ts"],"sourcesContent":["import { getSidekickBlockMarkup } from '../js/helpers';\n\nexport const template = async () => {\n  return await getSidekickBlockMarkup('posts');\n};\n"],"names":["template","getSidekickBlockMarkup"],"mappings":"8GAEO,MAAMA,EAAW,SACf,MAAMC,EAAuB,OAAO"}

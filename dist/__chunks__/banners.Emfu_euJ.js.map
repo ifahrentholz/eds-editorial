@@ -1,0 +1,1 @@
+{"version":3,"file":"banners.Emfu_euJ.js","sources":["../../src/styleguide/components/banners.ts"],"sourcesContent":["import { getSidekickBlockMarkup } from '../js/helpers';\n\nexport const template = async () => {\n  return await getSidekickBlockMarkup('banners');\n};\n"],"names":["template","getSidekickBlockMarkup"],"mappings":"8GAEO,MAAMA,EAAW,SACf,MAAMC,EAAuB,SAAS"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"features.64A2LFFZ.js","sources":["../../src/styleguide/components/features.ts"],"sourcesContent":["import { getSidekickBlockMarkup } from '../js/helpers';\n\nexport const template = async () => {\n  return await getSidekickBlockMarkup('features');\n};\n"],"names":["template","getSidekickBlockMarkup"],"mappings":"8GAEO,MAAMA,EAAW,SACf,MAAMC,EAAuB,UAAU"}

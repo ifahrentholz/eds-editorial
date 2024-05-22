@@ -1,2 +1,0 @@
-import{x as l}from"./lit-element.CH8ciVnL.js";const i=(a,e)=>l`<div class="ls-library theme-content-element"><h1>${a}</h1><div class="theme-content-element-description"><div class="ls-example"><a class="ls-example__heading" href="${e}" target="_blank">Example</a><div class="ls-example__body" style="max-height:100vh"><iframe class="iframe-container" src="${e}" frameborder="0" loading="lazy"></iframe></div></div></div></div>`;export{i as previewTemplate};
-//# sourceMappingURL=previewTemplate.DUBeZJnu.js.map
