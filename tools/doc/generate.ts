@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { buildDocumentation, documentationToMarkdown } from 'tsdoc-markdown';
+import * as fs from 'fs';
+import path from 'node:path';
 
 // Source directories
 const docsDirectories = ['src/helpers/sidekick', 'src/directives', 'src/utils'];
@@ -13,14 +13,14 @@ if (fs.existsSync(outputFile)) {
   fs.writeFileSync(outputFile, '# Documentation\n');
 }
 
-docsDirectories.forEach(docsDirectory => {
+docsDirectories.forEach((docsDirectory) => {
   // Read all files from the source directory
   fs.readdir(docsDirectory, (err, files) => {
     if (err) {
       console.error('Error reading directory:', err);
       return;
     }
-    
+
     // Create an array to hold the content of each directory
     const directoryContents: string[] = [];
 
@@ -30,16 +30,16 @@ docsDirectories.forEach(docsDirectory => {
     // Create an array to hold the paths of the files
     const filePaths: string[] = [];
 
-    files.forEach(file => {
+    files.forEach((file) => {
       const filePath = path.join(docsDirectory, file);
       filePaths.push(filePath);
     });
 
     // Build documentation for every file in the directory
-    const directoryDocumentation = buildDocumentation({inputFiles: filePaths, options: { types: true }});
+    const directoryDocumentation = buildDocumentation({ inputFiles: filePaths, options: { types: true } });
 
     // Generate the markdown for every file in the directory
-    let directoryMarkdown = documentationToMarkdown({entries: directoryDocumentation, options: { emoji: undefined }});
+    let directoryMarkdown = documentationToMarkdown({ entries: directoryDocumentation, options: { emoji: undefined } });
 
     // Add the wrapped markup to the array
     directoryContents.push(`<details><summary>${directoryTitle}</summary>\n\n${directoryMarkdown}\n\n</details>\n\n`);
