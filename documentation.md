@@ -1,27 +1,11 @@
 # Documentation
-<details><summary>src/directives</summary>
-
-## :wrench: Constants
-
-- [getSidekickLibraryId](#gear-getsidekicklibraryid)
-
-### :gear: getSidekickLibraryId
-
-| Constant | Type |
-| ---------- | ---------- |
-| `getSidekickLibraryId` | `(sidekickElement: SidekickElement) => DirectiveResult<typeof SidekickLibraryId>` |
-
-
-
-
-</details>
-
 <details><summary>src/utils</summary>
 
 ## :toolbox: Functions
 
 - [toClassName](#gear-toclassname)
 - [addClasses](#gear-addclasses)
+- [cleanUpBlock](#gear-cleanupblock)
 - [createOptimizedPicture](#gear-createoptimizedpicture)
 - [getMetadata](#gear-getmetadata)
 - [replaceBySpecifier](#gear-replacebyspecifier)
@@ -54,6 +38,19 @@ Parameters:
 
 * `element`: - The HTML element to which classes will be added.
 * `classes`: - A string containing CSS classes separated by commas.
+
+
+### :gear: cleanUpBlock
+
+Cleans up a block by removing its inner HTML content and resetting its display property.
+
+| Function | Type |
+| ---------- | ---------- |
+| `cleanUpBlock` | `(block: HTMLElement) => void` |
+
+Parameters:
+
+* `block`: - The HTML element representing the block to clean up.
 
 
 ### :gear: createOptimizedPicture
@@ -190,6 +187,23 @@ Represents the arguments for creating an optimized picture element.
 | `height` | `number` |  |
 | `eager` | `boolean or undefined` |  |
 | `breakpoints` | `BreakPoint[] or undefined` |  |
+
+
+
+</details>
+
+<details><summary>src/directives</summary>
+
+## :wrench: Constants
+
+- [getSidekickLibraryId](#gear-getsidekicklibraryid)
+
+### :gear: getSidekickLibraryId
+
+| Constant | Type |
+| ---------- | ---------- |
+| `getSidekickLibraryId` | `(sidekickElement: SidekickElement) => DirectiveResult<typeof SidekickLibraryId>` |
+
 
 
 
