@@ -11,6 +11,7 @@ import './sidebarNav.ts';
 import './sidebarContact.ts';
 import './sidebarPosts.ts';
 import './sidebarFooter.ts';
+
 import { renderIcon } from '../icon/icon.template.ts';
 
 @customElement('sidebar-component')

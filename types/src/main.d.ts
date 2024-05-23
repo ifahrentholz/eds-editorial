@@ -1,7 +1,7 @@
-import './components/sidebar/sidebar.ts';
+import './components/sidebar/sidebar.init.ts';
+import './components/innerContainer/innerContainer.init.ts';
 import './components/header.ts';
 import './components/icon/icon.ts';
-import './services/fetch.service.ts';
 declare global {
     interface Window {
         hlx: {

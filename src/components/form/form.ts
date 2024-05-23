@@ -147,7 +147,6 @@ export class Form extends LitElement {
         },
       });
       if (response.ok) {
-        console.log(payload);
         if (form.dataset.confirmation) {
           window.location.href = form.dataset.confirmation;
         }
