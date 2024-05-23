@@ -7,7 +7,7 @@
     "aemUp": "aem up",
     "build": "tsc && vite build",
     "build:watch": "run-p tsc:watch vite:watch",
-    "buildDocs": "npx tsx generateDocs.ts",
+    "build:doc": "ts-node  -O '{\"module\": \"commonjs\"}' ./tools/doc/generate.ts",
     "lint:js": "eslint 'src/**/!(*-toc).{js,json,ts}'",
     "lint:js:fix": "eslint --fix 'src/**/!(*-toc).{js,json,ts}'",
     "lint:css": "stylelint src/**/*.scss",
