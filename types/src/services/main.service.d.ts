@@ -15,9 +15,20 @@ export declare class MainService {
      */
     private setup;
     private loadEager;
-    private addSidebarContainer;
     private addInnerContainer;
     private loadLazy;
+    /**
+     * Decorates the template and theme by adding classes to the body.
+     * The classes are defined in the meta tags of the document.
+     * @private
+     * @memberof MainService
+     * @returns {void}
+     * @example
+     * <meta name="template" content="template-name">
+     * <meta name="theme" content="theme-name">
+     * @example
+     * <body class="template-name theme-name">
+     */
     private decorateTemplateAndTheme;
     /**
      * Loads Blocks
