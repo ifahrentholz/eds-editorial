@@ -15,7 +15,6 @@ declare class FetchService {
     private getResponseText;
     private getCachedData;
     private setCachedData;
-    private getCodeBasePath;
 }
 declare const _default: FetchService;
 export default _default;

@@ -3,14 +3,15 @@
  * @copyright diva-e (https://diva-e.com)
  */
 
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Ref, createRef, ref } from 'lit/directives/ref.js';
+import { createRef, Ref, ref } from 'lit/directives/ref.js';
 
 import './sidebarNav.ts';
 import './sidebarContact.ts';
 import './sidebarPosts.ts';
 import './sidebarFooter.ts';
+
 import { renderIcon } from '../icon/icon.template.ts';
 
 @customElement('sidebar-component')

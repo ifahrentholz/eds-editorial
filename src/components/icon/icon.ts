@@ -2,7 +2,8 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { until } from 'lit/directives/until.js';
-import { ICONS_PATH } from '../../constants.ts';
+import { ICONS_PATH } from 'Constants/paths.ts';
+import { DebuggerService } from '@kluntje/services';
 
 // Vite runs on build time and finds all svg files in icons directory
 // Since import.meta.glob only accepts literals ICON_PATH cant be used
@@ -15,9 +16,14 @@ export class Icon extends LitElement {
 
   async getSvg(name: string) {
     const key = modules[`${ICONS_PATH}/${name}.svg`];
-    const iconMarkupFunc = key !== undefined ? key : modules[`${ICONS_PATH}/cross.svg`];
-    const iconMarkup = await iconMarkupFunc().catch((e: Error) => console.error(`SVG icon: ${e.message}`));
-    return unsafeSVG(iconMarkup as string);
+    const iconMarkupFunc = key ?? modules[`${ICONS_PATH}/cross.svg`];
+    try {
+      const iconMarkup = await iconMarkupFunc();
+      return unsafeSVG(iconMarkup);
+    } catch (error) {
+      DebuggerService.error(`Icon Component: SVG icon: ${error.message}`, error);
+      return;
+    }
   }
 
   render() {
@@ -25,7 +31,7 @@ export class Icon extends LitElement {
     return html`${until(svg)}`;
   }
 
-  static styles = css`
+  static readonly styles = css`
     :host {
       display: flex;
       align-items: center;

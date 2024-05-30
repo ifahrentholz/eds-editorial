@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import { generateBlockEntries, generateIconNameType } from './vite.helpers';
-import { config } from './config.ts';
+import { config } from './config';
 import { resolve } from 'path';
 import { InputOption } from 'rollup';
 
@@ -35,6 +35,18 @@ export default defineConfig(({ command, mode }) => {
         scss: {
           additionalData: `@import 'src/styles/sass/libs/_index.scss';`,
         },
+      },
+    },
+    resolve: {
+      alias: {
+        Blocks: resolve(__dirname, 'src/blocks'),
+        Components: resolve(__dirname, 'src/components'),
+        Directives: resolve(__dirname, 'src/directives'),
+        Services: resolve(__dirname, 'src/services'),
+        Helpers: resolve(__dirname, 'src/helpers'),
+        Constants: resolve(__dirname, 'src/constants'),
+        Types: resolve(__dirname, 'src/types'),
+        Utils: resolve(__dirname, 'src/utils'),
       },
     },
     build: {

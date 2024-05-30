@@ -1,5 +1,5 @@
 import { html, nothing } from 'lit';
-import { toClassName } from '../../utils/toClassName';
+import { toClassName } from 'Utils/toClassName.ts';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 export type FormFieldType =

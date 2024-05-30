@@ -1,32 +1,1160 @@
-import{T as h,s as _,x as c,w as M,i as ee}from"../__chunks__/lit-element.XkUWx5ik.js";import{t as f,n as te}from"../__chunks__/property.0daVBkvz.js";import{i as se,t as re,e as k,o as Y,a as ie}from"../__chunks__/unsafe-html.U1vgpvJh.js";import{r as b,t as E}from"../__chunks__/toClassName.o2_BLIQs.js";import{F as $}from"../__chunks__/fetch.service.MWvor5vW.js";import{r as S}from"../__chunks__/icon.template.6pvZO8OV.js";import{c as oe}from"../__chunks__/createOptimizedPicture.lBh_4LJd.js";import{_ as a}from"../__chunks__/typography.HSx7BF2R.js";import{i as y}from"../__chunks__/isSidekickLibraryActive.iN4ARc8o.js";/**
+import { t as I, r as f } from '../__chunks__/state.CJfvw0Ck.js';
+import { i as R } from '../__chunks__/isSidekickLibraryActive.U-fJCMMj.js';
+import { g as se, m as p, F as L } from '../__chunks__/fetch.service.yiMnp1FM.js';
+import { _ as n } from '../__chunks__/preload-helper.D7itGvJr.js';
+import { T as m, s as v, x as l, w as X, i as pe } from '../__chunks__/lit-element.CH8ciVnL.js';
+import { t as y, n as fe } from '../__chunks__/property.Ds9fqW-T.js';
+import { i as me, t as _e, e as j, o as oe, a as ge } from '../__chunks__/unsafe-html.C_rT9aKG.js';
+import { r as x } from '../__chunks__/icon.template.3G0fuXUC.js';
+import { P as g, c as ve } from '../__chunks__/createOptimizedPicture.DLZ8Nghn.js';
+const K = (e, t) => {
+  t.split(',').forEach((r) => {
+    e.classList.add(I(r.trim()));
+  });
+};
+function V(e, t = document) {
+  const r = e && e.includes(':') ? 'property' : 'name',
+    o = [...t.head.querySelectorAll(`meta[${r}="${e}"]`)].map((i) => i.content).join(', ');
+  return o.length ? o : '';
+}
+function ye() {
+  const e = V('template');
+  e && K(document.body, e);
+  const t = V('theme');
+  t && K(document.body, t);
+}
+function be(e) {
+  e.querySelectorAll('a').forEach((t) => {
+    if (((t.title = t.title || t.textContent), t.href !== t.textContent)) {
+      const r = t.parentElement,
+        s = t.parentElement.parentElement;
+      t.querySelector('img') ||
+        (r.childNodes.length === 1 &&
+          (r.tagName === 'P' || r.tagName === 'DIV') &&
+          ((t.className = 'button'), r.classList.add('button-container')),
+        r.childNodes.length === 1 &&
+          r.tagName === 'STRONG' &&
+          s.childNodes.length === 1 &&
+          s.tagName === 'P' &&
+          ((t.className = 'button primary'), s.classList.add('button-container')),
+        r.childNodes.length === 1 &&
+          r.tagName === 'EM' &&
+          s.childNodes.length === 1 &&
+          s.tagName === 'P' &&
+          ((t.className = 'button secondary'), s.classList.add('button-container')));
+    }
+  });
+}
+function Pe(e) {
+  return e.trim() === '' ? void 0 : e;
+}
+function we() {
+  const e = V('language');
+  document.documentElement.lang = Pe(e) || 'en';
+}
+function Le() {
+  return R() ? window.parent.location : window.location;
+}
+async function E(e) {
+  return new Promise((t, r) => {
+    const { href: s } = se(e);
+    if (document.querySelector(`head > link[href="${s}"]`)) t();
+    else {
+      const o = document.createElement('link');
+      (o.rel = 'stylesheet'), (o.href = s), (o.onload = () => t()), (o.onerror = r), document.head.append(o);
+    }
+  });
+}
+const H = {
+  mainTsPath: './src/main.ts',
+  mainScssPath: './src/styles/sass/main.scss',
+  iconsDirPath: './public/icons',
+  iconsTypesPath: './src/types/icons.types.ts',
+  fontsScssPath: './src/styles/sass/fonts.scss',
+  fontsCssPath: './dist/fonts/fonts.css',
+  lazyStylesScssPath: './src/styles/sass/lazy-styles.scss',
+  lazyStylesCssPath: './dist/lazyStyles/lazyStyles.css',
+  sidekickLibraryStylesScssPath: './src/styles/sass/sidekick-library-styles.scss',
+  sidekickLibraryStylesCssPath: './dist/sidekickLibraryStyles/sidekickLibraryStyles.css',
+  lcpBlocks: ['banner'],
+};
+async function W() {
+  const { fontsCssPath: e } = H;
+  if (e) {
+    await E(e);
+    try {
+      Le().hostname.includes('localhost') || sessionStorage.setItem('fonts-loaded', 'true');
+    } catch (t) {
+      p.error('loadFonts: Error setting fonts-loaded in session storage', t);
+    }
+  }
+}
+function c(e, t = {}) {
+  c.defer = c.defer || [];
+  const r = (s) => {
+    c[s] = c[s] || ((...o) => c.defer.push({ fnname: s, args: o }));
+  };
+  (c.drain =
+    c.drain ||
+    ((s, o) => {
+      (c[s] = o), c.defer.filter(({ fnname: i }) => s === i).forEach(({ fnname: i, args: a }) => c[i](...a));
+    })),
+    (c.always = c.always || []),
+    (c.always.on = (s, o) => {
+      c.always[s] = o;
+    }),
+    (c.on = (s, o) => {
+      c.cases[s] = o;
+    }),
+    r('observe'),
+    r('cwv');
+  try {
+    if (((window.hlx = window.hlx || {}), !window.hlx.rum)) {
+      const d = new URLSearchParams(window.location.search).get('rum') === 'on' ? 1 : 100,
+        h = Array.from({ length: 75 }, (Z, ue) => String.fromCharCode(48 + ue))
+          .filter((Z) => /\d|[A-Z]/i.test(Z))
+          .filter(() => Math.random() * 75 > 70)
+          .join(''),
+        _ = Math.random(),
+        u = _ * d < 1,
+        b = Date.now(),
+        he = {
+          full: () => window.location.href,
+          origin: () => window.location.origin,
+          path: () => window.location.href.replace(/\?.*$/, ''),
+        };
+      window.hlx.rum = {
+        weight: d,
+        id: h,
+        random: _,
+        isSelected: u,
+        firstReadTime: b,
+        sampleRUM: c,
+        sanitizeURL: he[window.hlx.RUM_MASK_URL || 'path'],
+      };
+    }
+    const { weight: s, id: o, firstReadTime: i } = window.hlx.rum;
+    if (window.hlx && window.hlx.rum && window.hlx.rum.isSelected) {
+      const a = ['weight', 'id', 'referer', 'checkpoint', 't', 'source', 'target', 'cwv', 'CLS', 'FID', 'LCP', 'INP'],
+        d = (h = t) => {
+          const _ = JSON.stringify(
+              { weight: s, id: o, referer: window.hlx.rum.sanitizeURL(), checkpoint: e, t: Date.now() - i, ...t },
+              a
+            ),
+            u = `https://rum.hlx.page/.rum/${s}`;
+          navigator.sendBeacon(u, _), console.debug(`ping:${e}`, h);
+        };
+      (c.cases = c.cases || {
+        cwv: () => c.cwv(t) || !0,
+        lazy: () => {
+          const h = document.createElement('script');
+          return (
+            (h.src = 'https://rum.hlx.page/.rum/@adobe/helix-rum-enhancer@^1/src/index.js'),
+            document.head.appendChild(h),
+            !0
+          );
+        },
+      }),
+        d(t),
+        c.cases[e] && c.cases[e]();
+    }
+    c.always[e] && c.always[e](t);
+  } catch {}
+}
+function $e(e = '/dist/main/main.js') {
+  (window.hlx = window.hlx || {}),
+    (window.hlx.RUM_MASK_URL = 'full'),
+    (window.hlx.codeBasePath = ''),
+    (window.hlx.lighthouse = new URLSearchParams(window.location.search).get('lighthouse') === 'on');
+  const t = document.querySelector(`script[src$="${e}"]`);
+  if (t)
+    try {
+      [window.hlx.codeBasePath] = new URL(t.src).pathname.split(e);
+    } catch (r) {
+      p.log('setupHlxObj: Could not set codeBasePath.', r);
+    }
+}
+function Ee() {
+  $e(),
+    c('top'),
+    window.addEventListener('load', () => c('load')),
+    window.addEventListener('unhandledrejection', (e) => {
+      c('error', { source: e.reason.sourceURL, target: e.reason.line });
+    }),
+    window.addEventListener('error', (e) => {
+      c('error', { source: e.filename, target: e.lineno });
+    });
+}
+function ie(e) {
+  const t = [];
+  return (
+    e.querySelectorAll('[data-block-name]').forEach((s) => {
+      t.push({ name: s.dataset.blockName, element: s });
+    }),
+    t
+  );
+}
+async function ae(e) {
+  if ((e.element.dataset.blockStatus ?? 'unloaded') === 'unloaded')
+    try {
+      e.element.dataset.blockStatus = 'loading';
+      const { href: r } = se(`dist/${e.name}/${e.name}.js`),
+        s = await n(() => import(r), __vite__mapDeps([]));
+      s.default && (await s.default(e.element)), (e.element.dataset.blockStatus = 'loaded');
+    } catch (r) {
+      (e.element.dataset.blockStatus = 'error'), p.error('loadBlockModules:', r);
+    }
+}
+async function ne(e) {
+  try {
+    await E(`dist/${e.name}/${e.name}.css`);
+  } catch (t) {
+    p.error('loadBlockStyles: Could not load css styles.', t);
+  }
+}
+function N(e) {
+  e.style.removeProperty('display');
+}
+async function Ce(e) {
+  const t = ie(e);
+  if (!t.length) {
+    N(e);
+    return;
+  }
+  const r = [];
+  for (const s of t) r.push(Promise.all([ae(s), ne(s)]));
+  await Promise.all(r), N(e);
+}
+async function Se() {
+  const t = [...document.querySelectorAll('.section')].map((r) => Ce(r));
+  await Promise.all(t);
+}
+function Te() {
+  document.querySelectorAll('.default-content-wrapper picture').forEach((t) => {
+    const r = t.parentElement;
+    r && r.classList.add('image', 'main');
+  });
+}
+function Ae(e) {
+  const t = [];
+  let r = !1;
+  [...e.children].forEach((s) => {
+    if (s.tagName === 'DIV' || !r) {
+      const o = document.createElement('div');
+      t.push(o), (r = s.tagName !== 'DIV'), r && o.classList.add('default-content-wrapper');
+    }
+    t[t.length - 1].append(s);
+  }),
+    t.forEach((s) => e.append(s)),
+    Te(),
+    e.classList.add('section'),
+    (e.dataset.sectionStatus = 'initialized'),
+    (e.style.display = 'none');
+}
+function De(e) {
+  return /^[a-z][A-Za-z0-9]*$/.test(e)
+    ? e
+    : /^[A-Z][A-Za-z0-9]*$/.test(e)
+      ? e.charAt(0).toLowerCase() + e.slice(1)
+      : I(e).replace(/-([a-z])/g, (t) => t[1].toUpperCase());
+}
+function Oe(e) {
+  const t = {};
+  return (
+    e.querySelectorAll(':scope > div').forEach((r) => {
+      if (r.children) {
+        const s = [...r.children];
+        if (s[1]) {
+          const o = s[1],
+            i = I(s[0].textContent ?? '');
+          let a = '';
+          if (o.querySelector('a')) {
+            const d = [...o.querySelectorAll('a')];
+            d.length === 1 ? (a = d[0].href) : (a = d.map((h) => h.href));
+          } else if (o.querySelector('img')) {
+            const d = [...o.querySelectorAll('img')];
+            d.length === 1 ? (a = d[0].src) : (a = d.map((h) => h.src));
+          } else if (o.querySelector('p')) {
+            const d = [...o.querySelectorAll('p')];
+            d.length === 1 ? (a = d[0].textContent) : (a = d.map((h) => h.textContent));
+          } else a = r.children[1].textContent;
+          t[i] = a;
+        }
+      }
+    }),
+    t
+  );
+}
+function ke(e) {
+  const t = e.querySelector('div.section-metadata');
+  if (t) {
+    const r = Oe(t);
+    Object.keys(r).forEach((s) => {
+      s === 'style'
+        ? r.style
+            .split(',')
+            .filter((i) => i)
+            .map((i) => I(i.trim()))
+            .forEach((i) => e.classList.add(i))
+        : (e.dataset[De(s)] = r[s]);
+    }),
+      t.parentElement && t.parentElement.remove();
+  }
+}
+function Ie(e) {
+  e.querySelectorAll(':scope > div').forEach((t) => {
+    Ae(t), ke(t);
+  });
+}
+function Re(e) {
+  e.querySelectorAll('div.section > div > div').forEach((t) => {
+    const r = t.classList[0];
+    if (r) {
+      t.classList.add('block'), (t.dataset.blockName = r);
+      const s = t.parentElement;
+      s == null || s.classList.add(`${r}-wrapper`);
+      const o = t.closest('.section');
+      o && o.classList.add(`${r}-container`);
+    }
+  });
+}
+async function xe() {
+  const e = document.querySelector('.section'),
+    { lcpBlocks: t } = H;
+  if (e) {
+    const o = ie(e).map(async (i) => {
+      (t == null ? void 0 : t.includes(i.name)) && (await Promise.all([ae(i), ne(i)]));
+    });
+    await Promise.all(o), N(e);
+  }
+  document.body.style.display = null;
+  const r = document.querySelector('main img');
+  await new Promise((s) => {
+    r && !r.complete
+      ? (r.setAttribute('loading', 'eager'),
+        r.setAttribute('fetchpriority', 'high'),
+        r.addEventListener('load', () => s()),
+        r.addEventListener('error', () => s()))
+      : s();
+  });
+}
+class ze {
+  constructor() {
+    (this.beforeEagerCallbacks = []),
+      (this.loadEagerCallbacks = []),
+      (this.beforeLoadLazyCallbacks = []),
+      (this.loadLazyCallbacks = []),
+      (this.beforeLoadDelayedCallbacks = []),
+      (this.loadDelayedCallbacks = []),
+      (this.initializedCallbacks = []);
+  }
+  get beforeEager() {
+    return (
+      this.beforeEagerPromise === void 0 && (this.beforeEagerPromise = this.beforeLoadEager()), this.beforeEagerPromise
+    );
+  }
+  get loadEager() {
+    return this.eagerPromise === void 0 && (this.eagerPromise = this.loadEagerPromise()), this.eagerPromise;
+  }
+  get beforeLoadLazy() {
+    return (
+      this.beforeLazyPromise === void 0 && (this.beforeLazyPromise = this.beforeLoadLazyPromise()),
+      this.beforeLazyPromise
+    );
+  }
+  get loadLazy() {
+    return this.lazyPromise === void 0 && (this.lazyPromise = this.loadLazyPromise()), this.lazyPromise;
+  }
+  get beforeLoadDelayed() {
+    return (
+      this.beforeDelayedPromise === void 0 && (this.beforeDelayedPromise = this.beforeLoadDelayedPromise()),
+      this.beforeDelayedPromise
+    );
+  }
+  get loadDelayed() {
+    return this.delayedPromise === void 0 && (this.delayedPromise = this.loadDelayedPromise()), this.delayedPromise;
+  }
+  get initialized() {
+    return (
+      this.initializedPromise === void 0 && (this.initializedPromise = this.getInitializedPromise()),
+      this.initializedPromise
+    );
+  }
+  addBeforeEagerTask(t) {
+    this.beforeEagerCallbacks.push(t);
+  }
+  addLoadEagerTask(t) {
+    this.loadEagerCallbacks.push(t);
+  }
+  addBeforeLoadLazyTask(t) {
+    this.beforeLoadLazyCallbacks.push(t);
+  }
+  addLoadLazyTask(t) {
+    this.loadLazyCallbacks.push(t);
+  }
+  addBeforeLoadDelayedTask(t) {
+    this.beforeLoadDelayedCallbacks.push(t);
+  }
+  addLoadDelayedTask(t) {
+    this.loadDelayedCallbacks.push(t);
+  }
+  addInitializedTask(t) {
+    this.initializedCallbacks.push(t);
+  }
+  async init() {
+    await this.beforeEager,
+      await this.loadEager,
+      await this.beforeLoadLazy,
+      await this.loadLazy,
+      await this.beforeLoadDelayed,
+      await this.loadDelayed,
+      await this.initialized;
+  }
+  async beforeLoadEager() {
+    const t = new Promise((r) => {
+      Ee(), ye(), we(), r();
+    });
+    await Promise.all([...this.beforeEagerCallbacks.map((r) => r()), t]);
+  }
+  async loadEagerPromise() {
+    const t = new Promise(async (r) => {
+      try {
+        const s = document.querySelector('main');
+        be(s),
+          Ie(s),
+          Re(s),
+          setTimeout(() => {
+            document.body.classList.add('show'), r();
+          }, 100),
+          (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) && (await W());
+      } catch (s) {
+        p.error('index: could not load fonts', s);
+      }
+    });
+    await Promise.all([...this.loadEagerCallbacks.map((r) => r()), t, xe()]);
+  }
+  async beforeLoadLazyPromise() {
+    const t = new Promise((r) => r());
+    await Promise.all([...this.beforeLoadLazyCallbacks.map((r) => r()), t]);
+  }
+  async loadLazyPromise() {
+    const t = new Promise(async (r) => {
+      try {
+        const {
+          lazyStylesScssPath: s,
+          sidekickLibraryStylesScssPath: o,
+          fontsScssPath: i,
+          lazyStylesCssPath: a,
+          sidekickLibraryStylesCssPath: d,
+        } = H;
+        await Se();
+        const { hash: h } = window.location,
+          _ = h ? document.getElementById(h.substring(1)) : !1;
+        h && _ && _.scrollIntoView(),
+          s && a && (await E(a)),
+          o && d && R() && (await E(d)),
+          i && (await W()),
+          c('lazy');
+        const u = document.querySelector('main');
+        c.observe(u.querySelectorAll('div[data-block-name]')), c.observe(u.querySelectorAll('picture > img'));
+      } catch (s) {
+        p.error('LoadLazyTask: ', s);
+      }
+      r();
+    });
+    await Promise.all([...this.loadLazyCallbacks.map((r) => r()), t]);
+  }
+  async beforeLoadDelayedPromise() {
+    const t = new Promise((r) => r());
+    await Promise.all([...this.beforeLoadDelayedCallbacks.map((r) => r()), t]);
+  }
+  async loadDelayedPromise() {
+    const t = new Promise((r) => {
+      setTimeout(() => {
+        r();
+      }, 3e3);
+    });
+    await Promise.all([...this.loadDelayedCallbacks.map((r) => r()), t]);
+  }
+  async getInitializedPromise() {
+    const t = new Promise((r) => r());
+    await Promise.all([...this.initializedCallbacks.map((r) => r()), t]);
+  }
+}
+const C = new ze();
+/**
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const ne=e=>e===null||typeof e!="object"&&typeof e!="function",ae=e=>e.strings===void 0;/**
+ */ const Me = (e) => e === null || (typeof e != 'object' && typeof e != 'function'),
+  Ve = (e) => e.strings === void 0;
+/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const g=(e,t)=>{var r;const s=e._$AN;if(s===void 0)return!1;for(const i of s)(r=i._$AO)==null||r.call(i,t,!1),g(i,t);return!0},P=e=>{let t,s;do{if((t=e._$AM)===void 0)break;s=t._$AN,s.delete(e),e=t}while((s==null?void 0:s.size)===0)},U=e=>{for(let t;t=e._$AM;e=t){let s=t._$AN;if(s===void 0)t._$AN=s=new Set;else if(s.has(e))break;s.add(e),de(t)}};function ce(e){this._$AN!==void 0?(P(this),this._$AM=e,U(this)):this._$AM=e}function le(e,t=!1,s=0){const r=this._$AH,i=this._$AN;if(i!==void 0&&i.size!==0)if(t)if(Array.isArray(r))for(let o=s;o<r.length;o++)g(r[o],!1),P(r[o]);else r!=null&&(g(r,!1),P(r));else g(this,e)}const de=e=>{e.type==re.CHILD&&(e._$AP??(e._$AP=le),e._$AQ??(e._$AQ=ce))};class Z extends se{constructor(){super(...arguments),this._$AN=void 0}_$AT(t,s,r){super._$AT(t,s,r),U(this),this.isConnected=t._$AU}_$AO(t,s=!0){var r,i;t!==this.isConnected&&(this.isConnected=t,t?(r=this.reconnected)==null||r.call(this):(i=this.disconnected)==null||i.call(this)),s&&(g(this,t),P(this))}setValue(t){if(ae(this._$Ct))this._$Ct._$AI(t,this);else{const s=[...this._$Ct._$AH];s[this._$Ci]=t,this._$Ct._$AI(s,this,0)}}disconnected(){}reconnected(){}}/**
+ */ const P = (e, t) => {
+    var s;
+    const r = e._$AN;
+    if (r === void 0) return !1;
+    for (const o of r) (s = o._$AO) == null || s.call(o, t, !1), P(o, t);
+    return !0;
+  },
+  S = (e) => {
+    let t, r;
+    do {
+      if ((t = e._$AM) === void 0) break;
+      (r = t._$AN), r.delete(e), (e = t);
+    } while ((r == null ? void 0 : r.size) === 0);
+  },
+  ce = (e) => {
+    for (let t; (t = e._$AM); e = t) {
+      let r = t._$AN;
+      if (r === void 0) t._$AN = r = new Set();
+      else if (r.has(e)) break;
+      r.add(e), je(t);
+    }
+  };
+function Ne(e) {
+  this._$AN !== void 0 ? (S(this), (this._$AM = e), ce(this)) : (this._$AM = e);
+}
+function qe(e, t = !1, r = 0) {
+  const s = this._$AH,
+    o = this._$AN;
+  if (o !== void 0 && o.size !== 0)
+    if (t)
+      if (Array.isArray(s)) for (let i = r; i < s.length; i++) P(s[i], !1), S(s[i]);
+      else s != null && (P(s, !1), S(s));
+    else P(this, e);
+}
+const je = (e) => {
+  e.type == _e.CHILD && (e._$AP ?? (e._$AP = qe), e._$AQ ?? (e._$AQ = Ne));
+};
+class le extends me {
+  constructor() {
+    super(...arguments), (this._$AN = void 0);
+  }
+  _$AT(t, r, s) {
+    super._$AT(t, r, s), ce(this), (this.isConnected = t._$AU);
+  }
+  _$AO(t, r = !0) {
+    var s, o;
+    t !== this.isConnected &&
+      ((this.isConnected = t),
+      t ? (s = this.reconnected) == null || s.call(this) : (o = this.disconnected) == null || o.call(this)),
+      r && (P(this, t), S(this));
+  }
+  setValue(t) {
+    if (Ve(this._$Ct)) this._$Ct._$AI(t, this);
+    else {
+      const r = [...this._$Ct._$AH];
+      (r[this._$Ci] = t), this._$Ct._$AI(r, this, 0);
+    }
+  }
+  disconnected() {}
+  reconnected() {}
+}
+/**
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const he=()=>new ue;let ue=class{};const L=new WeakMap,pe=k(class extends Z{render(e){return h}update(e,[t]){var r;const s=t!==this.Y;return s&&this.Y!==void 0&&this.rt(void 0),(s||this.lt!==this.ct)&&(this.Y=t,this.ht=(r=e.options)==null?void 0:r.host,this.rt(this.ct=e.element)),h}rt(e){if(typeof this.Y=="function"){const t=this.ht??globalThis;let s=L.get(t);s===void 0&&(s=new WeakMap,L.set(t,s)),s.get(this.Y)!==void 0&&this.Y.call(this.ht,void 0),s.set(this.Y,e),e!==void 0&&this.Y.call(this.ht,e)}else this.Y.value=e}get lt(){var e,t;return typeof this.Y=="function"?(e=L.get(this.ht??globalThis))==null?void 0:e.get(this.Y):(t=this.Y)==null?void 0:t.value}disconnected(){this.lt===this.ct&&this.rt(void 0)}reconnected(){this.rt(this.ct)}});var _e=Object.defineProperty,fe=Object.getOwnPropertyDescriptor,K=(e,t,s,r)=>{for(var i=r>1?void 0:r?fe(t,s):t,o=e.length-1,n;o>=0;o--)(n=e[o])&&(i=(r?n(t,s,i):n(i))||i);return r&&i&&_e(t,s,i),i};let C=class extends _{constructor(){super(...arguments),this.getSubmenuName=e=>e.path.split("/")[1],this.groupByFirstLevelPath=async()=>{let e=await $.fetchJson("/query-index.json");const t=["sidekick","sidekick-library","tools","development","dev-","__"],s=this.filterNavigation(e.data,t);e.data=s;const r=this.groupItemsByFirstLevelPath(e.data);return Object.values(r).map(o=>o.length===1?o[0]:{navtitle:o[0].path.split("/")[1],path:o[0].path,children:o})}}createRenderRoot(){return this}async firstUpdated(){this.items=await this.groupByFirstLevelPath()}render(){if(this.items)return c`<nav id="menu"><header class="major"><h2>Menu</h2></header>${this.renderMenuItems()}</nav>`}toggleSubmenu({currentTarget:e}){!(e instanceof HTMLElement)||!e.classList.contains("opener")||e.classList.toggle("active")}renderSubMenu(e){return c`<span @click="${this.toggleSubmenu}" class="opener submenu"><span class="submenu__text">${e.navtitle} </span>${S("chevron-down","submenu__icon")}</span><ul>${e.children.map(t=>c`<li><a href="${t.path}">${t.navtitle}</a></li>`)}</ul>`}renderMenuItem(e){return c`<li>${e.children!==void 0?this.renderSubMenu(e):c`<a href="${e.path}">${e.navtitle}</a>`}</li>`}renderMenuItems(){return c`<ul>${this.items.map(e=>this.renderMenuItem(e))}</ul>`}getNavTitle(e){return e.path==="/"?"Homepage":e.navtitle||e.title}filterNavigation(e,t){return e.filter(s=>t.every(r=>!s.path.includes(r))).map(s=>({path:s.path,navtitle:this.getNavTitle(s)}))}groupItemsByFirstLevelPath(e){const t={};return e.forEach(s=>{const r=this.getSubmenuName(s);t[r]||(t[r]=[]),t[r].push({path:s.path,navtitle:this.getNavTitle(s)})}),t}};K([b()],C.prototype,"items",2);C=K([f("sidebar-nav")],C);var me=Object.defineProperty,ve=Object.getOwnPropertyDescriptor,W=(e,t,s,r)=>{for(var i=r>1?void 0:r?ve(t,s):t,o=e.length-1,n;o>=0;o--)(n=e[o])&&(i=(r?n(t,s,i):n(i))||i);return r&&i&&me(t,s,i),i};let T=class extends _{async connectedCallback(){super.connectedCallback();const e=await this.fetchContactsHtml();this.getContactTemplateArgs(e)}async fetchContactsHtml(){const e=new DOMParser,t=await $.fetchText("contact.plain.html",{cacheOptions:{cacheType:"runtime"}});return e.parseFromString(t,"text/html")}renderHeader(e){return e?c`<header class="major"><h2>${e}</h2></header>`:h}renderText(e){return e?c`<p>${e}</p>`:h}render(){if(!this.contactTemplateArgs)return h;const{headline:e,text:t,contacts:s}=this.contactTemplateArgs;return c`<section>${this.renderHeader(e)} ${this.renderText(t)} ${this.renderContacts(s)}</section>`}createRenderRoot(){return this}renderContact(e){const{icon:t,markup:s}=e;return!t&&!s?h:c`<li class="icon solid">${this.renderIcon(t)} ${this.renderContactMarkup(s)}</li>`}getContactsArgs(e){const t=e.querySelectorAll(".contact > div:not(:first-child)");return Array.from(t).map(r=>({icon:r.querySelector("div"),markup:r.querySelector("div:last-child")}))}getContactTemplateArgs(e){const t=e.querySelector("h2"),s=e.querySelector("p"),r=this.getContactsArgs(e);this.contactTemplateArgs={headline:t,text:s,contacts:r}}renderContacts(e){return e.length===0?h:c`<ul class="contact">${e.map(t=>this.renderContact(t))}</ul>`}renderIcon(e){return e?S(e.innerHTML):h}renderContactMarkup(e){return e?Y(e.innerHTML):h}};W([b()],T.prototype,"contactTemplateArgs",2);T=W([f("sidebar-contact")],T);var ge=Object.defineProperty,be=Object.getOwnPropertyDescriptor,X=(e,t,s,r)=>{for(var i=r>1?void 0:r?be(t,s):t,o=e.length-1,n;o>=0;o--)(n=e[o])&&(i=(r?n(t,s,i):n(i))||i);return r&&i&&ge(t,s,i),i};let O=class extends _{constructor(){super()}async connectedCallback(){super.connectedCallback();const e=await this.getPosts();this.lastTreePosts=this.getLastThreePosts(e)}render(){if(this.lastTreePosts)return c`<header class="major"><h2>Newest Posts</h2></header><div class="mini-posts">${this.lastTreePosts.map(e=>this.renderPost(e))}</div>`}createRenderRoot(){return this}getLastThreePosts(e){return e.sort((t,s)=>t.lastModified>s.lastModified?-1:t.lastModified<s.lastModified?1:0),e.slice(0,3)}renderPicture(e){const t=oe({src:e.image,alt:e.imagealt,width:336,height:224});return t?c`<a href="${e.path}" class="image">${t}</a>`:h}renderPost(e){return c`<article>${this.renderPicture(e)}<p>${e.description}</p></article>`}async getPosts(){return(await $.fetchJson("/query-index.json")).data.filter(t=>t.path.startsWith("/posts"))}};X([b()],O.prototype,"lastTreePosts",2);O=X([f("sidebar-posts")],O);var $e=Object.defineProperty,ye=Object.getOwnPropertyDescriptor,J=(e,t,s,r)=>{for(var i=r>1?void 0:r?ye(t,s):t,o=e.length-1,n;o>=0;o--)(n=e[o])&&(i=(r?n(t,s,i):n(i))||i);return r&&i&&$e(t,s,i),i};let D=class extends _{createRenderRoot(){return this}connectedCallback(){super.connectedCallback(),this.fetchFooterData()}async fetchFooterData(){const e=await $.fetchText("footer.plain.html",{cacheOptions:{cacheType:"runtime"}}),t=document.createElement("div");t.innerHTML=e,this.footerMarkup=t.querySelector("p"),this.footerMarkup&&this.footerMarkup.classList.add("copyright")}render(){if(this.footerMarkup)return c`${this.footerMarkup}`}};J([b()],D.prototype,"footerMarkup",2);D=J([f("sidebar-footer")],D);var Pe=Object.defineProperty,we=Object.getOwnPropertyDescriptor,Ee=(e,t,s,r)=>{for(var i=r>1?void 0:r?we(t,s):t,o=e.length-1,n;o>=0;o--)(n=e[o])&&(i=(r?n(t,s,i):n(i))||i);return r&&i&&Pe(t,s,i),i};let V=class extends _{constructor(){super(...arguments),this.toggleRef=he(),this.handleToggleClick=e=>{e.preventDefault(),this.classList.toggle("active")}}createRenderRoot(){return this}firstUpdated(){this.toggleRef.value.addEventListener("click",this.handleToggleClick),this.classList.add("activate-animations")}render(){return c`<div class="inner"><sidebar-nav></sidebar-nav><sidebar-posts></sidebar-posts><sidebar-contact></sidebar-contact><sidebar-footer id="footer"></sidebar-footer></div><a ${pe(this.toggleRef)} href="#sidebar" class="toggle hamburger-icon" aria-label="Sidebar toggle">${S("hamburger")}</a>`}};V=Ee([f("sidebar-component")],V);function Se({input:e,specifier:t,htmlTag:s}){return t===""||s===""?e:e.split(t).map((r,i)=>i%2===1?`<${s}>${r}</${s}>`:r).join("")}var Ae=Object.defineProperty,Le=Object.getOwnPropertyDescriptor,G=(e,t,s,r)=>{for(var i=r>1?void 0:r?Le(t,s):t,o=e.length-1,n;o>=0;o--)(n=e[o])&&(i=(r?n(t,s,i):n(i))||i);return r&&i&&Ae(t,s,i),i};let I=class extends _{createRenderRoot(){return this}async firstUpdated(e){await this.fetchHeaderData()}async fetchHeaderData(){try{const e=await $.fetchJson("header.json",{cacheOptions:{cacheType:"runtime"}});this.headerData={leftCol:e.leftCol.data[0],rightCol:e.rightCol.data}}catch(e){console.error("HeaderComponent: ",e)}}render(){if(!this.headerData)return;const{leftCol:e,rightCol:t}=this.headerData,s=Se({input:e.logoText,htmlTag:"strong",specifier:":::"}),r=Y(s);return c`<a href="${e.logoLink}" class="logo">${r}</a><ul class="icons">${t.map(i=>c`<li><a href="${i.socialLink}" class="icon brands" aria-label="${i.socialLabel}">${S(i.socialIcon,"header-icon")} <span class="label">${i.socialLabel}</span></a></li>`)}</ul>`}};G([b()],I.prototype,"headerData",2);I=G([f("header-component")],I);/**
+ */ const He = () => new Be();
+let Be = class {};
+const M = new WeakMap(),
+  Ue = j(
+    class extends le {
+      render(e) {
+        return m;
+      }
+      update(e, [t]) {
+        var s;
+        const r = t !== this.Y;
+        return (
+          r && this.Y !== void 0 && this.rt(void 0),
+          (r || this.lt !== this.ct) &&
+            ((this.Y = t), (this.ht = (s = e.options) == null ? void 0 : s.host), this.rt((this.ct = e.element))),
+          m
+        );
+      }
+      rt(e) {
+        if (typeof this.Y == 'function') {
+          const t = this.ht ?? globalThis;
+          let r = M.get(t);
+          r === void 0 && ((r = new WeakMap()), M.set(t, r)),
+            r.get(this.Y) !== void 0 && this.Y.call(this.ht, void 0),
+            r.set(this.Y, e),
+            e !== void 0 && this.Y.call(this.ht, e);
+        } else this.Y.value = e;
+      }
+      get lt() {
+        var e, t;
+        return typeof this.Y == 'function'
+          ? (e = M.get(this.ht ?? globalThis)) == null
+            ? void 0
+            : e.get(this.Y)
+          : (t = this.Y) == null
+            ? void 0
+            : t.value;
+      }
+      disconnected() {
+        this.lt === this.ct && this.rt(void 0);
+      }
+      reconnected() {
+        this.rt(this.ct);
+      }
+    }
+  );
+var Fe = Object.defineProperty,
+  Ye = Object.getOwnPropertyDescriptor,
+  B = (e, t, r, s) => {
+    for (var o = s > 1 ? void 0 : s ? Ye(t, r) : t, i = e.length - 1, a; i >= 0; i--)
+      (a = e[i]) && (o = (s ? a(t, r, o) : a(o)) || o);
+    return s && o && Fe(t, r, o), o;
+  };
+let T = class extends v {
+  constructor() {
+    super(...arguments), (this.error = null), (this.getSubmenuName = (e) => e.path.split('/')[1]);
+  }
+  createRenderRoot() {
+    return this;
+  }
+  async firstUpdated() {
+    this.items = await this.groupByFirstLevelPath();
+  }
+  async getPlaceholder(e) {
+    return await g.getPlaceHolder(e);
+  }
+  render() {
+    if (this.error) return l`<div class="error">${this.error}</div>`;
+    if (this.items)
+      return l`<nav id="menu"><header class="major"><h2>Menu</h2></header>${this.items.length === 0 ? this.getPlaceholder('no menu items') : this.renderMenuItems()}</nav>`;
+  }
+  toggleSubmenu({ currentTarget: e }) {
+    !(e instanceof HTMLElement) || !e.classList.contains('opener') || e.classList.toggle('active');
+  }
+  renderSubMenu(e) {
+    return l`<span @click="${this.toggleSubmenu}" class="opener submenu"><span class="submenu__text">${e.navtitle} </span>${x('chevron-down', 'submenu__icon')}</span><ul>${e.children.map((t) => l`<li><a href="${t.path}">${t.navtitle}</a></li>`)}</ul>`;
+  }
+  renderMenuItem(e) {
+    return e.error
+      ? l`<p>${e.error}</p>`
+      : l`<li>${e.children !== void 0 ? this.renderSubMenu(e) : l`<a href="${e.path}">${e.navtitle}</a>`}</li>`;
+  }
+  renderMenuItems() {
+    return l`<ul>${this.items.map((e) => this.renderMenuItem(e))}</ul>`;
+  }
+  getNavTitle(e) {
+    return e.path === '/' ? 'Homepage' : e.navtitle || e.title;
+  }
+  filterNavigation(e, t) {
+    return e
+      .filter((r) => t.every((s) => !r.path.includes(s)))
+      .map((r) => ({ path: r.path, navtitle: this.getNavTitle(r) }));
+  }
+  groupItemsByFirstLevelPath(e) {
+    const t = {};
+    return (
+      e.forEach((r) => {
+        const s = this.getSubmenuName(r);
+        t[s] || (t[s] = []), t[s].push({ path: r.path, navtitle: this.getNavTitle(r) });
+      }),
+      t
+    );
+  }
+  async groupByFirstLevelPath() {
+    const e = '/query-index.json',
+      t = ['sidekick', 'sidekick-library', 'tools', 'development', 'dev-', '__'];
+    try {
+      const r = await L.fetchJson(e);
+      this.error = null;
+      const s = this.filterNavigation(r.data, t),
+        o = this.groupItemsByFirstLevelPath(s);
+      return Object.values(o).map((a) =>
+        a.length === 1 ? a[0] : { navtitle: a[0].path.split('/')[1], path: a[0].path, children: a }
+      );
+    } catch (r) {
+      return (
+        p.error(`SidebarNav Component: Error while fetching ${e}`, r),
+        (this.error = await g.getPlaceHolder('error')),
+        []
+      );
+    }
+  }
+};
+B([f()], T.prototype, 'items', 2);
+B([f()], T.prototype, 'error', 2);
+T = B([y('sidebar-nav')], T);
+var Ze = Object.defineProperty,
+  Xe = Object.getOwnPropertyDescriptor,
+  U = (e, t, r, s) => {
+    for (var o = s > 1 ? void 0 : s ? Xe(t, r) : t, i = e.length - 1, a; i >= 0; i--)
+      (a = e[i]) && (o = (s ? a(t, r, o) : a(o)) || o);
+    return s && o && Ze(t, r, o), o;
+  };
+let A = class extends v {
+  constructor() {
+    super(...arguments), (this.error = null);
+  }
+  async connectedCallback() {
+    super.connectedCallback();
+    const e = await this.fetchContactsHtml();
+    e !== null && this.getContactTemplateArgs(e);
+  }
+  async fetchContactsHtml() {
+    const e = new DOMParser(),
+      t = 'contact.plain.html';
+    try {
+      const r = await L.fetchText(t, { cacheOptions: { cacheType: 'runtime' } });
+      return (this.error = null), e.parseFromString(r, 'text/html');
+    } catch (r) {
+      return (
+        p.error(`SidebarContacts Component: Error while fetching ${t}`, r),
+        (this.error = await g.getPlaceHolder('error')),
+        null
+      );
+    }
+  }
+  renderHeader(e) {
+    return e ? l`<header class="major"><h2>${e}</h2></header>` : m;
+  }
+  renderText(e) {
+    return e ? l`<p>${e}</p>` : m;
+  }
+  render() {
+    if (this.error) return l`<div class="error">${this.error}</div>`;
+    if (!this.contactTemplateArgs) return m;
+    const { headline: e, text: t, contacts: r } = this.contactTemplateArgs;
+    return l`<section>${this.renderHeader(e)} ${this.renderText(t)} ${this.renderContacts(r)}</section>`;
+  }
+  createRenderRoot() {
+    return this;
+  }
+  renderContact(e) {
+    const { icon: t, markup: r } = e;
+    return !t && !r ? m : l`<li class="icon solid">${this.renderIcon(t)} ${this.renderContactMarkup(r)}</li>`;
+  }
+  getContactsArgs(e) {
+    const t = e.querySelectorAll('.contact > div:not(:first-child)');
+    return Array.from(t).map((s) => ({ icon: s.querySelector('div'), markup: s.querySelector('div:last-child') }));
+  }
+  getContactTemplateArgs(e) {
+    const t = e.querySelector('h2'),
+      r = e.querySelector('p'),
+      s = this.getContactsArgs(e);
+    this.contactTemplateArgs = { headline: t, text: r, contacts: s };
+  }
+  renderContacts(e) {
+    return e.length === 0 ? m : l`<ul class="contact">${e.map((t) => this.renderContact(t))}</ul>`;
+  }
+  renderIcon(e) {
+    return e ? x(e.innerHTML) : m;
+  }
+  renderContactMarkup(e) {
+    return e ? oe(e.innerHTML) : m;
+  }
+};
+U([f()], A.prototype, 'contactTemplateArgs', 2);
+U([f()], A.prototype, 'error', 2);
+A = U([y('sidebar-contact')], A);
+var Ke = Object.defineProperty,
+  We = Object.getOwnPropertyDescriptor,
+  z = (e, t, r, s) => {
+    for (var o = s > 1 ? void 0 : s ? We(t, r) : t, i = e.length - 1, a; i >= 0; i--)
+      (a = e[i]) && (o = (s ? a(t, r, o) : a(o)) || o);
+    return s && o && Ke(t, r, o), o;
+  };
+let w = class extends v {
+  constructor() {
+    super(...arguments), (this.error = null);
+  }
+  async connectedCallback() {
+    super.connectedCallback();
+    const e = await this.getPosts();
+    (this.lastTreePosts = this.getLastThreePosts(e)), (this.noPostsPlaceholder = await g.getPlaceHolder('no posts'));
+  }
+  render() {
+    if (this.lastTreePosts) return l`${this.renderHeader()} ${this.renderPosts()}`;
+  }
+  createRenderRoot() {
+    return this;
+  }
+  getLastThreePosts(e) {
+    return (
+      e.sort((t, r) => (t.lastModified > r.lastModified ? -1 : t.lastModified < r.lastModified ? 1 : 0)), e.slice(0, 3)
+    );
+  }
+  renderPicture(e) {
+    const t = ve({ src: e.image, alt: e.imagealt, width: 336, height: 224 });
+    return t ? l`<a href="${e.path}" class="image">${t}</a>` : m;
+  }
+  renderPost(e) {
+    return l`<article>${this.renderPicture(e)}<p>${e.description}</p></article>`;
+  }
+  async getPosts() {
+    const e = '/query-index.json';
+    try {
+      return (this.error = null), (await L.fetchJson(e)).data.filter((r) => r.path.startsWith('/posts'));
+    } catch (t) {
+      return (
+        p.error(`SidebarPost Component: Error while fetching ${e}`, t),
+        (this.error = await g.getPlaceHolder('error')),
+        []
+      );
+    }
+  }
+  renderPosts() {
+    return this.error
+      ? l`<div class="error">${this.error}</div>`
+      : this.lastTreePosts.length === 0
+        ? l`<div>${this.noPostsPlaceholder}</div>`
+        : l`<div class="mini-posts">${this.lastTreePosts.map((e) => this.renderPost(e))}</div>`;
+  }
+  renderHeader() {
+    return l`<header class="major"><h2>Newest Posts</h2></header>`;
+  }
+};
+z([f()], w.prototype, 'lastTreePosts', 2);
+z([f()], w.prototype, 'error', 2);
+z([f()], w.prototype, 'noPostsPlaceholder', 2);
+w = z([y('sidebar-posts')], w);
+var Je = Object.defineProperty,
+  Ge = Object.getOwnPropertyDescriptor,
+  F = (e, t, r, s) => {
+    for (var o = s > 1 ? void 0 : s ? Ge(t, r) : t, i = e.length - 1, a; i >= 0; i--)
+      (a = e[i]) && (o = (s ? a(t, r, o) : a(o)) || o);
+    return s && o && Je(t, r, o), o;
+  };
+let D = class extends v {
+  constructor() {
+    super(...arguments), (this.error = null);
+  }
+  createRenderRoot() {
+    return this;
+  }
+  connectedCallback() {
+    super.connectedCallback(), this.fetchFooterData();
+  }
+  async fetchFooterData() {
+    const e = 'footer.plain.html';
+    try {
+      const t = await L.fetchText(e, { cacheOptions: { cacheType: 'runtime' } });
+      this.error = null;
+      const r = document.createElement('div');
+      (r.innerHTML = t),
+        (this.footerMarkup = r.querySelector('p')),
+        this.footerMarkup && this.footerMarkup.classList.add('copyright');
+    } catch (t) {
+      p.error(`SidebarFooter Component: Error while fetching ${e}`, t), (this.error = await g.getPlaceHolder('error'));
+    }
+  }
+  render() {
+    if (this.error) return l`<div class="error">${this.error}</div>`;
+    if (this.footerMarkup) return l`${this.footerMarkup}`;
+  }
+};
+F([f()], D.prototype, 'footerMarkup', 2);
+F([f()], D.prototype, 'error', 2);
+D = F([y('sidebar-footer')], D);
+var Qe = Object.defineProperty,
+  et = Object.getOwnPropertyDescriptor,
+  tt = (e, t, r, s) => {
+    for (var o = s > 1 ? void 0 : s ? et(t, r) : t, i = e.length - 1, a; i >= 0; i--)
+      (a = e[i]) && (o = (s ? a(t, r, o) : a(o)) || o);
+    return s && o && Qe(t, r, o), o;
+  };
+let J = class extends v {
+  constructor() {
+    super(...arguments),
+      (this.toggleRef = He()),
+      (this.handleToggleClick = (e) => {
+        e.preventDefault(), this.classList.toggle('active');
+      });
+  }
+  createRenderRoot() {
+    return this;
+  }
+  firstUpdated() {
+    this.toggleRef.value.addEventListener('click', this.handleToggleClick), this.classList.add('activate-animations');
+  }
+  render() {
+    return l`<div class="inner"><sidebar-nav></sidebar-nav><sidebar-posts></sidebar-posts><sidebar-contact></sidebar-contact><sidebar-footer id="footer"></sidebar-footer></div><a ${Ue(this.toggleRef)} href="#sidebar" class="toggle hamburger-icon" aria-label="Sidebar toggle">${x('hamburger')}</a>`;
+  }
+};
+J = tt([y('sidebar-component')], J);
+const rt = () => {
+  if (R()) return;
+  const e = document.createElement('sidebar-component');
+  e.setAttribute('id', 'sidebar'),
+    window.innerWidth <= 1280 ? e.classList.remove('active') : e.classList.add('active'),
+    window.innerWidth <= 1280 ? e.classList.remove('active') : e.classList.add('active');
+  const t = document.getElementById('main');
+  t == null || t.after(e);
+};
+C.addLoadEagerTask(() => (rt(), Promise.resolve()));
+function st() {
+  const e = document.getElementById('main');
+  if (!e) return;
+  const t = e.innerHTML;
+  e.innerHTML = `<div class="inner">${R() ? '' : '<header-component id="header"></header-component>'}${t}</div>`;
+}
+C.addLoadEagerTask(() => (st(), Promise.resolve()));
+function ot({ input: e, specifier: t, htmlTag: r }) {
+  return t === '' || r === ''
+    ? e
+    : e
+        .split(t)
+        .map((s, o) => (o % 2 === 1 ? `<${r}>${s}</${r}>` : s))
+        .join('');
+}
+var it = Object.defineProperty,
+  at = Object.getOwnPropertyDescriptor,
+  Y = (e, t, r, s) => {
+    for (var o = s > 1 ? void 0 : s ? at(t, r) : t, i = e.length - 1, a; i >= 0; i--)
+      (a = e[i]) && (o = (s ? a(t, r, o) : a(o)) || o);
+    return s && o && it(t, r, o), o;
+  };
+let O = class extends v {
+  constructor() {
+    super(...arguments), (this.error = null);
+  }
+  createRenderRoot() {
+    return this;
+  }
+  async firstUpdated(e) {
+    await this.fetchHeaderData();
+  }
+  async fetchHeaderData() {
+    try {
+      const e = await L.fetchJson('header.json', { cacheOptions: { cacheType: 'runtime' } });
+      (this.headerData = { leftCol: e.leftCol.data[0], rightCol: e.rightCol.data }), (this.error = null);
+    } catch (e) {
+      p.error('Header Component: Error while fetching header.json', e), (this.error = await g.getPlaceHolder('error'));
+    }
+  }
+  render() {
+    if (this.error) return l`<div class="error">${this.error}</div>`;
+    if (!this.headerData) return;
+    const { leftCol: e, rightCol: t } = this.headerData,
+      r = ot({ input: e.logoText, htmlTag: 'strong', specifier: ':::' }),
+      s = oe(r);
+    return l`<a href="${e.logoLink}" class="logo">${s}</a><ul class="icons">${t.map((o) => l`<li><a href="${o.socialLink}" class="icon brands" aria-label="${o.socialLabel}">${x(o.socialIcon, 'header-icon')} <span class="label">${o.socialLabel}</span></a></li>`)}</ul>`;
+  }
+};
+Y([f()], O.prototype, 'headerData', 2);
+Y([f()], O.prototype, 'error', 2);
+O = Y([y('header-component')], O);
+/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */class R extends ie{}R.directiveName="unsafeSVG",R.resultType=2;const Ce=k(R);/**
+ */ class q extends ge {}
+(q.directiveName = 'unsafeSVG'), (q.resultType = 2);
+const nt = j(q);
+/**
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */class Te{constructor(t){this.Y=t}disconnect(){this.Y=void 0}reconnect(t){this.Y=t}deref(){return this.Y}}class Oe{constructor(){this.Z=void 0,this.q=void 0}get(){return this.Z}pause(){this.Z??(this.Z=new Promise(t=>this.q=t))}resume(){var t;(t=this.q)==null||t.call(this),this.Z=this.q=void 0}}/**
+ */ class ct {
+  constructor(t) {
+    this.Y = t;
+  }
+  disconnect() {
+    this.Y = void 0;
+  }
+  reconnect(t) {
+    this.Y = t;
+  }
+  deref() {
+    return this.Y;
+  }
+}
+class lt {
+  constructor() {
+    (this.Z = void 0), (this.q = void 0);
+  }
+  get() {
+    return this.Z;
+  }
+  pause() {
+    this.Z ?? (this.Z = new Promise((t) => (this.q = t)));
+  }
+  resume() {
+    var t;
+    (t = this.q) == null || t.call(this), (this.Z = this.q = void 0);
+  }
+}
+/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const x=e=>!ne(e)&&typeof e.then=="function",B=1073741823;class De extends Z{constructor(){super(...arguments),this._$Cwt=B,this._$Cbt=[],this._$CK=new Te(this),this._$CX=new Oe}render(...t){return t.find(s=>!x(s))??M}update(t,s){const r=this._$Cbt;let i=r.length;this._$Cbt=s;const o=this._$CK,n=this._$CX;this.isConnected||this.disconnected();for(let d=0;d<s.length&&!(d>this._$Cwt);d++){const l=s[d];if(!x(l))return this._$Cwt=d,l;d<i&&l===r[d]||(this._$Cwt=B,i=0,Promise.resolve(l).then(async u=>{for(;n.get();)await n.get();const v=o.deref();if(v!==void 0){const A=v._$Cbt.indexOf(l);A>-1&&A<v._$Cwt&&(v._$Cwt=A,v.setValue(u))}}))}return M}disconnected(){this._$CK.disconnect(),this._$CX.pause()}reconnected(){this._$CK.reconnect(this),this._$CX.resume()}}const Ie=k(De),q="/public/icons";var Re=Object.defineProperty,ke=Object.getOwnPropertyDescriptor,Q=(e,t,s,r)=>{for(var i=r>1?void 0:r?ke(t,s):t,o=e.length-1,n;o>=0;o--)(n=e[o])&&(i=(r?n(t,s,i):n(i))||i);return r&&i&&Re(t,s,i),i};const j=Object.assign({"/public/icons/Adobe_Corporate_logo.svg":()=>a(()=>import("../__chunks__/Adobe_Corporate_logo.spGUH4Dh.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/angle-down.svg":()=>a(()=>import("../__chunks__/angle-down.Cg2crR0u.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/angle-left.svg":()=>a(()=>import("../__chunks__/angle-left.JVB4YxPb.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/angle-right.svg":()=>a(()=>import("../__chunks__/angle-right.Ch8APWiw.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/angle-small-down.svg":()=>a(()=>import("../__chunks__/angle-small-down.M5BptMXk.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/angle-small-left.svg":()=>a(()=>import("../__chunks__/angle-small-left.OQUEL5J8.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/angle-small-right.svg":()=>a(()=>import("../__chunks__/angle-small-right.GiHGG7ST.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/angle-up.svg":()=>a(()=>import("../__chunks__/angle-up.Owt8YyvO.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/bolt.svg":()=>a(()=>import("../__chunks__/bolt.yed9FptR.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/building-storefront.svg":()=>a(()=>import("../__chunks__/building-storefront.GI5O3UY2.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/chat-bubble-left-right.svg":()=>a(()=>import("../__chunks__/chat-bubble-left-right.RdWapjj4.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/check.svg":()=>a(()=>import("../__chunks__/check.2BZxb2wx.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/chevron-down.svg":()=>a(()=>import("../__chunks__/chevron-down.6_gNiehw.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/clip.svg":()=>a(()=>import("../__chunks__/clip.B--gq6DA.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/clock.svg":()=>a(()=>import("../__chunks__/clock.tyy4_t8y.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/cpu-chip.svg":()=>a(()=>import("../__chunks__/cpu-chip.e4997-9R.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/cross.svg":()=>a(()=>import("../__chunks__/cross.8hUWLLSe.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/cursor-arrow-ripple.svg":()=>a(()=>import("../__chunks__/cursor-arrow-ripple.5f05fUdo.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/download.svg":()=>a(()=>import("../__chunks__/download.Sjqs7ONH.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/envelope.svg":()=>a(()=>import("../__chunks__/envelope.AKeKbl-b.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/eye-crossed.svg":()=>a(()=>import("../__chunks__/eye-crossed.UP44bNSQ.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/eye.svg":()=>a(()=>import("../__chunks__/eye.Zi41FP8R.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/facebook.svg":()=>a(()=>import("../__chunks__/facebook.VERWvTTO.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/globe.svg":()=>a(()=>import("../__chunks__/globe.oRdjPaeW.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/hamburger.svg":()=>a(()=>import("../__chunks__/hamburger.B4eeRdlK.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/heart.svg":()=>a(()=>import("../__chunks__/heart.oHoUBEqr.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/home.svg":()=>a(()=>import("../__chunks__/home.SbACO0rp.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/instagram.svg":()=>a(()=>import("../__chunks__/instagram.b_ubI60M.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/medium.svg":()=>a(()=>import("../__chunks__/medium.qMY-y9mb.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/menu-burger.svg":()=>a(()=>import("../__chunks__/menu-burger.PVXazrxs.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/paper-plane.svg":()=>a(()=>import("../__chunks__/paper-plane.SNV5LRur.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/plus.svg":()=>a(()=>import("../__chunks__/plus.aaZDetv0.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/rocket-lunch.svg":()=>a(()=>import("../__chunks__/rocket-lunch.zdYOwJp4.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/search.svg":()=>a(()=>import("../__chunks__/search.v55h2U5v.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/share.svg":()=>a(()=>import("../__chunks__/share.b6IBiQcz.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/snapchat.svg":()=>a(()=>import("../__chunks__/snapchat.hyeXEF5A.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/social-network.svg":()=>a(()=>import("../__chunks__/social-network.XyFthY4r.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/trash.svg":()=>a(()=>import("../__chunks__/trash.Q02H3YPF.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/twitter.svg":()=>a(()=>import("../__chunks__/twitter.gWOZdFRk.js"),__vite__mapDeps([])).then(e=>e.default),"/public/icons/user.svg":()=>a(()=>import("../__chunks__/user.I6JGjv2Y.js"),__vite__mapDeps([])).then(e=>e.default)});let w=class extends _{constructor(){super(...arguments),this.name=""}async getSvg(e){const t=j[`${q}/${e}.svg`],r=await(t!==void 0?t:j[`${q}/cross.svg`])().catch(i=>console.error(`SVG icon: ${i.message}`));return Ce(r)}render(){const e=this.getSvg(this.name);return c`${Ie(e)}`}};w.styles=ee`:host{display:flex;align-items:center}svg{width:100%;height:auto}`;Q([te({type:String})],w.prototype,"name",2);w=Q([f("icon-component")],w);class Me{readBlockConfig(t){const s={};return t.querySelectorAll(":scope > div").forEach(r=>{if(r.children){const i=[...r.children];if(i[1]){const o=i[1],n=E(i[0].textContent??"");let d="";if(o.querySelector("a")){const l=[...o.querySelectorAll("a")];l.length===1?d=l[0].href:d=l.map(u=>u.href)}else if(o.querySelector("img")){const l=[...o.querySelectorAll("img")];l.length===1?d=l[0].src:d=l.map(u=>u.src)}else if(o.querySelector("p")){const l=[...o.querySelectorAll("p")];l.length===1?d=l[0].textContent:d=l.map(u=>u.textContent)}else d=r.children[1].textContent;s[n]=d}}}),s}decorateBlocks(t){t.querySelectorAll("div.section > div > div").forEach(this.decorateBlock)}decorateBlock(t){const s=t.classList[0];if(s){t.classList.add("block"),t.dataset.blockName=s;const r=t.parentElement;r==null||r.classList.add(`${s}-wrapper`);const i=t.closest(".section");i&&i.classList.add(`${s}-container`)}}}function Ve(e){return/^[a-z][A-Za-z0-9]*$/.test(e)?e:/^[A-Z][A-Za-z0-9]*$/.test(e)?e.charAt(0).toLowerCase()+e.slice(1):E(e).replace(/-([a-z])/g,t=>t[1].toUpperCase())}class xe{constructor(t){this.blockService=t}init(t){this.transformSection(t)}transformSection(t){t.querySelectorAll(":scope > div").forEach(s=>{this.adjustMarkup(s),this.processSectionMetaData(s)})}processSectionMetaData(t){const s=t.querySelector("div.section-metadata");if(s){const r=this.blockService.readBlockConfig(s);Object.keys(r).forEach(i=>{i==="style"?r.style.split(",").filter(n=>n).map(n=>E(n.trim())).forEach(n=>t.classList.add(n)):t.dataset[Ve(i)]=r[i]}),s.parentElement&&s.parentElement.remove()}}adjustMarkup(t){const s=[];let r=!1;[...t.children].forEach(i=>{if(i.tagName==="DIV"||!r){const o=document.createElement("div");s.push(o),r=i.tagName!=="DIV",r&&o.classList.add("default-content-wrapper")}s[s.length-1].append(i)}),s.forEach(i=>t.append(i)),this.decorateImages(),t.classList.add("section"),t.dataset.sectionStatus="initialized",t.style.display="none"}decorateImages(){document.querySelectorAll(".default-content-wrapper picture").forEach(s=>{const r=s.parentElement;r&&r.classList.add("image","main")})}}const N=(e,t)=>{t.split(",").forEach(s=>{e.classList.add(E(s.trim()))})};function H(e,t=document){const s=e&&e.includes(":")?"property":"name",i=[...t.head.querySelectorAll(`meta[${s}="${e}"]`)].map(o=>o.content).join(", ");return i.length?i:""}const Be={mainTsPath:"src/main.ts",mainScssPath:"src/styles/sass/main.scss",iconsDirPath:"./public/icons",iconsTypesPath:"./src/icons.types.ts",fontsScssPath:"src/styles/sass/fonts.scss",lazyStylesScssPath:"src/styles/sass/lazy-styles.scss",sidekickLibraryStylesScssPath:"src/styles/sass/sidekick-library-styles.scss"};function F(){return y()?window.parent.location:window.location}function z(){return location.href.includes("/styleguide/preview.html?")}const m=class m{};m.unloaded="unloaded",m.loading="loading",m.loaded="loaded",m.error="error";let p=m;class qe{constructor(t,s){this.sectionService=t,this.blockService=s,this.lcpBlocks=["banner"],this.init=async()=>{this.setup(),await this.loadEager(),await this.loadLazy()},this.loadEager=async()=>{document.documentElement.lang="en",this.decorateTemplateAndTheme();const r=document.querySelector("main");if(r){r.setAttribute("id","main"),this.addSidebarContainer(r),this.sectionService.init(r),this.addInnerContainer(r),this.blockService.decorateBlocks(r),setTimeout(()=>{document.body.classList.add("show")},100),await this.waitForLCP();try{(window.innerWidth>=900||sessionStorage.getItem("fonts-loaded"))&&await this.loadFonts()}catch{}}},this.loadLazy=async()=>{const{lazyStylesScssPath:r,sidekickLibraryStylesScssPath:i,fontsScssPath:o}=Be;try{r&&await this.loadCSS(`${window.hlx.codeBasePath}/dist/lazyStyles/lazyStyles.css`),i&&y()&&await this.loadCSS(`${window.hlx.codeBasePath}/dist/sidekickLibraryStyles/sidekickLibraryStyles.css`),o&&await this.loadFonts(),await this.loadBlocks()}catch(n){console.error("Load lazy error: ",n)}},this.loadBlocks=async()=>{const i=[...document.querySelectorAll(".section")].map(o=>this.loadBlock(o));await Promise.all(i)}}setup(){window.hlx=window.hlx||{},window.hlx.RUM_MASK_URL="full",window.hlx.codeBasePath="",window.hlx.lighthouse=new URLSearchParams(F().search).get("lighthouse")==="on";const t=document.querySelector('script[src$="/scripts/scripts.js"]');if(t)try{[window.hlx.codeBasePath]=new URL(t.src).pathname.split("/scripts/scripts.js")}catch(s){console.log(s)}}addSidebarContainer(t){if(y()||z())return;const s=document.createElement("sidebar-component");s.setAttribute("id","sidebar"),window.innerWidth<=1280?s.classList.remove("active"):s.classList.add("active"),window.innerWidth<=1280?s.classList.remove("active"):s.classList.add("active"),t.after(s)}addInnerContainer(t){const s=t.innerHTML;t.innerHTML=`<div class="inner">${y()||z()?"":'<header-component id="header"></header-component>'}${s}</div>`}decorateTemplateAndTheme(){const t=H("template");t&&N(document.body,t);const s=H("theme");s&&N(document.body,s)}collectBlocks(t){const s=[];return t.querySelectorAll("[data-block-name]").forEach(i=>{s.push({name:i.dataset.blockName,element:i})}),s}async loadBlockModules(t){if((t.element.dataset.blockStatus??p.unloaded)===p.unloaded){t.element.dataset.blockStatus=p.loading;try{const r=await a(()=>import(`${window.hlx.codeBasePath}/dist/${t.name}/${t.name}.js`),__vite__mapDeps([]));r.default&&await r.default(t.element),t.element.dataset.blockStatus=p.loaded}catch(r){t.element.dataset.blockStatus=p.error,console.error("An error occurred during module import:",r)}}}async loadBlockStyles(t){try{await this.loadCSS(`${window.hlx.codeBasePath}/dist/${t.name}/${t.name}.css`)}catch{console.error(`problem with block '${t.name}' loading styles`)}}showSection(t){t.style.removeProperty("display")}async loadFonts(){await this.loadCSS(`${window.hlx.codeBasePath}/dist/fonts/fonts.css`);try{F().hostname.includes("localhost")||sessionStorage.setItem("fonts-loaded","true")}catch{}}async loadCSS(t){return new Promise((s,r)=>{if(document.querySelector(`head > link[href="${t}"]`))s(!0);else{const i=document.createElement("link");i.rel="stylesheet",i.href=t,i.onload=s,i.onerror=r,document.head.append(i)}})}async waitForLCP(){const t=document.querySelector(".section");if(t){const i=this.collectBlocks(t).map(async o=>{this.lcpBlocks.includes(o.name)&&await Promise.all([this.loadBlockModules(o),this.loadBlockStyles(o)])});await Promise.all(i),this.showSection(t)}document.body.style.display=null;const s=document.querySelector("main img");await new Promise(r=>{s&&!s.complete?(s.setAttribute("loading","eager"),s.setAttribute("fetchpriority","high"),s.addEventListener("load",()=>r()),s.addEventListener("error",()=>r())):r()})}async loadBlock(t){const s=this.collectBlocks(t);if(!s.length){this.showSection(t);return}for(const r of s)Promise.all([this.loadBlockModules(r),this.loadBlockStyles(r)]);this.showSection(t)}}(async function(){const e=new Me,t=new xe(e);await new qe(t,e).init()})();
+ */ const G = (e) => !Me(e) && typeof e.then == 'function',
+  Q = 1073741823;
+class dt extends le {
+  constructor() {
+    super(...arguments), (this._$Cwt = Q), (this._$Cbt = []), (this._$CK = new ct(this)), (this._$CX = new lt());
+  }
+  render(...t) {
+    return t.find((r) => !G(r)) ?? X;
+  }
+  update(t, r) {
+    const s = this._$Cbt;
+    let o = s.length;
+    this._$Cbt = r;
+    const i = this._$CK,
+      a = this._$CX;
+    this.isConnected || this.disconnected();
+    for (let d = 0; d < r.length && !(d > this._$Cwt); d++) {
+      const h = r[d];
+      if (!G(h)) return (this._$Cwt = d), h;
+      (d < o && h === s[d]) ||
+        ((this._$Cwt = Q),
+        (o = 0),
+        Promise.resolve(h).then(async (_) => {
+          for (; a.get(); ) await a.get();
+          const u = i.deref();
+          if (u !== void 0) {
+            const b = u._$Cbt.indexOf(h);
+            b > -1 && b < u._$Cwt && ((u._$Cwt = b), u.setValue(_));
+          }
+        }));
+    }
+    return X;
+  }
+  disconnected() {
+    this._$CK.disconnect(), this._$CX.pause();
+  }
+  reconnected() {
+    this._$CK.reconnect(this), this._$CX.resume();
+  }
+}
+const ht = j(dt),
+  ee = '/public/icons';
+var ut = Object.defineProperty,
+  pt = Object.getOwnPropertyDescriptor,
+  de = (e, t, r, s) => {
+    for (var o = s > 1 ? void 0 : s ? pt(t, r) : t, i = e.length - 1, a; i >= 0; i--)
+      (a = e[i]) && (o = (s ? a(t, r, o) : a(o)) || o);
+    return s && o && ut(t, r, o), o;
+  };
+const te = Object.assign({
+  '/public/icons/angle-down.svg': () =>
+    n(() => import('../__chunks__/angle-down.CYLyXUSW.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/angle-left.svg': () =>
+    n(() => import('../__chunks__/angle-left.CuEqyOC8.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/angle-right.svg': () =>
+    n(() => import('../__chunks__/angle-right.Ke48OV-s.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/angle-small-down.svg': () =>
+    n(() => import('../__chunks__/angle-small-down.SNJn5nFt.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/angle-small-left.svg': () =>
+    n(() => import('../__chunks__/angle-small-left.Bq32-m-s.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/angle-small-right.svg': () =>
+    n(() => import('../__chunks__/angle-small-right.FYreGgDf.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/angle-up.svg': () =>
+    n(() => import('../__chunks__/angle-up.D0S_oJnp.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/bolt.svg': () =>
+    n(() => import('../__chunks__/bolt.BAJn0zD8.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/building-storefront.svg': () =>
+    n(() => import('../__chunks__/building-storefront.Pww5r_Sc.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/chat-bubble-left-right.svg': () =>
+    n(() => import('../__chunks__/chat-bubble-left-right.0PedyEPm.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/check.svg': () =>
+    n(() => import('../__chunks__/check.BHPURAzV.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/chevron-down.svg': () =>
+    n(() => import('../__chunks__/chevron-down.D5xOlW7p.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/clip.svg': () =>
+    n(() => import('../__chunks__/clip.DAiKYXCc.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/clock.svg': () =>
+    n(() => import('../__chunks__/clock.CQWyiDNK.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/cpu-chip.svg': () =>
+    n(() => import('../__chunks__/cpu-chip.DbktS35z.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/cross.svg': () =>
+    n(() => import('../__chunks__/cross.DjCq6kb8.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/cursor-arrow-ripple.svg': () =>
+    n(() => import('../__chunks__/cursor-arrow-ripple.DHyr9er2.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/download.svg': () =>
+    n(() => import('../__chunks__/download.BlSXR9C9.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/envelope.svg': () =>
+    n(() => import('../__chunks__/envelope.Cc7Mhg2-.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/eye-crossed.svg': () =>
+    n(() => import('../__chunks__/eye-crossed.C49v3GRJ.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/eye.svg': () =>
+    n(() => import('../__chunks__/eye.Cm2FxO9V.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/facebook.svg': () =>
+    n(() => import('../__chunks__/facebook.3ENFaNKU.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/globe.svg': () =>
+    n(() => import('../__chunks__/globe.DIrN3GJL.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/hamburger.svg': () =>
+    n(() => import('../__chunks__/hamburger.DXUzfmtf.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/heart.svg': () =>
+    n(() => import('../__chunks__/heart.DSQJkyzj.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/home.svg': () =>
+    n(() => import('../__chunks__/home.CfzaHiPS.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/instagram.svg': () =>
+    n(() => import('../__chunks__/instagram.BBx5qXGF.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/medium.svg': () =>
+    n(() => import('../__chunks__/medium.BPaQEP4K.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/menu-burger.svg': () =>
+    n(() => import('../__chunks__/menu-burger.DyVjSQ0K.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/paper-plane.svg': () =>
+    n(() => import('../__chunks__/paper-plane.CLiFs3FL.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/plus.svg': () =>
+    n(() => import('../__chunks__/plus.DuBm-jVv.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/rocket-lunch.svg': () =>
+    n(() => import('../__chunks__/rocket-lunch.C6eRDqkd.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/search.svg': () =>
+    n(() => import('../__chunks__/search.CtsY1mRN.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/share.svg': () =>
+    n(() => import('../__chunks__/share.D_3XZuic.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/snapchat.svg': () =>
+    n(() => import('../__chunks__/snapchat.Bct5wLOa.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/social-network.svg': () =>
+    n(() => import('../__chunks__/social-network.B-lhER-M.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/trash.svg': () =>
+    n(() => import('../__chunks__/trash.D1jfdnTM.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/twitter.svg': () =>
+    n(() => import('../__chunks__/twitter.d5w0828a.js'), __vite__mapDeps([])).then((e) => e.default),
+  '/public/icons/user.svg': () =>
+    n(() => import('../__chunks__/user.X8OGz61Z.js'), __vite__mapDeps([])).then((e) => e.default),
+});
+let k = class extends v {
+  constructor() {
+    super(...arguments), (this.name = '');
+  }
+  async getSvg(e) {
+    const r = te[`${ee}/${e}.svg`] ?? te[`${ee}/cross.svg`];
+    try {
+      const s = await r();
+      return nt(s);
+    } catch (s) {
+      p.error(`Icon Component: SVG icon: ${s.message}`, s);
+      return;
+    }
+  }
+  render() {
+    const e = this.getSvg(this.name);
+    return l`${ht(e)}`;
+  }
+};
+k.styles = pe`:host{display:flex;align-items:center}svg{width:100%;height:auto}`;
+de([fe({ type: String })], k.prototype, 'name', 2);
+k = de([y('icon-component')], k);
+const $ = { interactive: 'interactive', complete: 'complete' };
+function re() {
+  C.addBeforeEagerTask(() => (document.getElementsByTagName('main')[0].setAttribute('id', 'main'), Promise.resolve())),
+    C.init();
+}
+function ft() {
+  document.readyState === $.interactive || document.readyState === $.complete
+    ? re()
+    : document.addEventListener('readystatechange', () => {
+        const e = document.readyState;
+        (e === $.interactive || e === $.complete) && re();
+      });
+}
+ft();
 function __vite__mapDeps(indexes) {
   if (!__vite__mapDeps.viteFileDeps) {
-    __vite__mapDeps.viteFileDeps = []
+    __vite__mapDeps.viteFileDeps = [];
   }
-  return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
+  return indexes.map((i) => __vite__mapDeps.viteFileDeps[i]);
 }
 //# sourceMappingURL=main.js.map
