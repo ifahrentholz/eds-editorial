@@ -18,15 +18,15 @@ const template = (args: TemplateArgs) => {
     <div id="banner">
       <div class="content">
         <header>
-          <h1 ${getSidekickLibraryId(headline)}>${headline.innerHTML}</h1>
-          <p ${getSidekickLibraryId(subline)}>${subline.innerHTML}</p>
+          <h1 ${getSidekickLibraryId(headline)}>${headline.content}</h1>
+          <p ${getSidekickLibraryId(subline)}>${subline.content}</p>
         </header>
-        ${texts?.map((text) => html`<p ${getSidekickLibraryId(text)}>${text.innerHTML}</p>`)}
+        ${texts?.map((text) => html`<div ${getSidekickLibraryId(text)}>${text.content}</div>`)}
         <ul class="actions">
           ${buttons?.map(
             (button) =>
               html` <li>
-                <a href="${button.href}" class="button big" ${getSidekickLibraryId(button)}>${button.innerHTML}</a>
+                <a href="${button.href}" class="button big" ${getSidekickLibraryId(button)}>${button.content}</a>
               </li>`
           )}
         </ul>

@@ -283,7 +283,7 @@ Represents the constructed Element.
 | ---------- | ---------- |
 | `SidekickElement` | `{
   dataLibraryId?: string;
-  innerHTML: string;
+  content: DocumentFragment;
   href?: string;
 }` |
 
