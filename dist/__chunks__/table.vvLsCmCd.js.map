@@ -1,0 +1,1 @@
+{"version":3,"file":"table.vvLsCmCd.js","sources":["../../src/styleguide/components/table.ts"],"sourcesContent":["import { getSidekickBlockMarkup } from '../js/helpers';\n\nexport const template = async () => {\n  return await getSidekickBlockMarkup('table');\n};\n"],"names":["template","getSidekickBlockMarkup"],"mappings":"8GAEO,MAAMA,EAAW,SACf,MAAMC,EAAuB,OAAO"}

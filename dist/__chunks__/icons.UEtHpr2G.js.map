@@ -1,0 +1,1 @@
+{"version":3,"file":"icons.UEtHpr2G.js","sources":["../../src/styleguide/components/icons.ts"],"sourcesContent":["import { getSidekickBlockMarkup } from '../js/helpers';\n\nexport const template = async () => {\n  return await getSidekickBlockMarkup('icons-overview');\n};\n"],"names":["template","getSidekickBlockMarkup"],"mappings":"8GAEO,MAAMA,EAAW,SACf,MAAMC,EAAuB,gBAAgB"}

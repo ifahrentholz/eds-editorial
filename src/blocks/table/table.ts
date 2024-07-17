@@ -7,7 +7,7 @@ interface TemplateArgs {
   data: string[][];
 }
 
-const template = (args: TemplateArgs) => {
+export const template = (args: TemplateArgs) => {
   const { headers, data } = args;
   return html`
     <div class="table-wrapper">
